@@ -1,8 +1,10 @@
+import "./styles/reset.css";
+import "./styles/base.css";
 import "bootstrap/dist/css/bootstrap-grid.min.css";
 import styled from "styled-components";
 
 const StyledH1 = styled.h1`
-  color: red;
+  color: var(--brand-color);
 `;
 
 function App() {

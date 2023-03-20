@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;900&family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap");
+
+:root {
+  --number: "Montserrat", sans-serif;
+  --font: "Noto Sans TC", sans-serif;
+
+  --brand-color: #ff6600;
+  --primary: #0062ff;
+  --secondary: #6c757d;
+  --success: #3dd598;
+  --warning: #ffc542;
+  --error: #fc5a5a;
+  --light-orange: #ff974a;
+  --light-blue: #50b5ff;
+  --light-green: #82c43c;
+  --light-purple: #a461d8;
+  --light-pink: #ff9ad5;
+
+  --white: #ffffff;
+  --grey1: #fafafb;
+  --grey2: #f1f1f5;
+  --grey3: #e2e2ea;
+  --gray4: #d5d5dc;
+  --grey5: #b5b5be;
+  --grey6: #92929d;
+  --grey7: #696974;
+  --grey8: #44444f;
+  --grey9: #171725;
+}
