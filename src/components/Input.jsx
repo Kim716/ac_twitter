@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyledDiv = styled.div`
   background-color: var(--grey2);
-  border-bottom: 2px solid var(--grey8);
+  border-bottom: 2px solid #657786;
   margin-bottom: 32px;
   padding-left: 10px;
   border-radius: 2px;
@@ -16,7 +16,7 @@ const StyledDiv = styled.div`
 const StyledLabel = styled.label`
   display: block;
   width: 100%;
-  padding: 5px 0;
+  padding: 5px 0 0;
   font-size: 14px;
   color: var(--grey7);
 `;
@@ -30,12 +30,16 @@ const StyledInput = styled.input`
 
   font-size: 16px;
 
+  ::placeholder {
+    color: var(--grey5);
+  }
+
   &:focus {
     outline: none;
   }
 `;
 
-function Input({ id, label, type, placeholder, maxlength = "" }) {
+function Input({ id, label, type, placeholder, maxLength = "" }) {
   return (
     <StyledDiv>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
@@ -43,7 +47,7 @@ function Input({ id, label, type, placeholder, maxlength = "" }) {
         id={id}
         type={type}
         placeholder={placeholder}
-        maxlength={maxlength}
+        maxLength={maxLength}
         required
       />
     </StyledDiv>
