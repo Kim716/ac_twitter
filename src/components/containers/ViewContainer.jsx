@@ -1,13 +1,12 @@
 import styled from "styled-components";
-import { Children } from "react";
 
 const StyledDiv = styled.div`
   height: 100vh;
 `
 
-function ViewContainer({ Children }) {
+function ViewContainer({ children }) {
   return (
-    <StyledDiv className="col-6">{ Children }</StyledDiv>
+    <StyledDiv className="col-6">{ children }</StyledDiv>
   )
 }
 
