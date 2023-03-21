@@ -1,3 +1,4 @@
+import AuthContainer from "components/containers/AuthContainer";
 import Logo from "components/Logo";
 import Title from "components/Title";
 import Input from "components/Input";
@@ -5,7 +6,7 @@ import Button from "components/ActButton";
 
 function LoginPage() {
   return (
-    <>
+    <AuthContainer>
       <Logo width="50px" />
       <Title>登入 Alphitter</Title>
       <Input
@@ -26,7 +27,7 @@ function LoginPage() {
           console.log("click");
         }}
       />
-    </>
+    </AuthContainer>
   );
 }
 
