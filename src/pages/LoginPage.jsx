@@ -1,6 +1,7 @@
 import Logo from "components/Logo";
 import Title from "components/Title";
 import Input from "components/Input";
+import Button from "components/ActButton";
 
 function LoginPage() {
   return (
@@ -18,6 +19,12 @@ function LoginPage() {
         label="密碼"
         type="password"
         placeholder="請輸入密碼"
+      />
+      <Button
+        buttonName="登入"
+        onClick={() => {
+          console.log("click");
+        }}
       />
     </>
   );
