@@ -6,7 +6,7 @@ const StyledDiv = styled.div`
 
 function ViewContainer({ children }) {
   return (
-    <StyledDiv className="col-6">{ children }</StyledDiv>
+    <StyledDiv className="col-8">{ children }</StyledDiv>
   )
 }
 

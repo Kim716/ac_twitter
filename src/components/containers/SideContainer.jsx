@@ -7,7 +7,7 @@ const StyledDiv = styled.div`
 
 function SideContainer({ children }) {
   return (
-    <StyledDiv className="col-3">{ children }</StyledDiv>
+    <StyledDiv className="col-4">{ children }</StyledDiv>
   )
 }
 
