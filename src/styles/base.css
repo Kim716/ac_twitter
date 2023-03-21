@@ -27,3 +27,8 @@
   --grey8: #44444f;
   --grey9: #171725;
 }
+
+* {
+  box-sizing: border-box;
+  font-family: "Noto Sans TC", sans-serif;
+}
