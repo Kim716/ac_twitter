@@ -1,10 +1,11 @@
-import Logo from "../components/Logo";
+import Logo from "components/Logo";
+import Title from "components/Title";
 
 function LoginPage() {
   return (
     <>
-      <h1>LoginPage</h1>
       <Logo width="50px" />
+      <Title>登入 Alphitter</Title>
     </>
   );
 }

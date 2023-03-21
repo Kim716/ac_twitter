@@ -12,4 +12,18 @@ import UserLikesPage from "./UserLikesPage";
 import UserMainPage from "./UserMainPage";
 import UserReplysPage from "./UserReplysPage";
 
-export {AdminLoginPage, AdminUsersPage, AdminTweetsPage, FollowersPage, FollowingPage, LoginPage,MainPage, RegisterPage, SettingPage, TweetPage, UserLikesPage, UserMainPage,UserReplysPage}
+export {
+  AdminLoginPage,
+  AdminUsersPage,
+  AdminTweetsPage,
+  FollowersPage,
+  FollowingPage,
+  LoginPage,
+  MainPage,
+  RegisterPage,
+  SettingPage,
+  TweetPage,
+  UserLikesPage,
+  UserMainPage,
+  UserReplysPage,
+};

@@ -1,4 +1,4 @@
-import logo from "../assets/icons/logo.svg";
+import logo from "assets/icons/logo.svg";
 import styled from "styled-components";
 
 const StyleLogo = styled.img`
