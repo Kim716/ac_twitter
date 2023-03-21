@@ -26,6 +26,7 @@ function RegisterPage() {
           label="名稱"
           type="text"
           placeholder="請設定使用者名稱，不可超過50字"
+          maxLength="50"
         />
         <Input
           id="regist_email"
