@@ -1,12 +1,10 @@
-import NavContainer from "components/containers/NavContainer";
 import MainContainer from "components/containers/MainContainer";
+import { NavBar } from "components/NavBar";
 
 function SettingPage() {
   return (
     <div className="d-flex">
-      <NavContainer>
-        <h1>SettingPage</h1>
-      </NavContainer>
+      <NavBar />
       <MainContainer>
         <h1>Main</h1>
       </MainContainer>
