@@ -14,7 +14,7 @@ const StyledIcon = styled.div.attrs((props) => ({
 }))`
   display: flex;
   align-items: center;
-  cursor: pointer;
+  cursor: ${(props) => (props.isClick ? "default" : "pointer")};
 
   & svg {
     width: 24px;
