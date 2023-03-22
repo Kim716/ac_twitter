@@ -3,11 +3,11 @@ import styled from "styled-components";
 
 const StyleLogo = styled.img`
   display: block;
-  width: ${(props) => props.width};
+  width: 40px;
 `;
 
-function Logo({ width }) {
-  return <StyleLogo src={logo} alt="logo" width={width} />;
+function Logo() {
+  return <StyleLogo src={logo} alt="logo" />;
 }
 
 export default Logo;
