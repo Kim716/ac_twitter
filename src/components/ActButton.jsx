@@ -15,8 +15,8 @@ const StyledButton = styled.button`
   }
 `;
 
-function Button({ buttonName, onClick }) {
+function ActButton({ buttonName, onClick }) {
   return <StyledButton onClick={onClick}>{buttonName}</StyledButton>;
 }
 
-export default Button;
+export default ActButton;

@@ -2,7 +2,7 @@ import AuthContainer from "components/containers/AuthContainer";
 import Logo from "components/Logo";
 import Title from "components/Title";
 import Input from "components/Input";
-import Button from "components/ActButton";
+import ActButton from "components/ActButton";
 import { Link } from "react-router-dom";
 
 function AdminLoginPage() {
@@ -27,7 +27,7 @@ function AdminLoginPage() {
           type="password"
           placeholder="請輸入密碼"
         />
-        <Button
+        <ActButton
           buttonName="登入"
           onClick={() => {
             console.log("submit");
