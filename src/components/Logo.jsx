@@ -4,7 +4,6 @@ import styled from "styled-components";
 const StyleLogo = styled.img`
   display: block;
   width: ${(props) => props.width};
-  margin: 0 auto;
 `;
 
 function Logo({ width }) {
