@@ -7,7 +7,7 @@ const StyledDiv = styled.div`
 
 function ViewContainer({ children }) {
   return (
-    <StyledDiv className="col-8 d-flex flex-column">{ children }</StyledDiv>
+    <StyledDiv className="col-8">{ children }</StyledDiv>
   )
 }
 

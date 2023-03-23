@@ -6,9 +6,7 @@ import ActButton from "components/ActButton";
 
 const StyledDiv = styled.div`
   height: 200px;
-  // flex-basis: 200px;
   padding: 16px 27px 0 27px;
-  border-top: 1px solid #E6ECF0;
   border-bottom: 10px solid #E6ECF0;
   cursor: pointer;
   button {

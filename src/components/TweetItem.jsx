@@ -7,7 +7,6 @@ import {ReactComponent as HeartFocus} from "assets/icons/heart_focus.svg"
 import { useState } from "react";
 
 const StyledDiv = styled.div`
-  // height: 150px;
   padding: 16px 24px;
   border: 1px solid var(--grey3);
   img, span, p, svg {
@@ -28,10 +27,8 @@ const StyledDiv = styled.div`
     }
     .content {
       overflow-wrap: break-word;
-      p {
-        padding-top: 15px;
-        line-height: 1.6;
-      }
+      padding-top: 15px;
+      line-height: 1.6;
     }
   }
   // 調整3欄式icon排版
@@ -65,9 +62,7 @@ function UserTweetItem() {
           <span>@apple·3小時</span>
         </div> 
           {/* 最大顯示字數140字 */}
-        <div className="content">
-          <p>Forget real people. Real people don’t text you back, they have incorrect opinions about the latest episode of Riverdale, and they continue u</p>
-        </div>
+        <p className="content">Forget real people. Real people don’t text you back, they have incorrect opinions about the latest episode of Riverdale, and they continue u</p>
         <div className="icon-box d-flex">
           <div>
             <ReplyUnfocus className="reply-icon" /><span>123</span>
@@ -92,9 +87,7 @@ function AdminTweetItem() {
           <span>@apple·3小時</span>
         </div> 
           {/* 最大顯示字數140字 */}
-        <div className="content">
-          <p>Forget real people. Real people don’t text you back, they have incorrect opinions about the latest episode of Riverdale, and they continue u</p>
-        </div>
+        <p className="content">Forget real people. Real people don’t text you back, they have incorrect opinions about the latest episode of Riverdale, and they continue u</p>
       </div>
       <CrossUnfocus />
     </StyledDiv>

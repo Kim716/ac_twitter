@@ -50,7 +50,7 @@ const StyledPopularItem = styled.div`
 `
 
 // 檢查10個使用者在頁面上的效果，等傳入資料後修改此處或刪除。
-function TestPopularCard() {
+function PopularCard() {
   return (
     <StyledPopularItem className="d-flex">
       <img src={Avatar} alt="" />
@@ -64,26 +64,26 @@ function TestPopularCard() {
 }
 // 以上等傳入資料後修改此處或刪除。
 
-function SideContainer({ children }) {
+function SideBar() {
   return (
     <StyledDiv className="col-4">
       <StyledPopular>
         <div className="header">
           <h1>推薦跟隨</h1>
         </div>
-        <TestPopularCard />
-        <TestPopularCard />
-        <TestPopularCard />
-        <TestPopularCard />
-        <TestPopularCard />
-        <TestPopularCard />
-        <TestPopularCard />
-        <TestPopularCard />
-        <TestPopularCard />
-        <TestPopularCard />
+        <PopularCard />
+        <PopularCard />
+        <PopularCard />
+        <PopularCard />
+        <PopularCard />
+        <PopularCard />
+        <PopularCard />
+        <PopularCard />
+        <PopularCard />
+        <PopularCard />
       </StyledPopular>
     </StyledDiv>
   )
 }
 
-export default SideContainer;
+export default SideBar;

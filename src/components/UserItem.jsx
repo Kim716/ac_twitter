@@ -3,7 +3,6 @@ import Avatar from "assets/images/avatar_default.png";
 import StatusButton from "./StatusButton";
 
 const StyledDiv = styled.div`
-  // height: 150px;
   padding: 16px 24px;
   border: 1px solid var(--grey3);
   img, span, p, svg {
@@ -25,9 +24,7 @@ const StyledDiv = styled.div`
     .content {
       margin-top: 5px;
       overflow-wrap: break-word;
-      p {
-        line-height: 1.6;
-      }
+      line-height: 1.6;
     }
   }
 `
@@ -45,9 +42,7 @@ function UserItem() {
           <StatusButton defaultName={"跟隨"} clickName={"正在跟隨"} />
         </div> 
           {/* 最大顯示字數140字 */}
-        <div className="content">
-          <p>Forget real people. Real people don’t text you back, they have incorrect opinions about the latest episode of Riverdale, and they continue u</p>
-        </div>
+        <p className="content">Forget real people. Real people don’t text you back, they have incorrect opinions about the latest episode of Riverdale, and they continue u</p>
       </div>
     </StyledDiv>
   )
