@@ -4,13 +4,13 @@ import styled from "styled-components";
 // 組裝時可用 background-color: blue; 確認區域大小。
 
 const StyledDiv = styled.div`
-  background-color: blue;
-  height: ${(props) => props.height};
+  height: 100vh;
+  // overflow: auto;
 `
 
-function ListCollection({ height,  children}) {
+function ListCollection({ children }) {
   return (
-    <StyledDiv height={height}>
+    <StyledDiv>
       {children}
     </StyledDiv>
   )

@@ -4,14 +4,10 @@ import {ReactComponent as ReplyUnfocus} from "assets/icons/reply_unfocus.svg"
 import {ReactComponent as CrossUnfocus} from "assets/icons/cross_unfocus.svg"
 import {ReactComponent as HeartUnfocus} from "assets/icons/heart_unfocus.svg"
 import {ReactComponent as HeartFocus} from "assets/icons/heart_focus.svg"
-import {ReactComponent as MailUnfocus} from "assets/icons/mail_unfocus.svg"
-import {ReactComponent as NotiUnfocus} from "assets/icons/noti_unfocus.svg"
-import {ReactComponent as NotiFocus} from "assets/icons/noti_focus.svg"
 import { useState } from "react";
 
 const StyledDiv = styled.div`
-  width: 100%;
-  height: 150px;
+  // height: 150px;
   padding: 16px 24px;
   border: 1px solid var(--grey3);
   img, span, p, svg {
@@ -25,14 +21,12 @@ const StyledDiv = styled.div`
   }
   // 文字區塊的排版
   .text-box {
-    width: 90%;
     .user-name {
       font-weight: bold;
-      font-size: 17px;
+      font-size: 20px;
       margin-right: 5px;
     }
     .content {
-      width: 100%;
       overflow-wrap: break-word;
       p {
         padding-top: 15px;
@@ -74,14 +68,19 @@ function UserTweetItem() {
         <div className="content">
           <p>Forget real people. Real people don’t text you back, they have incorrect opinions about the latest episode of Riverdale, and they continue u</p>
         </div>
-        <div className="icon-box" isClick={isClick} onClick={handleIsClick}>
-          <ReplyUnfocus className="reply-icon" /><span>123</span>
-          {isClick ? <HeartFocus /> : <HeartUnfocus />}<span>1233</span>
+        <div className="icon-box d-flex">
+          <div>
+            <ReplyUnfocus className="reply-icon" /><span>123</span>
+          </div>
+          <div isClick={isClick} onClick={handleIsClick}>
+            {isClick ? <HeartFocus /> : <HeartUnfocus />}<span>1233</span>
+          </div>
         </div>
       </div>
     </StyledDiv>
   )
 }
+
 // 後台使用的樣式
 function AdminTweetItem() {
   return (
@@ -103,4 +102,4 @@ function AdminTweetItem() {
 }
 
 
-export {UserTweetItem, AdminTweetItem};
+export { UserTweetItem, AdminTweetItem };
