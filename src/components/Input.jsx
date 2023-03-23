@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
+  position: relative;
   background-color: var(--grey2);
   border-bottom: 2px solid #657786;
   margin-bottom: 32px;
@@ -10,6 +11,20 @@ const StyledDiv = styled.div`
   &:hover,
   &:has(input:focus) {
     border-bottom: 2px solid var(--light-blue);
+  }
+
+  /* error 時要在 input 加 error 的 className*/
+  &:has(input.error) {
+    border-bottom: 2px solid var(--error);
+  }
+
+  &:has(input.error)::after {
+    position: absolute;
+    bottom: -20px;
+
+    content: attr(data-content);
+    color: var(--error);
+    font-size: 12px;
   }
 `;
 
@@ -58,7 +73,7 @@ function Input({
         maxLength={maxLength}
         value={value}
         onChange={onChange}
-        required
+        // 發現不能寫 require 這樣 submit 會先被擋
       />
     </StyledDiv>
   );

@@ -27,35 +27,72 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 沒有輸入帳密就直接擋掉
-    if (account.length === 0 || password.length === 0) {
-      return;
-    }
+    const clearError = () => {
+      const allInputEl = e.target.querySelectorAll("input");
+      allInputEl.forEach((el) => el.classList.remove("error"));
+    };
 
-    const { message, status, token } = await login({ account, password });
+    // 前一次的錯誤訊息要先被清掉
+    clearError();
 
-    // 登入成功
-    if (status === "success") {
-      // 儲存 token
-      localStorage.setItem("token", token);
+    try {
+      const { message, token } = await login({ account, password });
 
-      // 跳通知
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: message,
-        timer: 1500,
-        showConfirmButton: false,
-        customClass: {
-          icon: "swalIcon right",
-          title: "swalTitle",
-        },
-      });
+      const accountError = () => {
+        const accountInputEl = e.target.querySelector("#login_account");
+        accountInputEl.classList.add("error");
+        accountInputEl.parentElement.setAttribute("data-content", message);
+      };
 
-      // 跳轉頁面
-      navigate("/main");
+      const passwordError = () => {
+        const passwordInputEl = e.target.querySelector("#login_password");
+        passwordInputEl.classList.add("error");
+        passwordInputEl.parentElement.setAttribute("data-content", message);
+      };
 
-      return;
+      // 沒填帳號
+      if (account.length === 0) {
+        accountError();
+      }
+
+      // 沒填密碼
+      if (password.length === 0) {
+        passwordError();
+        return;
+      }
+
+      // 帳號或密碼有誤
+      if (!token) {
+        accountError();
+        passwordError();
+        return;
+      }
+
+      // 如果 token 存在代表登入成功
+      if (token) {
+        // 儲存 token
+        localStorage.setItem("token", token);
+
+        // 跳通知
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: message,
+          timer: 1500,
+          showConfirmButton: false,
+          customClass: {
+            icon: "swalIcon right",
+            title: "swalTitle",
+          },
+        });
+
+        // 跳轉頁面
+        navigate("/main");
+
+        return;
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
