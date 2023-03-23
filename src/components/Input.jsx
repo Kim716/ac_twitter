@@ -39,7 +39,15 @@ const StyledInput = styled.input`
   }
 `;
 
-function Input({ id, label, type, placeholder, maxLength = "" }) {
+function Input({
+  id,
+  label,
+  type,
+  placeholder,
+  maxLength = "",
+  value,
+  onChange,
+}) {
   return (
     <StyledDiv>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
@@ -48,6 +56,8 @@ function Input({ id, label, type, placeholder, maxLength = "" }) {
         type={type}
         placeholder={placeholder}
         maxLength={maxLength}
+        value={value}
+        onChange={onChange}
         required
       />
     </StyledDiv>
