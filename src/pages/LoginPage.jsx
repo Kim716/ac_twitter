@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 function LoginPage() {
   return (
     <AuthContainer>
-      <Logo width="40px" />
+      <Logo/>
       <Title>登入 Alphitter</Title>
       <form
         onSubmit={() => {

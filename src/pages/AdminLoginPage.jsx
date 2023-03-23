@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 function AdminLoginPage() {
   return (
     <AuthContainer>
-      <Logo width="40px" />
+      <Logo />
       <Title>後台登入</Title>
       <form
         onSubmit={() => {
