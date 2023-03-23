@@ -28,7 +28,17 @@
   --grey9: #171725;
 }
 
-* {
+*,
+html {
   box-sizing: border-box;
   font-family: "Noto Sans TC", sans-serif;
+}
+
+.swal2-title.swalTitle {
+  position: absolute;
+  top: 40px;
+}
+
+.swal2-icon.swalIcon.right {
+  left: 170px;
 }
