@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "api/userAuth";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -13,6 +13,8 @@ import ActButton from "components/ActButton";
 function LoginPage() {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleAccountChange = (e) => {
     setAccount(e.target.value);
@@ -35,6 +37,8 @@ function LoginPage() {
     // 登入成功
     if (status === "success") {
       // 儲存 token
+      localStorage.setItem("token", token);
+
       // 跳通知
       Swal.fire({
         position: "top",
@@ -49,6 +53,9 @@ function LoginPage() {
       });
 
       // 跳轉頁面
+      navigate("/main");
+
+      return;
     }
   };
 
