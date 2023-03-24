@@ -1,14 +1,43 @@
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
+// components
 import AuthContainer from "components/containers/AuthContainer";
 import Logo from "components/Logo";
 import Title from "components/Title";
 import Input from "components/Input";
 import ActButton from "components/ActButton";
-import { Link } from "react-router-dom";
 
 function RegisterPage() {
+  const [account, setAccount] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkPassword, setCheckPassword] = useState("");
+
+  const handleAccountChange = (e) => {
+    setAccount(e.target.value);
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleCheckPasswordChange = (e) => {
+    setCheckPassword(e.target.value);
+  };
+
   return (
     <AuthContainer>
-      <Logo/>
+      <Logo />
       <Title>建立你的帳號</Title>
       <form
         onSubmit={() => {
@@ -20,12 +49,16 @@ function RegisterPage() {
           label="帳號"
           type="text"
           placeholder="請設定帳號"
+          value={account}
+          onChange={handleAccountChange}
         />
         <Input
           id="regist_name"
           label="名稱"
           type="text"
           placeholder="請設定使用者名稱，不可超過50字"
+          value={name}
+          onChange={handleNameChange}
           maxLength="50"
         />
         <Input
@@ -33,25 +66,26 @@ function RegisterPage() {
           label="Email"
           type="email"
           placeholder="請輸入 Email"
+          value={email}
+          onChange={handleEmailChange}
         />
         <Input
           id="regist_password"
           label="密碼"
           type="password"
           placeholder="請設定密碼"
+          value={password}
+          onChange={handlePasswordChange}
         />
         <Input
           id="regist_checkPassword"
           label="密碼確認"
           type="password"
           placeholder="請再次輸入密碼"
+          value={checkPassword}
+          onChange={handleCheckPasswordChange}
         />
-        <ActButton
-          buttonName="註冊"
-          onClick={() => {
-            console.log("submit");
-          }}
-        />
+        <ActButton buttonName="註冊" />
       </form>
       <div className="d-flex justify-content-center mt-4">
         <Link to="/login">取消</Link>
