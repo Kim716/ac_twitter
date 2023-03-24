@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 function RegisterPage() {
   return (
     <AuthContainer>
-      <Logo width="40px" />
+      <Logo/>
       <Title>建立你的帳號</Title>
       <form
         onSubmit={() => {
