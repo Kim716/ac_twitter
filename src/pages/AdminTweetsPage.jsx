@@ -11,7 +11,7 @@ const StyledTweetsDiv = styled.div`
 const StyledTweetsCollection = styled.div`
   width: 100%;
   height: calc(100vh - 75px);
-  overflow: scroll;
+  overflow: auto;
 `;
 
 function AdminTweetsPage() {
