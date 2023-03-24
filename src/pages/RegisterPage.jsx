@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { register } from "api/userAuth";
 
 // components
 import AuthContainer from "components/containers/AuthContainer";
@@ -35,15 +36,29 @@ function RegisterPage() {
     setCheckPassword(e.target.value);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await register({
+        account,
+        name,
+        email,
+        password,
+        checkPassword,
+      });
+
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <AuthContainer>
       <Logo />
       <Title>建立你的帳號</Title>
-      <form
-        onSubmit={() => {
-          console.log("submit");
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <Input
           id="regist_account"
           label="帳號"
