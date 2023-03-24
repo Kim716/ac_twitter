@@ -1,10 +1,10 @@
-import { NavBar } from "components/NavBar";
+import { AdminNavBar } from "components/NavBar";
 import UserCards from "components/UserCards";
 
 function AdminUsersPage() {
   return (
     <div className="d-flex">
-      <NavBar />
+      <AdminNavBar />
       <UserCards />
     </div>
   );

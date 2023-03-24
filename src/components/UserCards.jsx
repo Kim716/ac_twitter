@@ -1,20 +1,20 @@
 import { ReactComponent as TweetsIcon } from "assets/icons/tweets_unfocus.svg";
 import { ReactComponent as HeartIcon } from "assets/icons/heart_unfocus.svg";
 import Header from "components/Header";
-import cover from "assets/images/cover.png";
-import avatar from "assets/images/avatar.png";
 import styled from "styled-components";
 
-// data
+// 假資料
 const dummyUsers = [
   {
     id: 4,
     avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
     cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
+    tweetCount: "1.5k",
+    followerCount: 136,
+    followingCount: 136,
+    likeCount: "4k",
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -24,6 +24,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -33,6 +35,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -42,6 +46,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -51,6 +57,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -60,6 +68,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -69,6 +79,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -78,6 +90,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -87,6 +101,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -96,6 +112,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -105,6 +123,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -114,6 +134,8 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
   {
     id: 4,
@@ -123,13 +145,25 @@ const dummyUsers = [
     followerCount: 6,
     followingCount: 6,
     likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+    account: "heyjohn",
+    name: "John Doe",
   },
 ];
 
 const StyledCardCollection = styled.div`
-  background: var(--success);
   width: 100%;
-  height: calc(100% - 72px);
+  height: calc(100vh - 75px);
   padding: 16px;
   overflow: scroll;
 `;
@@ -139,6 +173,7 @@ const StyledUserCard = styled.div`
   height: 314px;
   width: 210px;
   border-radius: 10px;
+  margin: 0 16px 16px 0;
 
   & .head {
     position: relative;
@@ -185,10 +220,14 @@ const StyledUserCard = styled.div`
   }
 
   & .follow-data {
-    width: 77%;
+    width: 100%;
     margin-top: 14px;
     color: var(--secondary);
     font-size: 14px;
+
+    p:first-child {
+      margin-right: 8px;
+    }
 
     & span {
       color: var(--grey9);
@@ -196,17 +235,16 @@ const StyledUserCard = styled.div`
   }
 `;
 
-// {
-//     "id": 4,
-//     "avatar": "https://loremflickr.com/320/240/man,woman/?lock=22",
-//     "cover": "https://i.imgur.com/WFcXd3Y.png",
-//     "tweetCount": 10,
-//     "followerCount": 6,
-//     "followingCount": 6,
-//     "likeCount": 38
-//   },
-
-function UserCard() {
+function UserCard({
+  cover,
+  avatar,
+  account,
+  name,
+  tweetCount,
+  likeCount,
+  followingCount,
+  followerCount,
+}) {
   return (
     <StyledUserCard>
       <div className="head">
@@ -214,24 +252,24 @@ function UserCard() {
         <img src={avatar} alt="avatar" className="avatar" />
       </div>
       <div className="d-flex flex-column align-items-center">
-        <h2 className="name">John Doe</h2>
-        <p className="account">@heyjohn</p>
+        <h2 className="name">{name}</h2>
+        <p className="account">@{account}</p>
         <div className="user-data d-flex justify-content-evenly">
           <p className="d-flex align-items-center justify-content-between">
             <TweetsIcon />
-            <span>1.5k</span>
+            <span>{tweetCount}</span>
           </p>
           <p className="d-flex align-items-center justify-content-between">
             <HeartIcon />
-            <span>20k</span>
+            <span>{likeCount}</span>
           </p>
         </div>
-        <div className="follow-data d-flex justify-content-between">
+        <div className="follow-data d-flex justify-content-center">
           <p>
-            <span>34 個</span>跟隨中
+            <span>{followingCount} 個</span>跟隨中
           </p>
           <p>
-            <span>34 位</span>跟隨者
+            <span>{followerCount} 位</span>跟隨者
           </p>
         </div>
       </div>
@@ -241,12 +279,16 @@ function UserCard() {
 
 function UserCards() {
   return (
-    <div className="d-flex col-9 flex-column">
+    <div className="col-9">
       <Header>
         <h1>使用者列表</h1>
       </Header>
 
-      <StyledCardCollection className="d-flex">{}</StyledCardCollection>
+      <StyledCardCollection className="d-flex flex-wrap">
+        {dummyUsers.map((user) => (
+          <UserCard {...user} />
+        ))}
+      </StyledCardCollection>
     </div>
   );
 }
