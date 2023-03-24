@@ -11,12 +11,18 @@ const StyledDiv = styled.div`
   svg {
     cursor: pointer;
   }
+
+  .grey {
+    color: var(--secondary);
+  }
+
   img {
     width: 50px;
     height: 50px;
     float: left;
     margin-right: 8px;
   }
+
   // 文字區塊的排版
   .text-box {
     .user-name {
@@ -24,6 +30,7 @@ const StyledDiv = styled.div`
       font-size: 20px;
       margin-right: 5px;
     }
+
     .content {
       margin-top: 5px;
       overflow-wrap: break-word;
@@ -40,7 +47,7 @@ function UserItem() {
         <div className="d-flex justify-content-between align-items-center">
           <div>
             <span className="user-name">Name</span>
-            <span>@apple</span>
+            <span className="grey">@apple</span>
           </div>
           <StatusButton defaultName={"跟隨"} clickName={"正在跟隨"} />
         </div>
