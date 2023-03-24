@@ -37,7 +37,7 @@ const StyledDiv = styled.div`
     textarea {
       margin: 5px 15px;
       width: 500px;
-      height: 100px;
+      height: 120px;
       resize: none; // 禁止拖動改變框的大小
       border: none; // 隱藏邊框
       outline: none; // 輸入過程中不顯示邊框

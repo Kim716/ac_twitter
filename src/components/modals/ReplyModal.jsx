@@ -33,14 +33,11 @@ const StyledContent = styled.div`
     font-size: 16px;
   }
 
-  p {
-    margin-bottom: 20px;
-  }
-
   p,
   span,
   textarea {
     margin-left: 15px;
+    width: 480px;
     font-size: 17px;
   }
 
@@ -55,9 +52,9 @@ const StyledContent = styled.div`
   }
 
   .user-name {
+    margin-right: 5px;
     font-weight: bold;
     font-size: 20px;
-    margin-right: 5px;
   }
   
   .grey {
@@ -74,17 +71,19 @@ const StyledContent = styled.div`
     border-color: var(--grey5);
   }
   
-  
-
   .account {
     color: var(--brand-color);
+  }
+
+  .tweet-text {
+    height: 90px;
   }
 `
 // 假資料
 const dummyData = {
     "id": 1,
     "UserId": 2,
-    "description": "Non illo enim rem non esse.Non illo enim rem non esse",
+    "description": "Non illo enim rem non esse.",
     "createdAt": "3小時",
     "updatedAt": "2023-03-22T22:37:24.000Z",
     "replyCount": 24,
@@ -101,7 +100,7 @@ const dummyData = {
 
 function ReplyItem() {
   return (
-    <StyledContent className="content-box d-flex">
+    <StyledContent className="d-flex">
       <div className="d-flex flex-column">
         <img src={Avatar} alt="" />
         <div className="side-line d-flex justify-content-center align-items-center"></div>
@@ -112,14 +111,14 @@ function ReplyItem() {
           <span className="user-name">{dummyData.User.name}</span>
           <span className="grey">@ {dummyData.User.account} · {dummyData.createdAt}</span>
         </div>
-        <p>
+        <p className="tweet-text">
           {dummyData.description}
         </p>
         <span className="grey">
           回覆給 
           <span className="account">@{dummyData.User.account}</span>
         </span>
-        <textarea placeholder="推你的回覆" maxLength="140"/>
+        <textarea className="d-flex flex-wrap" placeholder="推你的回覆" maxLength="140"/>
         <ActButton buttonName={"回覆"}/>
       </div>
     </StyledContent>
