@@ -4,7 +4,7 @@ import StatusButton from "./StatusButton";
 
 const StyledDiv = styled.div`
   padding: 16px 24px;
-  border: 1px solid var(--grey3);
+  border-bottom: 1px solid #e6ecf0;
   img,
   span,
   p,
