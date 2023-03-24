@@ -20,7 +20,24 @@ function RegisterPage() {
     setAccount(e.target.value);
   };
 
+  const hideError = (el) => {
+    el.classList.remove("error");
+  };
+
+  const showError = (el, message) => {
+    el.classList.add("error");
+    el.parentElement.setAttribute("data-content", message);
+  };
+
   const handleNameChange = (e) => {
+    //清掉前一次提醒
+    hideError(e.target);
+
+    //  超過 50 字的提醒
+    if (e.target.value.length > 3) {
+      showError(e.target, "您已輸入超過 50 字");
+    }
+
     setName(e.target.value);
   };
 
@@ -74,7 +91,7 @@ function RegisterPage() {
           placeholder="請設定使用者名稱，不可超過50字"
           value={name}
           onChange={handleNameChange}
-          maxLength="50"
+          // maxLength="50"
         />
         <Input
           id="regist_email"
