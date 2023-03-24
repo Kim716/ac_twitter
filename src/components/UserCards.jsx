@@ -1,19 +1,130 @@
 import { ReactComponent as TweetsIcon } from "assets/icons/tweets_unfocus.svg";
 import { ReactComponent as HeartIcon } from "assets/icons/heart_unfocus.svg";
+import Header from "components/Header";
 import cover from "assets/images/cover.png";
 import avatar from "assets/images/avatar.png";
 import styled from "styled-components";
 
-const StyledHeader = styled.div`
-  width: 100%;
-  background-color: var(--white);
-  border-bottom: 1px solid #e6ecf0;
-  padding: 24px;
-
-  color: var(--grey9);
-  font-weight: 700;
-  font-size: 24px;
-`;
+// data
+const dummyUsers = [
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+  {
+    id: 4,
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
+    cover: "https://i.imgur.com/WFcXd3Y.png",
+    tweetCount: 10,
+    followerCount: 6,
+    followingCount: 6,
+    likeCount: 38,
+  },
+];
 
 const StyledCardCollection = styled.div`
   background: var(--success);
@@ -85,6 +196,16 @@ const StyledUserCard = styled.div`
   }
 `;
 
+// {
+//     "id": 4,
+//     "avatar": "https://loremflickr.com/320/240/man,woman/?lock=22",
+//     "cover": "https://i.imgur.com/WFcXd3Y.png",
+//     "tweetCount": 10,
+//     "followerCount": 6,
+//     "followingCount": 6,
+//     "likeCount": 38
+//   },
+
 function UserCard() {
   return (
     <StyledUserCard>
@@ -121,10 +242,11 @@ function UserCard() {
 function UserCards() {
   return (
     <div className="d-flex col-9 flex-column">
-      <StyledHeader>使用者列表</StyledHeader>
-      <StyledCardCollection className="d-flex">
-        <UserCard />
-      </StyledCardCollection>
+      <Header>
+        <h1>使用者列表</h1>
+      </Header>
+
+      <StyledCardCollection className="d-flex">{}</StyledCardCollection>
     </div>
   );
 }
