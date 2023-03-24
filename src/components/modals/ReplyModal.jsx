@@ -6,6 +6,8 @@ import ActButton from "components/ActButton"
 const StyledDiv = styled.div`
   width: 600px;
   height: 450px;
+  position: relative;
+  z-index: 3;
   border-radius: 20px;
   background-color: var(--white);
 
@@ -28,7 +30,6 @@ const StyledContent = styled.div`
   button {
     width: 65px;
     height: 40px;
-    margin-left: auto;
     padding: 0;
     font-size: 16px;
   }
@@ -78,6 +79,11 @@ const StyledContent = styled.div`
   .tweet-text {
     height: 90px;
   }
+
+  .error {
+    width: 120px;
+    color: var(--error);
+  }
 `
 // 假資料
 const dummyData = {
@@ -118,8 +124,11 @@ function ReplyItem() {
           回覆給 
           <span className="account">@{dummyData.User.account}</span>
         </span>
-        <textarea className="d-flex flex-wrap" placeholder="推你的回覆" maxLength="140"/>
-        <ActButton buttonName={"回覆"}/>
+        <textarea placeholder="推你的回覆" maxLength="140"/>
+        <div className="d-flex justify-content-end align-items-center">
+          <p className="error">內容不可空白</p>
+          <ActButton buttonName={"回覆"}/>
+        </div>
       </div>
     </StyledContent>
   )
