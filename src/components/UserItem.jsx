@@ -4,8 +4,11 @@ import StatusButton from "./StatusButton";
 
 const StyledDiv = styled.div`
   padding: 16px 24px;
-  border: 1px solid var(--grey3);
-  img, span, p, svg {
+  border-bottom: 1px solid #e6ecf0;
+  img,
+  span,
+  p,
+  svg {
     cursor: pointer;
   }
   img {
@@ -27,7 +30,7 @@ const StyledDiv = styled.div`
       line-height: 1.6;
     }
   }
-`
+`;
 
 function UserItem() {
   return (
@@ -40,12 +43,16 @@ function UserItem() {
             <span>@apple</span>
           </div>
           <StatusButton defaultName={"跟隨"} clickName={"正在跟隨"} />
-        </div> 
-          {/* 最大顯示字數140字 */}
-        <p className="content">Forget real people. Real people don’t text you back, they have incorrect opinions about the latest episode of Riverdale, and they continue u</p>
+        </div>
+        {/* 最大顯示字數140字 */}
+        <p className="content">
+          Forget real people. Real people don’t text you back, they have
+          incorrect opinions about the latest episode of Riverdale, and they
+          continue u
+        </p>
       </div>
     </StyledDiv>
-  )
+  );
 }
 
 export default UserItem;

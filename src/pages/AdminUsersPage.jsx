@@ -1,5 +1,13 @@
+import { AdminNavBar } from "components/NavBar";
+import UserCards from "components/UserCards";
+
 function AdminUsersPage() {
-  return <h1>AdminUsersPage</h1>;
+  return (
+    <div className="d-flex">
+      <AdminNavBar />
+      <UserCards />
+    </div>
+  );
 }
 
 export default AdminUsersPage;
