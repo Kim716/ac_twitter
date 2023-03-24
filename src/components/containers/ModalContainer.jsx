@@ -6,6 +6,7 @@ const StyledDiv = styled.div`
   height: 100vh;
   width: 100%;
   position: absolute;
+  top: 0;
   z-index: 2;
   padding-top: 50px;
   background-color: rgba(0, 0, 0, .4);

@@ -67,9 +67,8 @@ const StyledContent = styled.div`
     margin: 15px 25px;
     width: 1px;
     height: 80px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--grey5);
+    width: 1px;
+    background-color: var(--grey5);
   }
   
   .account {
