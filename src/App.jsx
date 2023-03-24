@@ -45,7 +45,7 @@ function App() {
           <Route path="tweets" element={<AdminTweetsPage />} />
         </Route>
 
-        <Route path="regist" element={<RegisterPage />} />
+        <Route path="register" element={<RegisterPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="setting" element={<SettingPage />} />
         <Route path="main" element={<MainPage />} />
