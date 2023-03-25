@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getUserSettingInfo } from "api/userAuth";
+import { getUserSettingInfo, putUserSettingInfo } from "api/userAuth";
+import Swal from "sweetalert2";
 
 // components
 import MainContainer from "components/containers/MainContainer";
@@ -70,15 +71,156 @@ function SettingPage() {
     setCheckPassword(e.target.value);
   };
 
-  const handleSaveClick = (e) => {
-    console.log(123);
+  const handleSaveClick = async (e) => {
+    const inputEls = [...e.target.parentElement.querySelectorAll("input")];
+
+    // 清除前一次的錯誤訊息
+    inputEls.forEach((inputEl) => clearError(inputEl));
+
+    // 欄位為空先擋掉，不進後端檢驗了，比較快
+    if (inputEls.some((inputEl) => inputEl.value.length === 0)) {
+      // 找出欄位為空的
+      const emptyInputEls = inputEls.filter(
+        (inputEl) => inputEl.value.length === 0
+      );
+
+      // 針對欄位為空的跳 error
+      emptyInputEls.forEach((inputEl) => showError(inputEl, "欄位不得為空"));
+
+      return;
+    }
+
+    // 帳號去掉前後空白
+    if (account.trim().length === 0) {
+      const [nameInputEL] = inputEls.filter(
+        (inputEl) => inputEl.id === "input_account"
+      );
+      showError(nameInputEL, "帳號不得全為空白");
+      return;
+    }
+
+    // 名稱去掉前後空白
+    if (name.trim().length === 0) {
+      const [nameInputEL] = inputEls.filter(
+        (inputEl) => inputEl.id === "input_name"
+      );
+      showError(nameInputEL, "名稱不得全為空白");
+      return;
+    }
+
+    // 跳是否確認儲存的通知
+    Swal.fire({
+      title: "確定要儲存嗎？",
+      showDenyButton: true,
+      confirmButtonText: "確定",
+      denyButtonText: "取消",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // 確認儲存就進到後端
+        try {
+          const { message } = await putUserSettingInfo({
+            id: 134, // !!! 現階段 id 為 hard code，等後端提供
+            account,
+            name,
+            email,
+            password,
+            checkPassword,
+          });
+
+          // !!! 目前以下 error message 的設計都比較 hard code，還可以再優化
+          // 帳號註冊過
+          if (message === "Account 重複註冊") {
+            const [accountInputEL] = inputEls.filter(
+              (inputEl) => inputEl.id === "input_account"
+            );
+            showError(accountInputEL, message);
+            return;
+          }
+
+          // name 超過 50字
+          if (message === "名稱不可超過 50 個字") {
+            const [nameInputEL] = inputEls.filter(
+              (inputEl) => inputEl.id === "input_name"
+            );
+            showError(nameInputEL, message);
+            return;
+          }
+
+          // 信箱格式錯誤
+          if (message === "Email 格式有誤") {
+            const [emailInputEL] = inputEls.filter(
+              (inputEl) => inputEl.id === "input_email"
+            );
+            showError(emailInputEL, message);
+            return;
+          }
+
+          // 信箱註冊過
+          if (message === "Email 重複註冊") {
+            const [emailInputEL] = inputEls.filter(
+              (inputEl) => inputEl.id === "input_email"
+            );
+            showError(emailInputEL, message);
+            return;
+          }
+
+          // 兩次輸入的密碼不同
+          if (message === "兩次輸入的密碼不相同") {
+            const [passwordInputEL] = inputEls.filter(
+              (inputEl) => inputEl.id === "input_password"
+            );
+            const [checkPasswordInputEL] = inputEls.filter(
+              (inputEl) => inputEl.id === "input_checkPassword"
+            );
+            showError(passwordInputEL, message);
+            showError(checkPasswordInputEL, message);
+            return;
+          }
+
+          // 伺服器有誤
+          if (message === "伺服器出現問題，請稍後再使用") {
+            Swal.fire({
+              position: "top",
+              icon: "warning",
+              title: message,
+              timer: 1500,
+              showConfirmButton: false,
+              customClass: {
+                icon: "swalIcon right",
+                title: "swalTitle",
+              },
+            });
+            return;
+          }
+
+          // 儲存成功跳通知
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "儲存成功",
+            timer: 1500,
+            showConfirmButton: false,
+            customClass: {
+              icon: "swalIcon right",
+              title: "swalTitle",
+            },
+          });
+
+          // 清空密碼欄位
+          setPassword("");
+          setCheckPassword("");
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
   };
 
   // useEffect
   useEffect(() => {
     const setUserInfo = async () => {
       try {
-        const info = await getUserSettingInfo(134);
+        const info = await getUserSettingInfo(134); // !!! 現階段 id 為 hard code，等後端提供
         setAccount(info.account);
         setName(info.name);
         setEmail(info.email);
