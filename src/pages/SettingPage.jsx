@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getUserInfo } from "api/userAuth";
+import { getUserSettingInfo } from "api/userAuth";
 
 // components
 import MainContainer from "components/containers/MainContainer";
@@ -15,7 +15,7 @@ const StyledDiv = styled.div`
   overflow: auto;
 `;
 
-const StyledForm = styled.form`
+const StyledFormDiv = styled.div`
   padding: 24px;
 
   button {
@@ -70,16 +70,15 @@ function SettingPage() {
     setCheckPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSaveClick = (e) => {
+    console.log(123);
   };
 
   // useEffect
-
   useEffect(() => {
     const setUserInfo = async () => {
       try {
-        const info = await getUserInfo(134);
+        const info = await getUserSettingInfo(134);
         setAccount(info.account);
         setName(info.name);
         setEmail(info.email);
@@ -99,7 +98,7 @@ function SettingPage() {
           <Header>
             <h1>帳戶設定</h1>
           </Header>
-          <StyledForm onSubmit={handleSubmit}>
+          <StyledFormDiv>
             <Input
               id="input_account"
               label="帳號"
@@ -140,8 +139,8 @@ function SettingPage() {
               value={checkPassword}
               onChange={handleCheckPasswordChange}
             />
-            <ActButton buttonName="儲存" />
-          </StyledForm>
+            <ActButton buttonName="儲存" onClick={handleSaveClick} />
+          </StyledFormDiv>
         </StyledDiv>
       </MainContainer>
     </div>

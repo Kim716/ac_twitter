@@ -58,7 +58,7 @@ export const register = async ({
   }
 };
 
-export const getUserInfo = async (id) => {
+export const getUserSettingInfo = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/${id}/setting`);
 
