@@ -60,13 +60,12 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const inputEls = [...e.target.querySelectorAll("input")];
-    console.log(inputEls);
 
     // 清除前一次的錯誤訊息
     inputEls.forEach((inputEl) => clearError(inputEl));
 
     try {
-      const { status, message } = await register({
+      const { message } = await register({
         account,
         name,
         email,
