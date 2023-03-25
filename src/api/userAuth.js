@@ -2,6 +2,24 @@ import axios from "axios";
 
 const baseUrl = "https://serene-wildwood-20959.herokuapp.com/api/users";
 
+const axiosInstance = axios.create({
+  baseURL: baseUrl,
+});
+
+// 發送請求前都要做一個在 header 放 authToken 的動作
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+
 export const login = async ({ account, password }) => {
   try {
     // 發出登入請求
@@ -35,6 +53,21 @@ export const register = async ({
     return res.data;
   } catch (error) {
     console.error("[ ⚠️⚠️⚠️ Register Failed ]:", error.response.data.message);
+
+    return error.response.data;
+  }
+};
+
+export const getUserInfo = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/${id}/setting`);
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Get User Setting Info Failed ]:",
+      error.response.data.message
+    );
 
     return error.response.data;
   }

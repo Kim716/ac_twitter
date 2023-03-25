@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getUserInfo } from "api/userAuth";
 
 // components
 import MainContainer from "components/containers/MainContainer";
@@ -31,10 +32,6 @@ function SettingPage() {
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
 
-  const handleAccountChange = (e) => {
-    setAccount(e.target.value);
-  };
-
   const clearError = (el) => {
     el.classList.remove("error");
     el.parentElement.setAttribute("data-content", "");
@@ -43,6 +40,10 @@ function SettingPage() {
   const showError = (el, message) => {
     el.classList.add("error");
     el.parentElement.setAttribute("data-content", message);
+  };
+
+  const handleAccountChange = (e) => {
+    setAccount(e.target.value);
   };
 
   const handleNameChange = (e) => {
@@ -73,6 +74,23 @@ function SettingPage() {
     e.preventDefault();
   };
 
+  // useEffect
+
+  useEffect(() => {
+    const setUserInfo = async () => {
+      try {
+        const info = await getUserInfo(134);
+        setAccount(info.account);
+        setName(info.name);
+        setEmail(info.email);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    setUserInfo();
+  }, []);
+
   return (
     <div className="d-flex">
       <NavBar />
@@ -86,7 +104,7 @@ function SettingPage() {
               id="input_account"
               label="帳號"
               type="text"
-              placeholder="請設定帳號"
+              placeholder="重新設定帳號"
               value={account}
               onChange={handleAccountChange}
             />
