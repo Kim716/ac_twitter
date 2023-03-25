@@ -14,3 +14,28 @@ export const login = async ({ account, password }) => {
     return error.response.data;
   }
 };
+
+export const register = async ({
+  account,
+  name,
+  email,
+  password,
+  checkPassword,
+}) => {
+  try {
+    // 發送註冊請求
+    const res = await axios.post(baseUrl, {
+      account,
+      name,
+      email,
+      password,
+      checkPassword,
+    });
+
+    return res.data;
+  } catch (error) {
+    console.error("[ ⚠️⚠️⚠️ Register Failed ]:", error.response.data.message);
+
+    return error.response.data;
+  }
+};

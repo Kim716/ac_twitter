@@ -120,7 +120,7 @@ function LoginPage() {
         <ActButton buttonName="登入" />
       </form>
       <div className="d-flex justify-content-end mt-3 p-2">
-        <Link to="/regist">註冊</Link>
+        <Link to="/register">註冊</Link>
         <span className="mx-2">・</span>
         <Link to="/admin">後台登入</Link>
       </div>
