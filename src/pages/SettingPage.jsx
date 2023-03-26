@@ -213,7 +213,6 @@ function SettingPage() {
     const setUserInfo = async () => {
       try {
         const info = await getUserSettingInfo(134); // !!! 現階段 id 為 hard code，等後端提供
-        console.log(info);
         setAccount(info.account);
         setName(info.name);
         setEmail(info.email);
