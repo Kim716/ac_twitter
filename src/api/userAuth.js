@@ -1,5 +1,4 @@
 import axios from "axios";
-import Swal from "sweetalert2";
 
 const baseUrl = "https://serene-wildwood-20959.herokuapp.com/api/users";
 

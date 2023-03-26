@@ -14,6 +14,9 @@ function AdminLoginPage() {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
 
+  const [whichError, setWhichError] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
 
   const handleAccountChange = (e) => {
@@ -27,44 +30,32 @@ function AdminLoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const clearError = () => {
-      const allInputEl = e.target.querySelectorAll("input");
-      allInputEl.forEach((el) => el.classList.remove("error"));
-    };
+    // 清除前一次錯誤訊息
+    setWhichError([]);
+    setErrorMessage("");
 
-    // 前一次的錯誤訊息要先被清掉
-    clearError();
+    // 欄位不得為空系列
+    if ([account, password].some((value) => value.length === 0)) {
+      if (account.length === 0) {
+        setWhichError((we) => [...we, "account"]);
+      }
+
+      if (password.length === 0) {
+        setWhichError((we) => [...we, "password"]);
+      }
+
+      setErrorMessage("欄位不得為空");
+      // 有任何一個為空就會先阻擋掉
+      return;
+    }
 
     try {
       const { message, token } = await adminLogin({ account, password });
 
-      const accountError = () => {
-        const accountInputEl = e.target.querySelector("#login_account");
-        accountInputEl.classList.add("error");
-        accountInputEl.parentElement.setAttribute("data-content", message);
-      };
-
-      const passwordError = () => {
-        const passwordInputEl = e.target.querySelector("#login_password");
-        passwordInputEl.classList.add("error");
-        passwordInputEl.parentElement.setAttribute("data-content", message);
-      };
-
-      // 沒填帳號
-      if (account.length === 0) {
-        accountError();
-      }
-
-      // 沒填密碼
-      if (password.length === 0) {
-        passwordError();
-        return;
-      }
-
       // 帳號或密碼有誤
       if (!token) {
-        accountError();
-        passwordError();
+        setWhichError(["account", "password"]);
+        setErrorMessage(message);
         return;
       }
 
@@ -108,6 +99,8 @@ function AdminLoginPage() {
           placeholder="請輸入帳號"
           value={account}
           onChange={handleAccountChange}
+          isError={whichError.some((which) => which === "account")}
+          errorMessage={errorMessage}
         />
         <Input
           id="login_password"
@@ -116,6 +109,8 @@ function AdminLoginPage() {
           placeholder="請輸入密碼"
           value={password}
           onChange={handlePasswordChange}
+          isError={whichError.some((which) => which === "password")}
+          errorMessage={errorMessage}
         />
         <ActButton buttonName="登入" />
       </form>

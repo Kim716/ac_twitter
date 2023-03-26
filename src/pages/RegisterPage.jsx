@@ -17,29 +17,24 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
 
+  const [whichError, setWhichError] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
 
   const handleAccountChange = (e) => {
     setAccount(e.target.value);
   };
 
-  const clearError = (el) => {
-    el.classList.remove("error");
-    el.parentElement.setAttribute("data-content", "");
-  };
-
-  const showError = (el, message) => {
-    el.classList.add("error");
-    el.parentElement.setAttribute("data-content", message);
-  };
-
   const handleNameChange = (e) => {
-    //清掉前一次提醒
-    clearError(e.target);
+    // 清除前一次提醒
+    setWhichError([]);
+    setErrorMessage("");
 
     //  超過 50 字的提醒
     if (e.target.value.length > 50) {
-      showError(e.target, "您已輸入超過 50 字");
+      setWhichError(["name"]);
+      setErrorMessage("您已輸入超過 50 字");
     }
 
     setName(e.target.value);
@@ -59,10 +54,54 @@ function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const inputEls = [...e.target.querySelectorAll("input")];
 
-    // 清除前一次的錯誤訊息
-    inputEls.forEach((inputEl) => clearError(inputEl));
+    // 清除前一次錯誤訊息
+    setWhichError([]);
+    setErrorMessage("");
+
+    // 欄位不得為空系列
+    if (
+      [account, name, email, password, checkPassword].some(
+        (value) => value.length === 0
+      )
+    ) {
+      if (account.length === 0) {
+        setWhichError((we) => [...we, "account"]);
+      }
+
+      if (name.length === 0) {
+        setWhichError((we) => [...we, "name"]);
+      }
+
+      if (email.length === 0) {
+        setWhichError((we) => [...we, "email"]);
+      }
+
+      if (password.length === 0) {
+        setWhichError((we) => [...we, "password"]);
+      }
+
+      if (checkPassword.length === 0) {
+        setWhichError((we) => [...we, "checkPassword"]);
+      }
+      setErrorMessage("欄位不得為空");
+      // 有任何一個為空就會先阻擋掉
+      return;
+    }
+
+    // 帳號、名字不得全為空白系列
+    if ([account, name].some((value) => value.trim().length === 0)) {
+      if (account.trim().length === 0) {
+        setWhichError((we) => [...we, "account"]);
+      }
+      if (name.trim().length === 0) {
+        setWhichError((we) => [...we, "name"]);
+      }
+
+      setErrorMessage("帳號、名稱不得全為空白格");
+      // 有任何一個為空就會先阻擋掉
+      return;
+    }
 
     try {
       const { message } = await register({
@@ -73,73 +112,38 @@ function RegisterPage() {
         checkPassword,
       });
 
-      // 欄位不得為空，去找到是否有至少一個欄位為空
-      if (inputEls.some((inputEl) => inputEl.value.length === 0)) {
-        // 找出欄位為空的
-        const emptyInputEls = inputEls.filter(
-          (inputEl) => inputEl.value.length === 0
-        );
-
-        // 針對欄位為空的跳 error
-        emptyInputEls.forEach((inputEl) => showError(inputEl, message));
-
-        return;
-      }
-
-      // !!! 目前以下 error message 的設計都比較 hard code，還可以再優化
       // 帳號註冊過
       if (message === "Account 重複註冊") {
-        const [accountInputEL] = inputEls.filter(
-          (inputEl) => inputEl.id === "regist_account"
-        );
-        showError(accountInputEL, message);
-        // showError(inputEls[1], message);
+        setWhichError(["account"]);
+        setErrorMessage(message);
         return;
       }
 
-      // name 超過 50字
+      // name 超過 50 字
       if (message === "名稱不能超過 50 個字") {
-        const [nameInputEL] = inputEls.filter(
-          (inputEl) => inputEl.id === "regist_name"
-        );
-        showError(nameInputEL, message);
-        // showError(inputEls[1], message);
+        setWhichError(["account"]);
+        setErrorMessage(message);
         return;
       }
 
       // 信箱格式錯誤
       if (message === "Email 格式有誤") {
-        const [emailInputEL] = inputEls.filter(
-          (inputEl) => inputEl.id === "regist_email"
-        );
-        showError(emailInputEL, message);
-        // showError(inputEls[2], message);
+        setWhichError(["email"]);
+        setErrorMessage(message);
         return;
       }
 
       // 信箱註冊過
       if (message === "Email 重複註冊") {
-        const [emailInputEL] = inputEls.filter(
-          (inputEl) => inputEl.id === "regist_email"
-        );
-        showError(emailInputEL, message);
-        // showError(inputEls[2], message);
+        setWhichError(["email"]);
+        setErrorMessage(message);
         return;
       }
 
       // 兩次輸入的密碼不同
       if (message === "兩次輸入的密碼不相同") {
-        const [passwordInputEL] = inputEls.filter(
-          (inputEl) => inputEl.id === "regist_password"
-        );
-        const [checkPasswordInputEL] = inputEls.filter(
-          (inputEl) => inputEl.id === "regist_checkPassword"
-        );
-        showError(passwordInputEL, message);
-        showError(checkPasswordInputEL, message);
-
-        // showError(inputEls[3], message);
-        // showError(inputEls[4], message);
+        setWhichError(["password", "checkPassword"]);
+        setErrorMessage(message);
         return;
       }
 
@@ -184,44 +188,54 @@ function RegisterPage() {
       <Title>建立你的帳號</Title>
       <form onSubmit={handleSubmit}>
         <Input
-          id="regist_account"
+          id="input_account"
           label="帳號"
           type="text"
           placeholder="請設定帳號"
           value={account}
           onChange={handleAccountChange}
+          isError={whichError.some((which) => which === "account")}
+          errorMessage={errorMessage}
         />
         <Input
-          id="regist_name"
+          id="input_name"
           label="名稱"
           type="text"
           placeholder="請設定使用者名稱，不可超過50字"
           value={name}
           onChange={handleNameChange}
+          isError={whichError.some((which) => which === "name")}
+          errorMessage={errorMessage}
         />
         <Input
-          id="regist_email"
+          id="input_email"
           label="Email"
           type="text"
           placeholder="請輸入 Email"
           value={email}
           onChange={handleEmailChange}
+          isError={whichError.some((which) => which === "email")}
+          errorMessage={errorMessage}
         />
         <Input
-          id="regist_password"
+          id="input_password"
           label="密碼"
           type="password"
           placeholder="請設定密碼"
           value={password}
           onChange={handlePasswordChange}
+          isError={whichError.some((which) => which === "password")}
+          errorMessage={errorMessage}
         />
         <Input
-          id="regist_checkPassword"
+          id="input_checkPassword"
           label="密碼確認"
           type="password"
           placeholder="請再次輸入密碼"
           value={checkPassword}
           onChange={handleCheckPasswordChange}
+          isError={whichError.some((which) => which === "checkPassword")}
+          errorMessage={errorMessage}
         />
         <ActButton buttonName="註冊" />
       </form>
