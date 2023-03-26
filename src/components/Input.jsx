@@ -62,11 +62,14 @@ function Input({
   maxLength = "",
   value,
   onChange,
+  errorMessage,
+  isError,
 }) {
   return (
-    <StyledDiv>
+    <StyledDiv data-content={isError ? errorMessage : ""}>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
       <StyledInput
+        className={isError ? "error" : ""}
         id={id}
         type={type}
         placeholder={placeholder}
