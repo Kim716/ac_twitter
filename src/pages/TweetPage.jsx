@@ -3,6 +3,7 @@ import ViewContainer from "components/containers/ViewContainer";
 import Header from "components/Header";
 import { NavBar } from "components/NavBar";
 import SideBar from "components/SideBar";
+import TweetCard from "components/TweetCard";
 
 function TweetPage() {
   return (
@@ -10,9 +11,10 @@ function TweetPage() {
       <NavBar />
       <MainContainer>
         <ViewContainer>
-          <Header backIcon={true}>
+          <Header backIcon="true">
             <h1>推文</h1>
           </Header>
+          <TweetCard />
         </ViewContainer>
         <SideBar />
       </MainContainer>
