@@ -17,8 +17,9 @@ const StyledDiv = styled.div`
   }
 
   // 共同CSS設定
-  .cross-box, .content {
-    padding: 25px;
+  .cross-box,
+  .content {
+    padding: 15px 20px;
   }
 
   .cross-box {
@@ -33,7 +34,7 @@ const StyledDiv = styled.div`
     textarea {
       font-size: 17px;
     }
-    
+
     textarea {
       margin: 5px 15px;
       width: 500px;
@@ -56,7 +57,6 @@ const StyledDiv = styled.div`
       padding: 0;
     }
   }
-  
 `
 
 // 筆記：預想用 useState 來確認彈窗開關，useEffect 來控制收到狀態改變時，要做的行為。
