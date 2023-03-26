@@ -56,10 +56,22 @@ const StyledEditImg = styled.div`
   }
 
   & .cover {
+    position: relative;
+    img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+  }
+
+  & .cover::after {
+    content: " ";
+    position: absolute;
     width: 100%;
     height: 200px;
-
-    object-fit: cover;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
   }
 
   // 編輯背景的icon
@@ -75,20 +87,36 @@ const StyledEditImg = styled.div`
   }
 
   & .avatar {
+    img {
+      width: 140px;
+      height: 140px;
+      position: absolute;
+      z-index: 2;
+      border-radius: 50%;
+      left: 5%;
+      top: 60%;
+      object-fit: cover;
+    }
+  }
+
+  & .avatar::after {
+    content: " ";
     position: absolute;
+    z-index: 3;
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    border: 4px solid var(--white);
+    border: 5px solid var(--white);
     left: 5%;
     top: 60%;
-
-    object-fit: cover;
+    transform: translate(-3%, -3%);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   // 編輯頭像的icon
   & .avatar-item {
     position: absolute;
+    z-index: 4;
     top: 90%;
     left: 14%;
   }
@@ -100,65 +128,13 @@ const StyledEditText = styled.div`
   margin-top: 60px;
   padding: 15px 20px;
 
-  input.input-text {
+  div {
     margin: 0;
   }
 
   span {
     margin: 5px;
     color: var(--secondary);
-  }
-`;
-
-const StyledInputDiv = styled.div`
-  position: relative;
-  height: 100px;
-  background-color: var(--grey2);
-  border-bottom: 2px solid #657786;
-  padding-left: 10px;
-  border-radius: 2px;
-
-  &:hover,
-  &:has(input:focus) {
-    border-bottom: 2px solid var(--light-blue);
-  }
-
-  /* error 時要在 input 加 error 的 className*/
-  &:has(input.error) {
-    border-bottom: 2px solid var(--error);
-  }
-
-  &:has(input.error)::after {
-    position: absolute;
-    bottom: -20px;
-
-    content: attr(data-content);
-    color: var(--error);
-    font-size: 12px;
-  }
-`;
-
-const StyledLabel = styled.label`
-  display: block;
-  width: 100%;
-  padding: 5px 0 0;
-  font-size: 14px;
-  color: var(--grey7);
-`;
-
-const StyleInput = styled.input`
-  display: block;
-  width: 100%;
-  background-color: transparent;
-  border: 0;
-  padding: 5px 0;
-
-  font-size: 16px;
-  text-align: left;
-  vertical-align: top;
-
-  &:focus {
-    outline: none;
   }
 `;
 
@@ -206,7 +182,9 @@ function InfoModal() {
       <form className="user-container" action="">
         {/* 圖片區 */}
         <StyledEditImg>
-          <img className="cover" src={coverSrc} alt="" />
+          <div className="cover">
+            <img className="cover" src={coverSrc} alt="" />
+          </div>
           <div className="edit-img-item">
             <label htmlFor="addCover">
               <Addimg />
@@ -223,7 +201,9 @@ function InfoModal() {
               <CrossWhite />
             </label>
           </div>
-          <img className="avatar" src={avatarSrc} alt="" />
+          <div className="avatar">
+            <img src={avatarSrc} alt="" />
+          </div>
           <div className="avatar-item">
             <label htmlFor="addAvatar">
               <Addimg />
@@ -247,24 +227,15 @@ function InfoModal() {
             type="text"
             maxLength="50"
           />
-
-          {/* <span className="error">字數超過上限</span> */}
           <span className="gray d-flex justify-content-end">0/50</span>
-
-          <StyledInputDiv>
-            <StyledLabel>自我介紹</StyledLabel>
-            <StyleInput
-              className="input-text"
-              id="user_introduce"
-              label="自我介紹"
-              type="text"
-              maxLength="160"
-            />
-          </StyledInputDiv>
-          <p className="d-flex justify-content-end">
-            {/* <span className="error">字數超過上限</span> */}
-            <span className="gray">0/160</span>
-          </p>
+          <Input
+            className="input-text"
+            id="user_introduce"
+            label="自我介紹"
+            type="text"
+            maxLength="160"
+          />
+          <span className="gray d-flex justify-content-end">0/160</span>
         </StyledEditText>
       </form>
     </StyledDiv>
