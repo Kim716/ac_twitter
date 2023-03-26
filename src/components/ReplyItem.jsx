@@ -1,0 +1,63 @@
+import styled from "styled-components";
+
+const StyledDiv = styled.div`
+  background: var(--white);
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--grey3);
+
+  img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  div {
+    .user_info,
+    .reply_to {
+      margin-bottom: 8px;
+      color: var(--secondary);
+      font-size: 14px;
+      line-height: 26px;
+      background: white;
+
+      .reply_name {
+        margin-right: 8px;
+        color: var(--grey9);
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .reply_to_account {
+        color: var(--brand-color);
+      }
+    }
+
+    .comment {
+      color: var(--grey9);
+      line-height: 26px;
+      background: white;
+    }
+  }
+`;
+
+function ReplyItem({ avatar, name, account, createAt, replyTo, comment }) {
+  return (
+    <StyledDiv className="d-flex">
+      <img src={avatar} alt="avatar" />
+
+      <div>
+        <p className="user_info">
+          <span className="reply_name">{name}</span>@{account}・{createAt}
+        </p>
+        <p className="reply_to">
+          回覆 <span className="reply_to_account">@{replyTo}</span>
+        </p>
+        <p className="comment">{comment}</p>
+      </div>
+    </StyledDiv>
+  );
+}
+
+export default ReplyItem;
