@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import LinkItem from "./LinkItem";
 import ActButton from "./ActButton";
+import ModalContainer from "./containers/ModalContainer";
+import { useState } from "react";
 
 const StyledNav = styled.div`
   height: 100vh;
@@ -18,8 +20,14 @@ const StyledNav = styled.div`
 `;
 
 function NavBar() {
+  const [tabTweetModal, setTabTweetModal] = useState(false)
+
+  const handleTabTweetModal = () => {
+    setTabTweetModal(!tabTweetModal);
+  }
   return (
     <StyledNav className="col-3 d-flex flex-column align-items-end">
+      {tabTweetModal ? <ModalContainer value={"推文"} /> : ""}
       <div className="nav d-flex flex-column flex-grow-1 ">
         <Logo />
         <div className="navLinks d-flex flex-column justify-content-between flex-grow-1">
@@ -28,7 +36,7 @@ function NavBar() {
             <LinkItem title={"個人資料"} />
             <LinkItem title={"設定"} />
             <ActButton
-              onClick={() => console.log("TweetModal")}
+              onClick={handleTabTweetModal}
               buttonName={"推文"}
             />
           </div>
