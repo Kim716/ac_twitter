@@ -42,10 +42,18 @@ const StyledDiv = styled.div`
   }
 `;
 
-function ReplyItem({ avatar, name, account, createAt, replyTo, comment }) {
+function ReplyItem({
+  userId,
+  avatar,
+  name,
+  account,
+  createAt,
+  replyTo,
+  comment,
+}) {
   return (
     <StyledDiv className="d-flex">
-      <img src={avatar} alt="avatar" />
+      <img src={avatar} alt="avatar" data-id={userId} />
 
       <div>
         <p className="user_info">
