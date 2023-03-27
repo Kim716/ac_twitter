@@ -21,7 +21,6 @@ function ModalContainer({ value }) {
       {value === "推文" && <TweetModal />}
       {value === "回覆" && <ReplyModal />}
       {value === "編輯個人資料" && <InfoModal />}
-      <InfoModal />
     </StyledDiv>
   );
 }
