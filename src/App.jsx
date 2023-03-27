@@ -24,6 +24,8 @@ import {
 } from "./pages";
 import { useEffect } from "react";
 
+const basename = process.env.PUBLIC_URL;
+
 const NoMatch = () => {
   const navigate = useNavigate();
 
@@ -37,7 +39,7 @@ const NoMatch = () => {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route path="admin">
           <Route index element={<AdminLoginPage />} />
