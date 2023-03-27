@@ -9,15 +9,11 @@ import { useState } from "react";
 const StyledDiv = styled.div`
   padding: 16px 24px;
   border-bottom: 1px solid #e6ecf0;
-  img,
-  span,
-  p,
-  svg {
-    cursor: pointer;
-  }
+  cursor: pointer;
 
-  .grey {
-    color: var(--secondary);
+  // 管理者頁面不需要點擊
+  &:has(.delete-btn) {
+    cursor: default;
   }
 
   img {
@@ -25,6 +21,10 @@ const StyledDiv = styled.div`
     height: 50px;
     float: left;
     margin-right: 8px;
+  }
+
+  .grey {
+    color: var(--secondary);
   }
 
   // 文字區塊的排版
@@ -35,28 +35,41 @@ const StyledDiv = styled.div`
       margin-right: 5px;
     }
 
-    .content {
+    .description {
       overflow-wrap: break-word;
       padding-top: 15px;
       line-height: 1.6;
     }
   }
 
-  // 調整3欄式icon排版
+  // 使用者頁面，調整3欄式icon排版
   .icon-box {
     margin-top: 10px;
     height: 16px;
+
     span {
       margin-right: 20px;
     }
-    
+
     svg {
       width: 16px;
       height: 16px;
       margin-right: 5px;
     }
   }
+
+  // 管理者頁面
+  .delete-btn {
+    cursor: pointer;
+
+    &:hover {
+      path {
+        fill: var(--brand-color);
+      }
+    }
+  }
 `;
+
 // 前台使用的樣式
 function UserTweetItem() {
   const [isClick, setIsClick] = useState(false);
@@ -71,10 +84,10 @@ function UserTweetItem() {
       <div className="d-flex flex-column flex-wrap text-box">
         <div>
           <span className="user-name">name</span>
-          <span className="grey">@apple·3小時</span>
+          <span className="grey">@apple・3小時</span>
         </div>
         {/* 最大顯示字數140字 */}
-        <p className="content">
+        <p className="description">
           Forget real people. Real people don’t text you back, they have
           incorrect opinions about the latest episode of Riverdale, and they
           continue u
@@ -95,23 +108,21 @@ function UserTweetItem() {
 }
 
 // 後台使用的樣式
-function AdminTweetItem() {
+function AdminTweetItem({ id, avatar, name, account, createdAt, description }) {
   return (
-    <StyledDiv className="d-flex">
-      <img src={Avatar} alt="" />
-      <div className="d-flex flex-column flex-wrap text-box">
+    <StyledDiv className="d-flex" data-id={id}>
+      <img src={avatar} alt="" />
+      <div className="d-flex flex-column flex-wrap flex-grow-1 text-box">
         <div>
-          <span className="user-name">name</span>
-          <span className="grey">@apple·3小時</span>
+          <span className="user-name">{name}</span>
+          <span className="grey">
+            @{account}・{createdAt}
+          </span>
         </div>
         {/* 最大顯示字數140字 */}
-        <p className="content">
-          Forget real people. Real people don’t text you back, they have
-          incorrect opinions about the latest episode of Riverdale, and they
-          continue u
-        </p>
+        <p className="description">{description}</p>
       </div>
-      <CrossUnfocus />
+      <CrossUnfocus className="delete-btn" />
     </StyledDiv>
   );
 }

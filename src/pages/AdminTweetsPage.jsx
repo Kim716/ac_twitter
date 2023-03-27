@@ -3,7 +3,7 @@ import Header from "components/Header";
 import { AdminTweetItem } from "components/TweetItem";
 
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAdminTweets } from "api/adminAuth";
 
 const StyledTweetsDiv = styled.div`
@@ -17,11 +17,13 @@ const StyledTweetsCollection = styled.div`
 `;
 
 function AdminTweetsPage() {
+  const [tweets, setTweets] = useState([]);
+
   // useEffect
   useEffect(() => {
     const showTweets = async () => {
-      const tweets = await getAdminTweets();
-      console.log(tweets);
+      const getTweets = await getAdminTweets();
+      setTweets(getTweets);
     };
 
     showTweets();
@@ -35,14 +37,18 @@ function AdminTweetsPage() {
           <h1>推文清單</h1>
         </Header>
         <StyledTweetsCollection>
-          {/* 等後端資料格式出來再調整成動態跑版 */}
-          <AdminTweetItem />
-          <AdminTweetItem />
-          <AdminTweetItem />
-          <AdminTweetItem />
-          <AdminTweetItem />
-          <AdminTweetItem />
-          <AdminTweetItem />
+          {/* 使用 map 跑陣列 */}
+          {tweets.map((tweet) => (
+            <AdminTweetItem
+              key={tweet.id}
+              id={tweet.id}
+              avatar={tweet.User.avatar}
+              name={tweet.User.name}
+              account={tweet.User.account}
+              createdAt={tweet.createdAt}
+              description={tweet.description}
+            />
+          ))}
         </StyledTweetsCollection>
       </StyledTweetsDiv>
     </div>

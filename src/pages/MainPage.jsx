@@ -20,12 +20,6 @@ function MainPage() {
           <TweetArea />
           <ListCollection>
             <UserTweetItem />
-            <AdminTweetItem />
-            <UserItem />
-            <UserItem />
-            <UserItem />
-            <UserItem />
-            <UserItem />
           </ListCollection>
         </ViewContainer>
         <SideBar />
