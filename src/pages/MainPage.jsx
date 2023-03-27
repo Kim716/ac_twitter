@@ -8,7 +8,7 @@ import { UserTweetItem } from "components/TweetItem";
 
 const dummyTweets = [
   {
-    id: 2,
+    id: 1,
     UserId: 3,
     description: "In aliquid voluptatem ipsa est laborum.",
     createdAt: "下午 06:16 2023年03月16日",
@@ -40,7 +40,7 @@ const dummyTweets = [
     isLiked: false,
   },
   {
-    id: 2,
+    id: 3,
     UserId: 3,
     description: "In aliquid voluptatem ipsa est laborum.",
     createdAt: "下午 06:16 2023年03月16日",
@@ -56,7 +56,7 @@ const dummyTweets = [
     isLiked: true,
   },
   {
-    id: 2,
+    id: 4,
     UserId: 3,
     description: "In aliquid voluptatem ipsa est laborum.",
     createdAt: "下午 06:16 2023年03月16日",
@@ -86,6 +86,7 @@ function MainPage() {
           <div>
             {dummyTweets.map((tweet) => (
               <UserTweetItem
+                key={tweet.id}
                 tweetId={tweet.id}
                 avatar={tweet.User.avatar}
                 userId={tweet.UserId}

@@ -17,8 +17,8 @@ const StyledDiv = styled.div`
   img {
     width: 50px;
     height: 50px;
-    float: left;
     margin-right: 8px;
+    border-radius: 50%;
   }
 
   .grey {
