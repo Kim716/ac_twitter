@@ -116,7 +116,7 @@ function OtherUserInfo() {
       <div onClick={handleNotiChange}>
         {notiChange ? <NotiUnfocus /> : <NotiFocus />}
       </div>
-      <StatusButton defaultName={"跟隨"} clickName={"正在跟隨"} />
+      <StatusButton defaultName="跟隨" clickName="正在跟隨" />
     </StyledIcon>
   );
 }
@@ -130,7 +130,7 @@ function UserInfo() {
 
   return (
     <StyledDiv>
-      {tabInfoModal ? <ModalContainer value={"編輯個人資料"} /> : ""}
+      {tabInfoModal ? <ModalContainer value="編輯個人資料" /> : ""}
       <div className="image-box d-flex flex-column">
         <img className="cover" src={Cover} alt="" />
         <img className="avatar" src={Avatar} alt="" />

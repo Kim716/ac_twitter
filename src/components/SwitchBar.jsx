@@ -29,29 +29,29 @@ const StyledDiv = styled.div`
 `;
 
 function UserPage() {
-  const [tabPage, setTabPage] = useState(0);
+  const [isPageShow, setIsPageShow] = useState(0);
 
-  const handleTabPage = (tab) => {
-    setTabPage(tab);
+  const handlePageChange = (tab) => {
+    setIsPageShow(tab);
   };
 
   return (
     <StyledDiv className="d-flex">
       <div
-        className={tabPage === 0 ? "active" : ""}
-        onClick={() => handleTabPage(0)}
+        className={isPageShow === 0 ? "active" : ""}
+        onClick={() => handlePageChange(0)}
       >
         <h1>推文</h1>
       </div>
       <div
-        className={tabPage === 1 ? "active" : ""}
-        onClick={() => handleTabPage(1)}
+        className={isPageShow === 1 ? "active" : ""}
+        onClick={() => handlePageChange(1)}
       >
         <h1>回覆</h1>
       </div>
       <div
-        className={tabPage === 2 ? "active" : ""}
-        onClick={() => handleTabPage(2)}
+        className={isPageShow === 2 ? "active" : ""}
+        onClick={() => handlePageChange(2)}
       >
         <h1>喜歡的內容</h1>
       </div>
@@ -60,23 +60,23 @@ function UserPage() {
 }
 
 function FollowPage() {
-  const [tabPage, setTabPage] = useState(0);
+  const [isPageShow, setIsPageShow] = useState(0);
 
-  const handleTabPage = (tab) => {
-    setTabPage(tab);
+  const handlePageChange = (tab) => {
+    setIsPageShow(tab);
   };
 
   return (
     <StyledDiv className="d-flex">
       <div
-        className={tabPage === 0 ? "active" : ""}
-        onClick={() => handleTabPage(0)}
+        className={isPageShow === 0 ? "active" : ""}
+        onClick={() => handlePageChange(0)}
       >
         <h1>追隨者</h1>
       </div>
       <div
-        className={tabPage === 1 ? "active" : ""}
-        onClick={() => handleTabPage(1)}
+        className={isPageShow === 1 ? "active" : ""}
+        onClick={() => handlePageChange(1)}
       >
         <h1>正在追隨</h1>
       </div>

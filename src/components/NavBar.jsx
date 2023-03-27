@@ -20,28 +20,25 @@ const StyledNav = styled.div`
 `;
 
 function NavBar() {
-  const [tabTweetModal, setTabTweetModal] = useState(false)
+  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
 
-  const handleTabTweetModal = () => {
-    setTabTweetModal(!tabTweetModal);
+  const handleTweetModalClick = () => {
+    setIsTweetModalShow(!isTweetModalShow);
   }
   return (
     <StyledNav className="col-3 d-flex flex-column align-items-end">
-      {tabTweetModal ? <ModalContainer value={"推文"} /> : ""}
+      {isTweetModalShow ? <ModalContainer value="推文" /> : ""}
       <div className="nav d-flex flex-column flex-grow-1 ">
         <Logo />
         <div className="navLinks d-flex flex-column justify-content-between flex-grow-1">
           <div>
-            <LinkItem title={"首頁"} />
-            <LinkItem title={"個人資料"} />
-            <LinkItem title={"設定"} />
-            <ActButton
-              onClick={handleTabTweetModal}
-              buttonName={"推文"}
-            />
+            <LinkItem title="首頁" />
+            <LinkItem title="個人資料" />
+            <LinkItem title="設定" />
+            <ActButton onClick={handleTweetModalClick} buttonName="推文" />
           </div>
           <div className="logout">
-            <LinkItem title={"登出"} className="active" />
+            <LinkItem title="登出" className="active" />
           </div>
         </div>
       </div>
