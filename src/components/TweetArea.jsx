@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Avatar from "assets/images/avatar.png";
 import ActButton from "components/ActButton";
 
