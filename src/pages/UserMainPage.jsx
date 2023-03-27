@@ -15,7 +15,7 @@ function UserMainPage() {
       <NavBar />
       <MainContainer>
         <ViewContainer>
-          <Header back={true}>
+          <Header backIcon={true}>
             <h1>個人資料</h1>
           </Header>
           <UserInfo />

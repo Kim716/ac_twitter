@@ -28,7 +28,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-function UserPage() {
+function UserPageSwitchBar() {
   const [isPageShow, setIsPageShow] = useState(0);
 
   const handlePageChange = (tab) => {
@@ -59,7 +59,7 @@ function UserPage() {
   );
 }
 
-function FollowPage() {
+function FollowPageSwitchBar() {
   const [isPageShow, setIsPageShow] = useState(0);
 
   const handlePageChange = (tab) => {
@@ -86,10 +86,10 @@ function FollowPage() {
 
 function SwitchBar({ value }) {
   if (value === "info") {
-    return <UserPage />;
+    return <UserPageSwitchBar />;
   }
   if (value === "follow") {
-    return <FollowPage />
+    return <FollowPageSwitchBar />;
   }
 }
 

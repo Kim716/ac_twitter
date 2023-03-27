@@ -99,22 +99,22 @@ const StyledActButton = styled.div`
 function EditInfo({ onClick }) {
   return (
     <StyledActButton>
-      <ActButton buttonName={"編輯個人資料"} onClick={onClick} />
+      <ActButton buttonName="編輯個人資料" onClick={onClick} />
     </StyledActButton>
   );
 }
 
 function OtherUserInfo() {
-  const [notiChange, setNotiChange] = useState("false");
+  const [isNoti, setIsNoto] = useState(false);
 
   const handleNotiChange = () => {
-    setNotiChange(!notiChange);
+    setIsNoto(!isNoti);
   };
   return (
     <StyledIcon className="d-flex justify-content-end">
       <EmailIcon />
       <div onClick={handleNotiChange}>
-        {notiChange ? <NotiUnfocus /> : <NotiFocus />}
+        {isNoti ? <NotiUnfocus /> : <NotiFocus />}
       </div>
       <StatusButton defaultName="跟隨" clickName="正在跟隨" />
     </StyledIcon>
@@ -122,19 +122,19 @@ function OtherUserInfo() {
 }
 
 function UserInfo() {
-  const [tabInfoModal, setTabInfoModal] = useState(false);
+  const [isInfoModal, setIsInfoModal] = useState(false);
 
-  const handleTabInfoModal = () => {
-    setTabInfoModal(!tabInfoModal);
+  const handleInfoModalClick = () => {
+    setIsInfoModal(!isInfoModal);
   };
 
   return (
     <StyledDiv>
-      {tabInfoModal ? <ModalContainer value="編輯個人資料" /> : ""}
+      {isInfoModal ? <ModalContainer value="編輯個人資料" /> : ""}
       <div className="image-box d-flex flex-column">
         <img className="cover" src={Cover} alt="" />
         <img className="avatar" src={Avatar} alt="" />
-        <EditInfo onClick={handleTabInfoModal} />
+        <EditInfo onClick={handleInfoModalClick} />
         {/* <OtherUserInfo /> */}
       </div>
       <div className="text-box">
