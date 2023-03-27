@@ -41,7 +41,7 @@ function AdminTweetsPage() {
           {tweets.map((tweet) => (
             <AdminTweetItem
               key={tweet.id}
-              id={tweet.id}
+              tweetId={tweet.id}
               avatar={tweet.User.avatar}
               name={tweet.User.name}
               account={tweet.User.account}

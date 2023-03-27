@@ -70,36 +70,60 @@ const StyledDiv = styled.div`
   }
 `;
 
-// 前台使用的樣式
-function UserTweetItem() {
-  const [isClick, setIsClick] = useState(false);
+// {
+// 	    "id": 2,
+// 	    "UserId": 3,
+// 	    "description": "In aliquid voluptatem ipsa est laborum.",
+// 	    "createdAt": "下午 06:16 2023年03月16日",
+// 	    "updatedAt": "2023-03-23T14:56:53.000Z",
+// 	    "likeCount": 4,
+// 	    "replyCount": 12,
+// 	    "User": {
+// 	      "id": 3,
+// 	      "account": "user2",
+// 	      "name": "user2",
+// 	      "avatar": "https://loremflickr.com/320/240/man,woman/?lock=28"
+// 	    },
+// 	    "isLiked": true
+// 	  },
 
-  const handleIsClick = () => {
-    setIsClick(!isClick);
+// 前台使用的樣式
+function UserTweetItem({
+  tweetId,
+  avatar,
+  userId,
+  name,
+  account,
+  createdAt,
+  description,
+  replyCount,
+  likeCount,
+  isLiked,
+}) {
+  const handleLikeClick = () => {
+    // 愛心的點擊反應是直接根據傳進來的 isLiked 資料來判斷呈現，之後他綁定的事件就是改動資料 變成喜歡或取消喜歡，有可能要思考是不是在父層處理這個事件
   };
 
   return (
-    <StyledDiv className="d-flex">
-      <img src={Avatar} alt="" />
+    <StyledDiv className="d-flex" data-id={tweetId}>
+      <img src={avatar} alt="" data-id={userId} />
       <div className="d-flex flex-column flex-wrap text-box">
         <div>
-          <span className="user-name">name</span>
-          <span className="grey">@apple・3小時</span>
+          <span className="user-name">{name}</span>
+          <span className="grey">
+            @{account}・{createdAt}
+          </span>
         </div>
         {/* 最大顯示字數140字 */}
-        <p className="description">
-          Forget real people. Real people don’t text you back, they have
-          incorrect opinions about the latest episode of Riverdale, and they
-          continue u
-        </p>
+        <p className="description">{description}</p>
         <div className="icon-box d-flex">
           <div>
             <ReplyUnfocus className="reply-icon" />
-            <span>123</span>
+            <span>{replyCount}</span>
           </div>
-          <div isClick={isClick} onClick={handleIsClick}>
-            {isClick ? <HeartFocus /> : <HeartUnfocus />}
-            <span>1233</span>
+          <div onClick={handleLikeClick}>
+            {isLiked ? <HeartFocus /> : <HeartUnfocus />}
+            <span>{likeCount}</span>
           </div>
         </div>
       </div>
@@ -108,9 +132,16 @@ function UserTweetItem() {
 }
 
 // 後台使用的樣式
-function AdminTweetItem({ id, avatar, name, account, createdAt, description }) {
+function AdminTweetItem({
+  tweetId,
+  avatar,
+  name,
+  account,
+  createdAt,
+  description,
+}) {
   return (
-    <StyledDiv className="d-flex" data-id={id}>
+    <StyledDiv className="d-flex" data-id={tweetId}>
       <img src={avatar} alt="" />
       <div className="d-flex flex-column flex-wrap flex-grow-1 text-box">
         <div>
