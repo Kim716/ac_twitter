@@ -21,39 +21,56 @@ const StyledTweetsCollection = styled.div`
 function AdminTweetsPage() {
   const [tweets, setTweets] = useState([]);
 
-  const handleDeleteClick = async (id) => {
-    const { status, message } = await deleteTweet(id);
-
-    if (status === "success") {
-      // 更新推文資料
-      setTweets((prevTweets) => prevTweets.filter((tweet) => tweet.id !== id));
-
-      // 跳通知
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: message,
-        timer: 1500,
-        showConfirmButton: false,
-        customClass: {
-          icon: "swalIcon right",
-          title: "swalTitle",
-        },
-      });
-      return;
-    }
-
-    // 失敗通知
+  const handleDeleteClick = (id) => {
+    // 跳是否確認刪除的提示
     Swal.fire({
-      position: "top",
-      icon: "error",
-      title: message,
-      timer: 1500,
-      showConfirmButton: false,
-      customClass: {
-        icon: "swalIcon right",
-        title: "swalTitle",
-      },
+      title: "確定要刪除嗎？",
+      showDenyButton: true,
+      confirmButtonText: "確定",
+      denyButtonText: "取消",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // 確認刪除就進到後端
+        try {
+          const { status, message } = await deleteTweet(id);
+
+          if (status === "success") {
+            // 更新推文資料
+            setTweets((prevTweets) =>
+              prevTweets.filter((tweet) => tweet.id !== id)
+            );
+
+            // 跳通知
+            Swal.fire({
+              position: "top",
+              icon: "success",
+              title: message,
+              timer: 1500,
+              showConfirmButton: false,
+              customClass: {
+                icon: "swalIcon right",
+                title: "swalTitle",
+              },
+            });
+            return;
+          }
+
+          // 失敗通知
+          Swal.fire({
+            position: "top",
+            icon: "error",
+            title: message,
+            timer: 1500,
+            showConfirmButton: false,
+            customClass: {
+              icon: "swalIcon right",
+              title: "swalTitle",
+            },
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
     });
   };
 
