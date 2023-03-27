@@ -5,8 +5,7 @@ import ListCollection from "components/ListCollection";
 import TweetArea from "components/TweetArea";
 import Header from "components/Header";
 import { NavBar } from "components/NavBar";
-import { AdminTweetItem, UserTweetItem } from "components/TweetItem";
-import UserItem from "components/UserItem";
+import { UserTweetItem } from "components/TweetItem";
 
 function MainPage() {
   return (
@@ -20,12 +19,6 @@ function MainPage() {
           <TweetArea />
           <ListCollection>
             <UserTweetItem />
-            <AdminTweetItem />
-            <UserItem />
-            <UserItem />
-            <UserItem />
-            <UserItem />
-            <UserItem />
           </ListCollection>
         </ViewContainer>
         <SideBar />

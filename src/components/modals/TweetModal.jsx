@@ -71,15 +71,15 @@ const TweetModal = () => {
       <div className="content d-flex flex-column">
         <div className="d-flex">
           <img src={Avatar} alt="" />
-          <textarea placeholder="有什麼新鮮事？" maxLength="140"/>
+          <textarea placeholder="有什麼新鮮事？" maxLength="140" />
         </div>
         <div className="d-flex justify-content-end align-items-center">
           <p>字數不可超過140字</p>
-          <ActButton buttonName={"推文"}/>
+          <ActButton buttonName={"推文"} />
         </div>
       </div>
     </StyledDiv>
-  )
+  );
 }
 
 export default TweetModal
