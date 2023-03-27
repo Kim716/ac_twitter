@@ -1,10 +1,12 @@
 import MainContainer from "components/containers/MainContainer";
+import ModalContainer from "components/containers/ModalContainer";
 import ViewContainer from "components/containers/ViewContainer";
 import Header from "components/Header";
-import { NavBar } from "components/NavBar";
+import NavBar from "components/NavBar";
 import ReplyItem from "components/ReplyItem";
 import SideBar from "components/SideBar";
 import TweetCard from "components/TweetCard";
+import { useState } from "react";
 
 const dummyReplys = [
   {
@@ -120,9 +122,16 @@ const dummyReplys = [
 ];
 
 function TweetPage() {
+  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
+
+  const handleTweetClick = () => {
+    setIsTweetModalShow(!isTweetModalShow);
+  };
+
   return (
     <div className="d-flex">
-      <NavBar />
+      {isTweetModalShow && <ModalContainer value="推文" />}
+      <NavBar isUser={true} onTweetClick={handleTweetClick} status="首頁" />
       <MainContainer>
         <ViewContainer>
           <Header backIcon="true">

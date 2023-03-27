@@ -1,18 +1,26 @@
 import MainContainer from "components/containers/MainContainer";
 import ViewContainer from "components/containers/ViewContainer";
 import Header from "components/Header";
-import { NavBar } from "components/NavBar";
+import NavBar from "components/NavBar";
 import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
 import { UserTweetItem } from "components/TweetItem";
 import ListCollection from "components/ListCollection";
-
+import ModalContainer from "components/containers/ModalContainer";
+import { useState } from "react";
 
 function UserMainPage() {
+  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
+
+  const handleTweetClick = () => {
+    setIsTweetModalShow(!isTweetModalShow);
+  };
+
   return (
     <div className="d-flex">
-      <NavBar />
+      {isTweetModalShow && <ModalContainer value="推文" />}
+      <NavBar isUser={true} onTweetClick={handleTweetClick} status="個人資料" />
       <MainContainer>
         <ViewContainer>
           <Header backIcon={true}>
