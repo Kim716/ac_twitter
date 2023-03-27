@@ -22,8 +22,8 @@ function AdminTweetsPage() {
   // useEffect
   useEffect(() => {
     const showTweets = async () => {
-      const getTweets = await getAdminTweets();
-      setTweets(getTweets);
+      const tweetItems = await getAdminTweets();
+      setTweets(tweetItems);
     };
 
     showTweets();

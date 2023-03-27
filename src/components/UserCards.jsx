@@ -3,164 +3,6 @@ import { ReactComponent as HeartIcon } from "assets/icons/heart_unfocus.svg";
 import Header from "components/Header";
 import styled from "styled-components";
 
-// 假資料
-const dummyUsers = [
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: "1.5k",
-    followerCount: 136,
-    followingCount: 136,
-    likeCount: "4k",
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-  {
-    id: 4,
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=22",
-    cover: "https://i.imgur.com/WFcXd3Y.png",
-    tweetCount: 10,
-    followerCount: 6,
-    followingCount: 6,
-    likeCount: 38,
-    account: "heyjohn",
-    name: "John Doe",
-  },
-];
-
 const StyledCardCollection = styled.div`
   width: 100%;
   height: calc(100vh - 75px);
@@ -175,18 +17,18 @@ const StyledUserCard = styled.div`
   border-radius: 10px;
   margin: 0 16px 16px 0;
 
-  & .head {
+  .head {
     position: relative;
     width: 100%;
 
-    & .cover {
+    .cover {
       width: 100%;
       height: 140px;
       object-fit: cover;
       border-radius: 10px 10px 0 0;
     }
 
-    & .avatar {
+    .avatar {
       position: absolute;
       width: 100px;
       height: 100px;
@@ -198,28 +40,28 @@ const StyledUserCard = styled.div`
     }
   }
 
-  & .name {
+  .name {
     margin-top: 32px;
     font-weight: 700;
   }
 
-  & .account {
+  .account {
     margin-top: 8px;
     font-size: 14px;
     color: var(--secondary);
   }
 
-  & .user-data {
+  .user-data {
     width: 80%;
     margin-top: 16px;
     color: var(--grey9);
 
-    & span {
+    span {
       margin-left: 4px;
     }
   }
 
-  & .follow-data {
+  .follow-data {
     width: 100%;
     margin-top: 14px;
     color: var(--secondary);
@@ -229,7 +71,7 @@ const StyledUserCard = styled.div`
       margin-right: 8px;
     }
 
-    & span {
+    span {
       color: var(--grey9);
     }
   }
@@ -285,9 +127,9 @@ function UserCards() {
       </Header>
 
       <StyledCardCollection className="d-flex flex-wrap">
-        {dummyUsers.map((user) => (
-          <UserCard {...user} />
-        ))}
+        {/* {dummyUsers.map((user) => (
+          <UserCard {...user} key={user.id} />
+        ))} */}
       </StyledCardCollection>
     </div>
   );

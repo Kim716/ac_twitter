@@ -45,3 +45,16 @@ export const getAdminTweets = async () => {
     return error.response.data;
   }
 };
+
+export const getAdminUsers = async () => {
+  try {
+    // 發出登入請求
+    const res = await axiosInstance.get(`${baseUrl}/users`);
+
+    return res.data;
+  } catch (error) {
+    console.error("[ ⚠️⚠️⚠️ Get Users Failed ]:", error.response.data.message);
+
+    return error.response.data;
+  }
+};
