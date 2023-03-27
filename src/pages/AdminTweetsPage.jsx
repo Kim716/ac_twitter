@@ -3,6 +3,8 @@ import Header from "components/Header";
 import { AdminTweetItem } from "components/TweetItem";
 
 import styled from "styled-components";
+import { useEffect } from "react";
+import { getAdminTweets } from "api/adminAuth";
 
 const StyledTweetsDiv = styled.div`
   border-right: 1px solid #e6ecf0;
@@ -15,6 +17,16 @@ const StyledTweetsCollection = styled.div`
 `;
 
 function AdminTweetsPage() {
+  // useEffect
+  useEffect(() => {
+    const showTweets = async () => {
+      const tweets = await getAdminTweets();
+      console.log(tweets);
+    };
+
+    showTweets();
+  }, []);
+
   return (
     <div className="d-flex">
       <AdminNavBar />
