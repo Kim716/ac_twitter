@@ -119,7 +119,7 @@ function UserCard({
   );
 }
 
-function UserCards() {
+function UserCards({ users }) {
   return (
     <div className="col-9">
       <Header>
@@ -127,9 +127,9 @@ function UserCards() {
       </Header>
 
       <StyledCardCollection className="d-flex flex-wrap">
-        {/* {dummyUsers.map((user) => (
+        {users.map((user) => (
           <UserCard {...user} key={user.id} />
-        ))} */}
+        ))}
       </StyledCardCollection>
     </div>
   );

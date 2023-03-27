@@ -12,7 +12,6 @@ function AdminUsersPage() {
   useEffect(() => {
     const showUsers = async () => {
       const userItems = await getAdminUsers();
-      console.log(userItems);
       setUsers(userItems);
     };
 
