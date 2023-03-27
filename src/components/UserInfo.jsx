@@ -166,3 +166,4 @@ function UserInfo() {
 }
 
 export default UserInfo;
+export { OtherUserInfo };
