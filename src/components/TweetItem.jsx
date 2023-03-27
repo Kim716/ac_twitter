@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import Avatar from "assets/images/avatar_default.png";
 import { ReactComponent as ReplyUnfocus } from "assets/icons/reply_unfocus.svg";
 import { ReactComponent as CrossUnfocus } from "assets/icons/cross_unfocus.svg";
 import { ReactComponent as HeartUnfocus } from "assets/icons/heart_unfocus.svg";
 import { ReactComponent as HeartFocus } from "assets/icons/heart_focus.svg";
-import { useState } from "react";
 
 const StyledDiv = styled.div`
   padding: 16px 24px;
@@ -70,23 +68,6 @@ const StyledDiv = styled.div`
   }
 `;
 
-// {
-// 	    "id": 2,
-// 	    "UserId": 3,
-// 	    "description": "In aliquid voluptatem ipsa est laborum.",
-// 	    "createdAt": "下午 06:16 2023年03月16日",
-// 	    "updatedAt": "2023-03-23T14:56:53.000Z",
-// 	    "likeCount": 4,
-// 	    "replyCount": 12,
-// 	    "User": {
-// 	      "id": 3,
-// 	      "account": "user2",
-// 	      "name": "user2",
-// 	      "avatar": "https://loremflickr.com/320/240/man,woman/?lock=28"
-// 	    },
-// 	    "isLiked": true
-// 	  },
-
 // 前台使用的樣式
 function UserTweetItem({
   tweetId,
@@ -139,6 +120,7 @@ function AdminTweetItem({
   account,
   createdAt,
   description,
+  onClick,
 }) {
   return (
     <StyledDiv className="d-flex" data-id={tweetId}>
@@ -153,7 +135,7 @@ function AdminTweetItem({
         {/* 最大顯示字數140字 */}
         <p className="description">{description}</p>
       </div>
-      <CrossUnfocus className="delete-btn" />
+      <CrossUnfocus className="delete-btn" onClick={() => onClick(tweetId)} />
     </StyledDiv>
   );
 }

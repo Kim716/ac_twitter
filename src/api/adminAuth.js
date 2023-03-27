@@ -58,3 +58,19 @@ export const getAdminUsers = async () => {
     return error.response.data;
   }
 };
+
+export const deleteTweet = async (id) => {
+  try {
+    // 發出登入請求
+    const res = await axiosInstance.delete(`${baseUrl}/tweets/${id}`);
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Delete Tweet Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};
