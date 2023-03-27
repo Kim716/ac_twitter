@@ -24,6 +24,11 @@ const StyledHeader = styled.div`
     font-weight: 700;
     font-size: 24px;
   }
+
+  span {
+    color: var(--secondary);
+    font-size: 13px;
+  }
 `;
 
 function Header({ backIcon, children }) {
@@ -40,7 +45,9 @@ function Header({ backIcon, children }) {
       ) : (
         false
       )}
-      {children}
+      <div className="d-flex flex-column">
+        {children}
+      </div>
     </StyledHeader>
   );
 }

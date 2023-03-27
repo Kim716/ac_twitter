@@ -29,28 +29,28 @@ const StyledDiv = styled.div`
 `;
 
 function UserPageSwitchBar() {
-  const [isPageShow, setIsPageShow] = useState(0);
+  const [pageTab, setPageTab] = useState(0);
 
   const handlePageChange = (tab) => {
-    setIsPageShow(tab);
+    setPageTab(tab);
   };
 
   return (
     <StyledDiv className="d-flex">
       <div
-        className={isPageShow === 0 ? "active" : ""}
+        className={pageTab === 0 ? "active" : ""}
         onClick={() => handlePageChange(0)}
       >
         <h1>推文</h1>
       </div>
       <div
-        className={isPageShow === 1 ? "active" : ""}
+        className={pageTab === 1 ? "active" : ""}
         onClick={() => handlePageChange(1)}
       >
         <h1>回覆</h1>
       </div>
       <div
-        className={isPageShow === 2 ? "active" : ""}
+        className={pageTab === 2 ? "active" : ""}
         onClick={() => handlePageChange(2)}
       >
         <h1>喜歡的內容</h1>
@@ -60,22 +60,22 @@ function UserPageSwitchBar() {
 }
 
 function FollowPageSwitchBar() {
-  const [isPageShow, setIsPageShow] = useState(0);
+  const [pageTab, setPageTab] = useState("followers");
 
   const handlePageChange = (tab) => {
-    setIsPageShow(tab);
+    setPageTab(tab);
   };
 
   return (
     <StyledDiv className="d-flex">
       <div
-        className={isPageShow === 0 ? "active" : ""}
+        className={pageTab === 0 ? "active" : ""}
         onClick={() => handlePageChange(0)}
       >
         <h1>追隨者</h1>
       </div>
       <div
-        className={isPageShow === 1 ? "active" : ""}
+        className={pageTab === 1 ? "active" : ""}
         onClick={() => handlePageChange(1)}
       >
         <h1>正在追隨</h1>
