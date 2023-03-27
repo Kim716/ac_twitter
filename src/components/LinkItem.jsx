@@ -1,20 +1,19 @@
 import styled from "styled-components";
-import { ReactComponent as HomeUnfocus } from "assets/icons/home_unfocus.svg";
-import { ReactComponent as HomeFocus } from "assets/icons/home_focus.svg";
-import { ReactComponent as SetUnfocus } from "assets/icons/set_unfocus.svg";
-import { ReactComponent as SetFocus } from "assets/icons/set_focus.svg";
-import { ReactComponent as UserUnfocus } from "assets/icons/user_unfocus.svg";
-import { ReactComponent as UserFocus } from "assets/icons/user_focus.svg";
-import { ReactComponent as LogoutUnfocus } from "assets/icons/logout_unfocus.svg";
-import { ReactComponent as LogoutFocus } from "assets/icons/logout_focus.svg";
-import { useState } from "react";
 
-const StyledIcon = styled.div.attrs((props) => ({
-  className: props.className || "",
-}))`
+// Icons
+import { ReactComponent as HomeUnfocusIcon } from "assets/icons/home_unfocus.svg";
+import { ReactComponent as HomeFocusIcon } from "assets/icons/home_focus.svg";
+import { ReactComponent as SetUnfocusIcon } from "assets/icons/set_unfocus.svg";
+import { ReactComponent as SetFocusIcon } from "assets/icons/set_focus.svg";
+import { ReactComponent as UserUnfocusIcon } from "assets/icons/user_unfocus.svg";
+import { ReactComponent as UserFocusIcon } from "assets/icons/user_focus.svg";
+import { ReactComponent as LogoutUnfocusIcon } from "assets/icons/logout_unfocus.svg";
+import { ReactComponent as LogoutFocusIcon } from "assets/icons/logout_focus.svg";
+
+const StyledDiv = styled.div`
   display: flex;
   align-items: center;
-  cursor: ${(props) => (props.isClick ? "default" : "pointer")};
+  cursor: pointer;
 
   & svg {
     width: 24px;
@@ -34,25 +33,21 @@ const StyledIcon = styled.div.attrs((props) => ({
 
 // 接上換頁功能後，要思考按鈕一個亮，其他的不亮
 
-function LinkItem({ title }) {
-  const [isClick, setIsClick] = useState(false);
-
-  const handleIsClick = () => {
-    setIsClick(!isClick);
-  };
-
+function LinkItem({ title, isClick, onClick }) {
   return (
-    <StyledIcon isClick={isClick} onClick={handleIsClick}>
+    <StyledDiv onClick={onClick} isClick={isClick}>
       {(title === "首頁" || title === "推文清單") &&
-        (isClick ? <HomeFocus /> : <HomeUnfocus />)}
+        (isClick ? <HomeFocusIcon /> : <HomeUnfocusIcon />)}
 
       {(title === "個人資料" || title === "使用者列表") &&
-        (isClick ? <UserFocus /> : <UserUnfocus />)}
+        (isClick ? <UserFocusIcon /> : <UserUnfocusIcon />)}
 
-      {title === "設定" && (isClick ? <SetFocus /> : <SetUnfocus />)}
-      {title === "登出" && (isClick ? <LogoutFocus /> : <LogoutUnfocus />)}
+      {title === "設定" && (isClick ? <SetFocusIcon /> : <SetUnfocusIcon />)}
+      {title === "登出" &&
+        (isClick ? <LogoutFocusIcon /> : <LogoutUnfocusIcon />)}
+
       <span>{title}</span>
-    </StyledIcon>
+    </StyledDiv>
   );
 }
 

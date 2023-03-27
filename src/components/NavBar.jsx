@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
+// Components
 import Logo from "./Logo";
 import LinkItem from "./LinkItem";
 import ActButton from "./ActButton";
-import ModalContainer from "./containers/ModalContainer";
-import { useState } from "react";
 
 const StyledNav = styled.div`
   height: 100vh;
@@ -19,49 +21,86 @@ const StyledNav = styled.div`
   }
 `;
 
-function NavBar() {
-  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
+function NavBarLinks({ isUser, onTweetClick, status }) {
+  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
 
-  const handleTweetModalClick = () => {
-    setIsTweetModalShow(!isTweetModalShow);
+  if (isUser) {
+    return (
+      <>
+        <LinkItem
+          title="首頁"
+          isClick={status === "首頁"}
+          onClick={() => navigate("/main")}
+        />
+        <LinkItem
+          title="個人資料"
+          isClick={status === "個人資料"}
+          onClick={() => navigate(`/user/${userId}`)}
+        />
+        <LinkItem
+          title="設定"
+          isClick={status === "設定"}
+          onClick={() => navigate("/setting")}
+        />
+        <ActButton buttonName="推文" onClick={onTweetClick} />
+      </>
+    );
   }
+
   return (
-    <StyledNav className="col-3 d-flex flex-column align-items-end">
-      {isTweetModalShow ? <ModalContainer value="推文" /> : ""}
-      <div className="nav d-flex flex-column flex-grow-1 ">
-        <Logo />
-        <div className="navLinks d-flex flex-column justify-content-between flex-grow-1">
-          <div>
-            <LinkItem title="首頁" />
-            <LinkItem title="個人資料" />
-            <LinkItem title="設定" />
-            <ActButton onClick={handleTweetModalClick} buttonName="推文" />
-          </div>
-          <div className="logout">
-            <LinkItem title="登出" className="active" />
-          </div>
-        </div>
-      </div>
-    </StyledNav>
+    <>
+      <LinkItem
+        title="推文清單"
+        isClick={status === "推文清單"}
+        onClick={() => navigate("/admin/tweets")}
+      />
+      <LinkItem
+        title="使用者列表"
+        isClick={status === "使用者列表"}
+        onClick={() => navigate("/admin/users")}
+      />
+    </>
   );
 }
 
-function AdminNavBar() {
+function NavBar({ isUser, onTweetClick, status }) {
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+
+    // 跳通知
+    Swal.fire({
+      position: "top",
+      icon: "success",
+      title: "登出成功",
+      timer: 1500,
+      showConfirmButton: false,
+      customClass: {
+        icon: "swalIcon right",
+        title: "swalTitle",
+      },
+    });
+
+    navigate("/login");
+  };
+
   return (
     <StyledNav className="col-3 d-flex flex-column align-items-end">
       <div className="nav d-flex flex-column flex-grow-1 ">
         <Logo />
         <div className="navLinks d-flex flex-column justify-content-between flex-grow-1">
           <div>
-            <LinkItem title={"推文清單"} />
-            <LinkItem title={"使用者列表"} />
-            <ActButton
-              onClick={() => console.log("TweetModal")}
-              buttonName={"推文"}
+            <NavBarLinks
+              isUser={isUser}
+              onTweetClick={onTweetClick}
+              status={status}
             />
           </div>
           <div className="logout">
-            <LinkItem title={"登出"} className="active" />
+            <LinkItem title="登出" onClick={handleLogoutClick} />
           </div>
         </div>
       </div>
@@ -69,4 +108,4 @@ function AdminNavBar() {
   );
 }
 
-export { NavBar, AdminNavBar };
+export default NavBar;

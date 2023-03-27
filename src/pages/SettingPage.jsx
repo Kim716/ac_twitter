@@ -6,9 +6,10 @@ import Swal from "sweetalert2";
 // components
 import MainContainer from "components/containers/MainContainer";
 import Header from "components/Header";
-import { NavBar } from "components/NavBar";
+import NavBar from "components/NavBar";
 import Input from "components/Input";
 import ActButton from "components/ActButton";
+import ModalContainer from "components/containers/ModalContainer";
 
 const StyledDiv = styled.div`
   height: 100vh;
@@ -35,6 +36,11 @@ function SettingPage() {
 
   const [whichError, setWhichError] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
+
+  const handleTweetClick = () => {
+    setIsTweetModalShow(!isTweetModalShow);
+  };
 
   const handleAccountChange = (e) => {
     setAccount(e.target.value);
@@ -226,7 +232,8 @@ function SettingPage() {
 
   return (
     <div className="d-flex">
-      <NavBar />
+      {isTweetModalShow && <ModalContainer value="推文" />}
+      <NavBar isUser={true} onTweetClick={handleTweetClick} status="設定" />
       <MainContainer>
         <StyledDiv className="col-8">
           <Header>

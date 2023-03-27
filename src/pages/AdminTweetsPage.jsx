@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { deleteTweet, getAdminTweets } from "api/adminAuth";
 
 // components
-import { AdminNavBar } from "components/NavBar";
+import NavBar from "components/NavBar";
 import Header from "components/Header";
 import { AdminTweetItem } from "components/TweetItem";
 
@@ -86,7 +86,7 @@ function AdminTweetsPage() {
 
   return (
     <div className="d-flex">
-      <AdminNavBar />
+      <NavBar isUser={false} status="推文清單" />
       <StyledTweetsDiv className="col-8">
         <Header>
           <h1>推文清單</h1>

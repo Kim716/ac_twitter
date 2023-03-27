@@ -50,7 +50,7 @@ function LoginPage() {
     }
 
     try {
-      const { message, token } = await login({ account, password });
+      const { message, token, id } = await login({ account, password });
 
       // 帳號或密碼有誤
       if (!token) {
@@ -61,8 +61,9 @@ function LoginPage() {
 
       // 如果 token 存在代表登入成功
       if (token) {
-        // 儲存 token
+        // 儲存 token ,id
         localStorage.setItem("token", token);
+        localStorage.setItem("userId", id);
 
         // 跳通知
         Swal.fire({
