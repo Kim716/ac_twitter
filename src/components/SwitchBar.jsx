@@ -60,7 +60,7 @@ function UserPageSwitchBar() {
 }
 
 function FollowPageSwitchBar() {
-  const [pageTab, setPageTab] = useState("followers");
+  const [pageTab, setPageTab] = useState(0);
 
   const handlePageChange = (tab) => {
     setPageTab(tab);
