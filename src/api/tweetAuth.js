@@ -22,10 +22,10 @@ axiosInstance.interceptors.request.use(
 
 export const getTopUsers = async () => {
   try {
-    // 發出Get推文請求
-    const res = await axiosInstance.get(`${baseUrl}/topUsers`)
+    // 發出Get Top Users 請求
+    const res = await axiosInstance.get(`${baseUrl}/topUsers`);
     return res.data;
   } catch (error) {
-    console.error("[ ⚠️⚠️⚠️ Get Tweets Failed ]:", error);
+    console.error("[ ⚠️⚠️⚠️ Get Top Users Failed ]:", error);
   }
 };
