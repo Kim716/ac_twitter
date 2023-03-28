@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useContext, useState } from "react";
+import Swal from "sweetalert2";
 import { TweetContext } from "contexts/TweetContext";
 
 // Components
@@ -59,6 +60,7 @@ const StyledDiv = styled.div`
       font-size: 15px;
 
       span {
+        margin-right: 20px;
         color: var(--error);
       }
     }
@@ -73,12 +75,56 @@ const StyledDiv = styled.div`
 
 const TweetModal = () => {
   const [description, setDescription] = useState("");
+  const [isEmpty, setIsEmpty] = useState(false);
   const { handleTweetClick } = useContext(TweetContext);
 
   const handleAddTweetClick = async () => {
+    // 內容空白，或是全為空白格會先被擋掉
+    if (description.trim().length === 0) {
+      setIsEmpty(true);
+      return;
+    }
+
     try {
-      const res = await postTweet({ description });
-      console.log(res);
+      const { status, message } = await postTweet({ description });
+
+      if (status === "success") {
+        // 清空內容，回歸初始狀態
+        setDescription("");
+        setIsEmpty(false);
+        // 關閉 modal
+        handleTweetClick();
+        // 跳出成功通知
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: message,
+          timer: 1500,
+          showConfirmButton: false,
+          customClass: {
+            icon: "swalIcon right",
+            title: "swalTitle",
+          },
+        });
+
+        return;
+      }
+
+      // 伺服器有誤
+      if (message === "伺服器出現問題，請稍後再使用") {
+        Swal.fire({
+          position: "top",
+          icon: "warning",
+          title: message,
+          timer: 1500,
+          showConfirmButton: false,
+          customClass: {
+            icon: "swalIcon right",
+            title: "swalTitle",
+          },
+        });
+        return;
+      }
     } catch (error) {
       console.error(error);
     }
@@ -104,7 +150,8 @@ const TweetModal = () => {
         </div>
         <div className="footer d-flex justify-content-end align-items-center">
           <p>
-            {description.length === 140 && <span>字數不可超過140字</span>}{" "}
+            {isEmpty && <span>內容不可全為空白格</span>}
+            {description.length === 140 && <span>字數不可超過140字</span>}
             {description.length}/140
           </p>
           <ActButton buttonName={"推文"} onClick={handleAddTweetClick} />
