@@ -3,6 +3,7 @@ import { ReactComponent as ReplyUnfocus } from "assets/icons/reply_unfocus.svg";
 import { ReactComponent as CrossUnfocus } from "assets/icons/cross_unfocus.svg";
 import { ReactComponent as HeartUnfocus } from "assets/icons/heart_unfocus.svg";
 import { ReactComponent as HeartFocus } from "assets/icons/heart_focus.svg";
+import { useNavigate } from "react-router-dom";
 
 const StyledDiv = styled.div`
   padding: 16px 24px;
@@ -34,7 +35,7 @@ const StyledDiv = styled.div`
     }
 
     .description {
-      overflow-wrap: break-word;
+      overflow-wrap: anywhere;
       padding-top: 15px;
       line-height: 1.6;
     }
@@ -81,12 +82,22 @@ function UserTweetItem({
   likeCount,
   isLiked,
 }) {
+  const navigate = useNavigate();
+
   const handleLikeClick = () => {
     // 愛心的點擊反應是直接根據傳進來的 isLiked 資料來判斷呈現，之後他綁定的事件就是改動資料 變成喜歡或取消喜歡，有可能要思考是不是在父層處理這個事件
   };
 
+  const handleTweetItemClick = () => {
+    navigate(`/tweet/${tweetId}`);
+  };
+
   return (
-    <StyledDiv className="d-flex" data-id={tweetId}>
+    <StyledDiv
+      className="d-flex"
+      data-id={tweetId}
+      onClick={handleTweetItemClick}
+    >
       <img src={avatar} alt="" data-id={userId} />
       <div className="d-flex flex-column flex-wrap text-box">
         <div>

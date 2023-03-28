@@ -54,6 +54,8 @@ const StyledInput = styled.input`
   }
 `;
 
+const StyledTextArea = styled.textarea``;
+
 function Input({
   id,
   label,
@@ -64,20 +66,25 @@ function Input({
   onChange,
   errorMessage,
   isError,
+  isTextarea = false,
 }) {
   return (
     <StyledDiv data-content={isError ? errorMessage : ""}>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
-      <StyledInput
-        className={isError ? "error" : ""}
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        maxLength={maxLength}
-        value={value}
-        onChange={onChange}
-        // 發現不能寫 require 這樣 submit 會先被擋
-      />
+      {isTextarea ? (
+        <StyledTextArea />
+      ) : (
+        <StyledInput
+          className={isError ? "error" : ""}
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          maxLength={maxLength}
+          value={value}
+          onChange={onChange}
+          // 發現不能寫 require 這樣 submit 會先被擋
+        />
+      )}
     </StyledDiv>
   );
 }

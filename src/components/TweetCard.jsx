@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { ReactComponent as ReplyIcon } from "assets/icons/reply_unfocus.svg";
 import { ReactComponent as UnLikeIcon } from "assets/icons/heart_unfocus.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/heart_focus.svg";
-import { useState } from "react";
 
 const StyledDiv = styled.div`
   background: var(--white);
@@ -89,72 +88,37 @@ const StyledDiv = styled.div`
   }
 `;
 
-// {
-//   "id": 1,
-//   "UserId": 2,
-//   "description": "Ut fugit enim esse quibusdam ut.",
-//   "createdAt": "下午 12:53 2023年03月03日",
-//   "updatedAt": "2023-03-23T14:56:53.000Z",
-//   "replyCount": 12,
-//   "likeCount": 6,
-//   "User": {
-//     "id": 2,
-//     "account": "user1",
-//     "name": "user1",
-//     "avatar": "https://loremflickr.com/320/240/man,woman/?lock=46"
-//   },
-//   "isLiked": false
-// }
-
-function TweetCard() {
-  const [isLike, setIsLike] = useState(false);
-
-  // 現在是 unlike ，點擊要變成 like
-  const handleUnLikeClick = async () => {
-    setIsLike(true);
-  };
-
-  // 現在是 like ，點擊要變成 unlike
-  const handleLikeClick = async () => {
-    setIsLike(false);
-  };
-
+function TweetCard({ tweet }) {
   return (
     <StyledDiv>
       <div className="card_content">
         <div className="content_head d-flex align-items-center">
-          <img
-            src="https://loremflickr.com/320/240/man,woman/?lock=46"
-            alt="avatar"
-          />
+          <img src={tweet.User?.avatar} alt="avatar" />
           <div>
-            <p className="name">kim1</p>
-            <p className="account">@kim1</p>
+            <p className="name">{tweet.User?.name}</p>
+            <p className="account">{tweet.User?.account}</p>
           </div>
         </div>
-        <p className="description">
-          Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco
-          cillum dolor. Voluptate exercitation incididunt aliquip deserunt
+        <p className="description">{tweet.description}</p>
+        <p className="createdAt">
+          {tweet.createdAt?.split(" ").splice(0, 2).join(" ")}
+          {tweet.createdAt?.split(" ")[2] && "・"}
+          {tweet.createdAt?.split(" ").splice(2)}
         </p>
-        <p className="createdAt">下午 12:53・2023年03月03日</p>
       </div>
       <div className="card_info">
         <div className="d-flex">
           <p>
-            <span>12</span>回覆
+            <span>{tweet.replyCount}</span>回覆
           </p>
           <p>
-            <span>808</span>喜歡
+            <span>{tweet.likeCount}</span>喜歡
           </p>
         </div>
       </div>
       <div className="card_action">
         <ReplyIcon />
-        {isLike ? (
-          <LikeIcon onClick={handleLikeClick} />
-        ) : (
-          <UnLikeIcon onClick={handleUnLikeClick} />
-        )}
+        {tweet?.isLiked ? <LikeIcon /> : <UnLikeIcon />}
       </div>
     </StyledDiv>
   );
