@@ -6,6 +6,7 @@ import { TweetContext } from "contexts/TweetContext";
 import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
 import Avatar from "assets/images/avatar.png";
 import ActButton from "components/ActButton";
+import { postTweet } from "api/tweetAuth";
 
 const StyledDiv = styled.div`
   width: 600px;
@@ -74,6 +75,15 @@ const TweetModal = () => {
   const [description, setDescription] = useState("");
   const { handleTweetClick } = useContext(TweetContext);
 
+  const handleAddTweetClick = async () => {
+    try {
+      const res = await postTweet({ description });
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <StyledDiv className="d-flex flex-column">
       <div className="cross-box">
@@ -97,7 +107,7 @@ const TweetModal = () => {
             {description.length === 140 && <span>字數不可超過140字</span>}{" "}
             {description.length}/140
           </p>
-          <ActButton buttonName={"推文"} />
+          <ActButton buttonName={"推文"} onClick={handleAddTweetClick} />
         </div>
       </div>
     </StyledDiv>

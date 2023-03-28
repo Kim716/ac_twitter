@@ -26,6 +26,24 @@ export const getTopUsers = async () => {
     const res = await axiosInstance.get(`${baseUrl}/topUsers`);
     return res.data;
   } catch (error) {
-    console.error("[ ⚠️⚠️⚠️ Get Top Users Failed ]:", error);
+    console.error(
+      "[ ⚠️⚠️⚠️ Get Top Users Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};
+
+export const postTweet = async ({ description }) => {
+  try {
+    // 發送新增推文的請求
+    const res = await axiosInstance.post(baseUrl, { description });
+
+    return res.data;
+  } catch (error) {
+    console.error("[ ⚠️⚠️⚠️ Post Tweet Failed ]:", error.response.data.message);
+
+    return error.response.data;
   }
 };
