@@ -11,123 +11,11 @@ import ReplyItem from "components/ReplyItem";
 import SideBar from "components/SideBar";
 import TweetCard from "components/TweetCard";
 import { useLocation } from "react-router-dom";
-import { getSingleTweet } from "api/tweetAuth";
-
-const dummyReplys = [
-  {
-    id: 590,
-    comment: "Sequi reiciendis quaerat voluptas enim.",
-    UserId: 2,
-    TweetId: 45,
-    createdAt: "下午 06:49 2023年03月12日",
-    updatedAt: "2023-03-23T23:55:46.000Z",
-    User: {
-      id: 2,
-      name: "user1",
-      account: "user1",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=46",
-    },
-    Tweet: {
-      id: 45,
-      UserId: 6,
-      User: {
-        id: 6,
-        account: "user5",
-      },
-    },
-  },
-  {
-    id: 590,
-    comment: "Sequi reiciendis quaerat voluptas enim.",
-    UserId: 2,
-    TweetId: 45,
-    createdAt: "下午 06:49 2023年03月12日",
-    updatedAt: "2023-03-23T23:55:46.000Z",
-    User: {
-      id: 2,
-      name: "user1",
-      account: "user1",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=46",
-    },
-    Tweet: {
-      id: 45,
-      UserId: 6,
-      User: {
-        id: 6,
-        account: "user5",
-      },
-    },
-  },
-  {
-    id: 590,
-    comment: "Sequi reiciendis quaerat voluptas enim.",
-    UserId: 2,
-    TweetId: 45,
-    createdAt: "下午 06:49 2023年03月12日",
-    updatedAt: "2023-03-23T23:55:46.000Z",
-    User: {
-      id: 2,
-      name: "user1",
-      account: "user1",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=46",
-    },
-    Tweet: {
-      id: 45,
-      UserId: 6,
-      User: {
-        id: 6,
-        account: "user5",
-      },
-    },
-  },
-  {
-    id: 590,
-    comment: "Sequi reiciendis quaerat voluptas enim.",
-    UserId: 2,
-    TweetId: 45,
-    createdAt: "下午 06:49 2023年03月12日",
-    updatedAt: "2023-03-23T23:55:46.000Z",
-    User: {
-      id: 2,
-      name: "user1",
-      account: "user1",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=46",
-    },
-    Tweet: {
-      id: 45,
-      UserId: 6,
-      User: {
-        id: 6,
-        account: "user5",
-      },
-    },
-  },
-  {
-    id: 590,
-    comment: "Sequi reiciendis quaerat voluptas enim.",
-    UserId: 2,
-    TweetId: 45,
-    createdAt: "下午 06:49 2023年03月12日",
-    updatedAt: "2023-03-23T23:55:46.000Z",
-    User: {
-      id: 2,
-      name: "user1",
-      account: "user1",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=46",
-    },
-    Tweet: {
-      id: 45,
-      UserId: 6,
-      User: {
-        id: 6,
-        account: "user5",
-      },
-    },
-  },
-];
+import { getSingleTweet, getSingleTweetReplies } from "api/tweetAuth";
 
 function TweetPage() {
   const [tweet, setTweet] = useState({});
+  const [tweetReplies, setTweetReplies] = useState([]);
 
   const location = useLocation();
   const tweetId = Number(location.pathname.split("/")[2]);
@@ -145,7 +33,17 @@ function TweetPage() {
       }
     };
 
+    const getSingleTweetRepliesAsync = async () => {
+      try {
+        const singleTweetReplies = await getSingleTweetReplies(tweetId);
+        setTweetReplies(singleTweetReplies);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     getSingleTweetAsync();
+    getSingleTweetRepliesAsync();
   }, [tweetId]);
 
   return (
@@ -158,8 +56,7 @@ function TweetPage() {
             <h1>推文</h1>
           </Header>
           <TweetCard tweet={tweet} />
-          {/* 以下會跑 map */}
-          {dummyReplys.map((reply) => (
+          {tweetReplies.map((reply) => (
             <ReplyItem
               key={reply.id}
               userId={reply.UserId}
