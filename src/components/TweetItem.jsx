@@ -35,7 +35,7 @@ const StyledDiv = styled.div`
     }
 
     .description {
-      overflow-wrap: break-word;
+      overflow-wrap: anywhere;
       padding-top: 15px;
       line-height: 1.6;
     }
