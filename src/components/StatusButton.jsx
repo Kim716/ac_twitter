@@ -14,16 +14,16 @@ const StyledButton = styled.button`
 function StatusButton({
   defaultName,
   clickName,
-  onTopUserLike,
+  onFollowClick,
   topUser,
   isFollowed,
 }) {
   return (
     <StyledButton
       isClick={isFollowed}
-      onClick={() => onTopUserLike?.(topUser.id)}
+      onClick={() => onFollowClick?.(topUser.id)}
     >
-      {onTopUserLike ? clickName : defaultName}
+      {onFollowClick ? clickName : defaultName}
     </StyledButton>
   );
 }

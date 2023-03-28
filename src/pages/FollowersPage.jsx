@@ -8,10 +8,20 @@ import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserItem from "components/UserItem";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function FollowersPage() {
   const [isTweetModalShow, setIsTweetModalShow] = useState(false);
+  const [currentPage, setCurrentPage] = useState("followers");
+  const navigate = useNavigate()
+  const userId = localStorage.getItem("userId");
   
+  const handlePageChange = (changePage) => {
+    if (changePage !== "followers") {
+      setCurrentPage(changePage);
+      navigate(`/user/${userId}/${changePage}`);
+    }
+  }
 
   const handleTweetClick = () => {
     setIsTweetModalShow(!isTweetModalShow);
@@ -26,7 +36,12 @@ function FollowersPage() {
             <h1>User Name</h1>
             <span>20 推文</span>
           </Header>
-          <SwitchBar value="follow" />
+          <SwitchBar
+            value="follow"
+            onPageChange={handlePageChange}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
           <ListCollection>
             <UserItem />
             <UserItem />

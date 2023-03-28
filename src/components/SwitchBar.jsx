@@ -1,5 +1,4 @@
-import { useState } from "react";
-import styled from "styled-components"
+import styled from "styled-components";
 
 const StyledDiv = styled.div`
   width: 100%;
@@ -28,30 +27,27 @@ const StyledDiv = styled.div`
   }
 `;
 
-function UserPageSwitchBar() {
-  const [pageTab, setPageTab] = useState(0);
-
-  const handlePageChange = (tab) => {
-    setPageTab(tab);
-  };
+function UserPageSwitchBar({ 
+  onPageChange,
+  currentPage }) {
 
   return (
     <StyledDiv className="d-flex">
       <div
-        className={pageTab === 0 ? "active" : ""}
-        onClick={() => handlePageChange(0)}
+        className={currentPage === "tweets" ? "active" : ""}
+        onClick={() => onPageChange?.("tweets")}
       >
         <h1>推文</h1>
       </div>
       <div
-        className={pageTab === 1 ? "active" : ""}
-        onClick={() => handlePageChange(1)}
+        className={currentPage === "replys" ? "active" : ""}
+        onClick={() => onPageChange?.("replys")}
       >
         <h1>回覆</h1>
       </div>
       <div
-        className={pageTab === 2 ? "active" : ""}
-        onClick={() => handlePageChange(2)}
+        className={currentPage === "likes" ? "active" : ""}
+        onClick={() => onPageChange?.("likes")}
       >
         <h1>喜歡的內容</h1>
       </div>
@@ -59,24 +55,21 @@ function UserPageSwitchBar() {
   );
 }
 
-function FollowPageSwitchBar() {
-  const [pageTab, setPageTab] = useState(0);
-
-  const handlePageChange = (tab) => {
-    setPageTab(tab);
-  };
-
+function FollowPageSwitchBar({
+  onPageChange,
+  currentPage,
+}) {
   return (
     <StyledDiv className="d-flex">
       <div
-        className={pageTab === 0 ? "active" : ""}
-        onClick={() => handlePageChange(0)}
+        className={currentPage === "followers" ? "active" : ""}
+        onClick={() => onPageChange?.("followers")}
       >
         <h1>追隨者</h1>
       </div>
       <div
-        className={pageTab === 1 ? "active" : ""}
-        onClick={() => handlePageChange(1)}
+        className={currentPage === "following" ? "active" : ""}
+        onClick={() => onPageChange?.("following")}
       >
         <h1>正在追隨</h1>
       </div>
@@ -84,12 +77,22 @@ function FollowPageSwitchBar() {
   );
 }
 
-function SwitchBar({ value }) {
+function SwitchBar({ value, onPageChange, currentPage }) {
   if (value === "info") {
-    return <UserPageSwitchBar />;
+    return (
+      <UserPageSwitchBar
+        onPageChange={(changePage) => onPageChange?.(changePage)}
+        currentPage={currentPage}
+      />
+    );
   }
   if (value === "follow") {
-    return <FollowPageSwitchBar />;
+    return (
+      <FollowPageSwitchBar
+        onPageChange={(changePage) => onPageChange?.(changePage)}
+        currentPage={currentPage}
+      />
+    );
   }
 }
 
