@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { getUserSettingInfo, putUserSettingInfo } from "api/userAuth";
 import Swal from "sweetalert2";
+import { TweetContext } from "contexts/TweetContext";
 
 // components
 import MainContainer from "components/containers/MainContainer";
@@ -36,13 +37,10 @@ function SettingPage() {
 
   const [whichError, setWhichError] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
+
+  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
 
   const userId = localStorage.getItem("userId");
-
-  const handleTweetClick = () => {
-    setIsTweetModalShow(!isTweetModalShow);
-  };
 
   const handleAccountChange = (e) => {
     setAccount(e.target.value);
@@ -230,7 +228,7 @@ function SettingPage() {
     };
 
     setUserInfo();
-  }, []);
+  }, [userId]);
 
   return (
     <div className="d-flex">

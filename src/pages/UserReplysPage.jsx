@@ -1,3 +1,8 @@
+import { TweetContext } from "contexts/TweetContext";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
+
+// Components
 import MainContainer from "components/containers/MainContainer";
 import ModalContainer from "components/containers/ModalContainer";
 import ViewContainer from "components/containers/ViewContainer";
@@ -8,13 +13,14 @@ import ReplyItem from "components/ReplyItem";
 import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
-import { useState } from "react";
-import { useNavigate } from "react-router";
 
 function UserReplysPage() {
-  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
   const [currentPage, setCurrentPage] = useState("replys");
+
+  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+
   const navigate = useNavigate();
+
   const userId = localStorage.getItem("userId");
 
   const handlePageChange = (changePage) => {
@@ -22,14 +28,10 @@ function UserReplysPage() {
       setCurrentPage(changePage);
       navigate(`/user/${userId}/${changePage}`);
     }
-    if(changePage === "tweets") {
-      setCurrentPage(changePage)
-      navigate(`/user/${userId}`)
+    if (changePage === "tweets") {
+      setCurrentPage(changePage);
+      navigate(`/user/${userId}`);
     }
-  };
-
-  const handleTweetClick = () => {
-    setIsTweetModalShow(!isTweetModalShow);
   };
 
   return (
