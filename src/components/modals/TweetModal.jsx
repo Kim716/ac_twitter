@@ -5,7 +5,6 @@ import { TweetContext } from "contexts/TweetContext";
 
 // Components
 import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
-import Avatar from "assets/images/avatar.png";
 import ActButton from "components/ActButton";
 import { postTweet } from "api/tweetAuth";
 
@@ -76,7 +75,7 @@ const StyledDiv = styled.div`
 const TweetModal = () => {
   const [description, setDescription] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
-  const { handleTweetClick } = useContext(TweetContext);
+  const { handleTweetClick, userAvatar } = useContext(TweetContext);
 
   const handleAddTweetClick = async () => {
     // 內容空白，或是全為空白格會先被擋掉
@@ -137,12 +136,13 @@ const TweetModal = () => {
       </div>
       <div className="content flex-grow-1">
         <div className="d-flex">
-          <img src={Avatar} alt="" />
+          <img src={userAvatar} alt="" />
           <textarea
             className="flex-grow-1"
             value={description}
             onChange={(e) => {
               setDescription(e.target.value);
+              setIsEmpty(false);
             }}
             placeholder="有什麼新鮮事？"
             maxLength="140"
@@ -150,7 +150,7 @@ const TweetModal = () => {
         </div>
         <div className="footer d-flex justify-content-end align-items-center">
           <p>
-            {isEmpty && <span>內容不可全為空白格</span>}
+            {isEmpty && <span>內容不可全為空白</span>}
             {description.length === 140 && <span>字數不可超過140字</span>}
             {description.length}/140
           </p>

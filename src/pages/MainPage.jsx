@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { TweetContext } from "contexts/TweetContext";
+import { getAllTweets } from "api/tweetAuth";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -10,13 +11,14 @@ import Header from "components/Header";
 import NavBar from "components/NavBar";
 import { UserTweetItem } from "components/TweetItem";
 import ModalContainer from "components/containers/ModalContainer";
-import { getAllTweets } from "api/tweetAuth";
 
 function MainPage() {
   const [tweets, setTweets] = useState([]);
-  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
 
-  //useEffect
+  const { isTweetModalShow, handleTweetClick, userAvatar } =
+    useContext(TweetContext);
+
+  // useEffect
   useEffect(() => {
     const getAllTweetsAsync = async () => {
       try {
@@ -41,7 +43,7 @@ function MainPage() {
           <Header>
             <h1>首頁</h1>
           </Header>
-          <TweetArea onTweetClick={handleTweetClick} />
+          <TweetArea onTweetClick={handleTweetClick} avatar={userAvatar} />
           <div>
             {tweets.map((tweet) => (
               <UserTweetItem
