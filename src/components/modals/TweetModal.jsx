@@ -1,8 +1,11 @@
-import styled from "styled-components"
-import {ReactComponent as CrossFocus} from "assets/icons/cross_focus.svg"
-import Avatar from "assets/images/avatar.png"
-import ActButton from "components/ActButton"
+import styled from "styled-components";
+import { useContext } from "react";
+import { TweetContext } from "contexts/TweetContext";
 
+// Components
+import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
+import Avatar from "assets/images/avatar.png";
+import ActButton from "components/ActButton";
 
 const StyledDiv = styled.div`
   width: 600px;
@@ -24,6 +27,16 @@ const StyledDiv = styled.div`
 
   .cross-box {
     border-bottom: 1px solid #e6ecf0;
+
+    svg {
+      cursor: pointer;
+
+      &:hover {
+        path {
+          fill: var(--grey9);
+        }
+      }
+    }
   }
 
   // 文字區調整
@@ -57,18 +70,17 @@ const StyledDiv = styled.div`
       padding: 0;
     }
   }
-`
-
-// 筆記：預想用 useState 來確認彈窗開關，useEffect 來控制收到狀態改變時，要做的行為。
-
+`;
 
 const TweetModal = () => {
+  const { handleTweetClick } = useContext(TweetContext);
+
   return (
     <StyledDiv>
       <div className="cross-box">
-        <CrossFocus />
+        <CrossFocus onClick={handleTweetClick} />
       </div>
-      <div className="content d-flex flex-column">
+      <div className="content">
         <div className="d-flex">
           <img src={Avatar} alt="" />
           <textarea placeholder="有什麼新鮮事？" maxLength="140" />
@@ -80,6 +92,6 @@ const TweetModal = () => {
       </div>
     </StyledDiv>
   );
-}
+};
 
-export default TweetModal
+export default TweetModal;

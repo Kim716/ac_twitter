@@ -1,3 +1,7 @@
+import { useContext } from "react";
+import { TweetContext } from "contexts/TweetContext";
+
+// Components
 import MainContainer from "components/containers/MainContainer";
 import ModalContainer from "components/containers/ModalContainer";
 import ViewContainer from "components/containers/ViewContainer";
@@ -6,7 +10,6 @@ import NavBar from "components/NavBar";
 import ReplyItem from "components/ReplyItem";
 import SideBar from "components/SideBar";
 import TweetCard from "components/TweetCard";
-import { useState } from "react";
 
 const dummyReplys = [
   {
@@ -122,11 +125,7 @@ const dummyReplys = [
 ];
 
 function TweetPage() {
-  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
-
-  const handleTweetClick = () => {
-    setIsTweetModalShow(!isTweetModalShow);
-  };
+  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
 
   return (
     <div className="d-flex">

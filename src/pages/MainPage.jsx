@@ -1,3 +1,7 @@
+import { useContext } from "react";
+import { TweetContext } from "contexts/TweetContext";
+
+// Components
 import MainContainer from "components/containers/MainContainer";
 import SideBar from "components/SideBar";
 import ViewContainer from "components/containers/ViewContainer";
@@ -5,7 +9,6 @@ import TweetArea from "components/TweetArea";
 import Header from "components/Header";
 import NavBar from "components/NavBar";
 import { UserTweetItem } from "components/TweetItem";
-import { useState } from "react";
 import ModalContainer from "components/containers/ModalContainer";
 
 const dummyTweets = [
@@ -76,22 +79,20 @@ const dummyTweets = [
 ];
 
 function MainPage() {
-  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
-
-  const handleTweetClick = () => {
-    setIsTweetModalShow(!isTweetModalShow);
-  };
+  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
 
   return (
     <div className="d-flex">
-      {isTweetModalShow && <ModalContainer value="推文" />}
+      {isTweetModalShow && (
+        <ModalContainer value="推文" onTweetClick={handleTweetClick} />
+      )}
       <NavBar isUser={true} onTweetClick={handleTweetClick} status="首頁" />
       <MainContainer>
         <ViewContainer>
           <Header>
             <h1>首頁</h1>
           </Header>
-          <TweetArea />
+          <TweetArea onTweetClick={handleTweetClick} />
           <div>
             {dummyTweets.map((tweet) => (
               <UserTweetItem

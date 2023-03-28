@@ -7,7 +7,7 @@ import ActButton from "components/ActButton";
 const StyledDiv = styled.div`
   height: 200px;
   padding: 16px 27px 0 27px;
-  border-bottom: 10px solid #E6ECF0;
+  border-bottom: 10px solid #e6ecf0;
   cursor: pointer;
   button {
     width: 65px;
@@ -27,18 +27,18 @@ const StyledDiv = styled.div`
     width: 50px;
     height: 50px;
   }
-`
+`;
 
-function TweetArea() {
+function TweetArea({ onTweetClick }) {
   return (
     <StyledDiv className="d-flex justify-content-between">
       <div className="d-flex">
         <img src={Avatar} alt="" />
         <p>有什麼新鮮事？</p>
       </div>
-      <ActButton buttonName={"推文"} />
+      <ActButton buttonName={"推文"} onClick={onTweetClick} />
     </StyledDiv>
-  )
+  );
 }
 
-export default TweetArea
+export default TweetArea;
