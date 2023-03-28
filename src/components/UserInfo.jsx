@@ -117,7 +117,8 @@ function OtherUserInfo() {
       <div onClick={handleNotiChange}>
         {isNoti ? <NotiUnfocus /> : <NotiFocus />}
       </div>
-      <StatusButton defaultName="跟隨" clickName="正在跟隨" />
+      {/* 還未串資料進來，先把isFollowed擺在這，串API時一併更新 */}
+      <StatusButton isFollowed={true} />
     </StyledIcon>
   );
 }

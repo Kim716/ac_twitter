@@ -51,21 +51,26 @@ const StyledPopularItem = styled.div`
   }
 `;
 
-// 傳入TopUsers 資料。
-function PopularCard({ topUser, onFollowClick }) {
+
+function PopularCard({ 
+  name, 
+  account, 
+  avatar, 
+  isFollowed, 
+  topUser, 
+  onFollowClick 
+}) {
   return (
     <StyledPopularItem className="d-flex">
-      <img src={topUser.avatar} alt="" />
+      <img src={avatar} alt="" />
       <div className="user-title d-flex flex-column">
-        <p className="user-name">{topUser.name}</p>
-        <p>@{topUser.account}</p>
+        <p className="user-name">{name}</p>
+        <p>@{account}</p>
       </div>
       <StatusButton
-        defaultName={topUser.isFollowed ? "正在跟隨" : "跟隨"}
-        clickName={topUser.isFollowed ? "正在跟隨" : "跟隨"}
+        id={topUser.id}
+        isFollowed={isFollowed}
         onFollowClick={(id) => onFollowClick?.(id)}
-        topUser={topUser}
-        isFollowed={topUser.isFollowed}
       />
     </StyledPopularItem>
   );
@@ -112,6 +117,10 @@ function SideBar() {
           return (
             <PopularCard
               key={topUser.id}
+              name={topUser.name}
+              account={topUser.account}
+              avatar={topUser.avatar}
+              isFollowed={topUser.isFollowed}
               topUser={topUser}
               onFollowClick={handleFollowClick}
             />
