@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TweetContext } from "contexts/TweetContext";
 
 // Components
@@ -10,6 +10,8 @@ import NavBar from "components/NavBar";
 import ReplyItem from "components/ReplyItem";
 import SideBar from "components/SideBar";
 import TweetCard from "components/TweetCard";
+import { useLocation } from "react-router-dom";
+import { getSingleTweet } from "api/tweetAuth";
 
 const dummyReplys = [
   {
@@ -125,7 +127,26 @@ const dummyReplys = [
 ];
 
 function TweetPage() {
+  const [tweet, setTweet] = useState({});
+
+  const location = useLocation();
+  const tweetId = Number(location.pathname.split("/")[2]);
+
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+
+  // useEffect
+  useEffect(() => {
+    const getSingleTweetAsync = async () => {
+      try {
+        const singleTweet = await getSingleTweet(tweetId);
+        setTweet(singleTweet);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getSingleTweetAsync();
+  }, [tweetId]);
 
   return (
     <div className="d-flex">
@@ -136,10 +157,11 @@ function TweetPage() {
           <Header backIcon="true">
             <h1>推文</h1>
           </Header>
-          <TweetCard />
+          <TweetCard tweet={tweet} />
           {/* 以下會跑 map */}
           {dummyReplys.map((reply) => (
             <ReplyItem
+              key={reply.id}
               userId={reply.UserId}
               avatar={reply.User.avatar}
               name={reply.User.name}

@@ -60,3 +60,19 @@ export const postTweet = async ({ description }) => {
     return error.response.data;
   }
 };
+
+export const getSingleTweet = async (tweetId) => {
+  try {
+    // 發送新增推文的請求
+    const res = await axiosInstance.get(`${baseUrl}/${tweetId}`);
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Get Single Tweet Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};
