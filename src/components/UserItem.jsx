@@ -20,6 +20,7 @@ const StyledDiv = styled.div`
     height: 50px;
     float: left;
     margin-right: 8px;
+    border-radius: 50%;
   }
 
   // 文字區塊的排版
