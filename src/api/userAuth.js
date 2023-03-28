@@ -115,3 +115,31 @@ export const putUserSettingInfo = async ({
     return error.response.data;
   }
 };
+
+export const getFollowers = async (userId) => {
+  try {
+    // 發送取得特定使用者的跟隨者們的請求
+    const res = await axiosInstance.get(`${baseUrl}/${userId}/followers`)
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Get Followers Failed ]:",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+};
+
+export const getFollowings = async (userId) => {
+  try {
+    // 發送取得特定使用者正在跟隨的使用者們的請求
+    const res = await axiosInstance.get(`${baseUrl}/${userId}/followings`);
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Get Followering Failed ]:",
+      error.response.data.message
+    );
+    return error.response.data;
+  }
+}
