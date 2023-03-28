@@ -35,6 +35,19 @@ export const getTopUsers = async () => {
   }
 };
 
+export const getAllTweets = async () => {
+  try {
+    // 發送新增推文的請求
+    const res = await axiosInstance.get(baseUrl);
+
+    return res.data;
+  } catch (error) {
+    console.error("[ ⚠️⚠️⚠️ Get Tweets Failed ]:", error.response.data.message);
+
+    return error.response.data;
+  }
+};
+
 export const postTweet = async ({ description }) => {
   try {
     // 發送新增推文的請求

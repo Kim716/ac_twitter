@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TweetContext } from "contexts/TweetContext";
 
 // Components
@@ -10,76 +10,25 @@ import Header from "components/Header";
 import NavBar from "components/NavBar";
 import { UserTweetItem } from "components/TweetItem";
 import ModalContainer from "components/containers/ModalContainer";
-
-const dummyTweets = [
-  {
-    id: 1,
-    UserId: 3,
-    description: "In aliquid voluptatem ipsa est laborum.",
-    createdAt: "下午 06:16 2023年03月16日",
-    updatedAt: "2023-03-23T14:56:53.000Z",
-    likeCount: 4,
-    replyCount: 12,
-    User: {
-      id: 3,
-      account: "user2",
-      name: "user2",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=28",
-    },
-    isLiked: true,
-  },
-  {
-    id: 2,
-    UserId: 3,
-    description: "In aliquid voluptatem ipsa est laborum.",
-    createdAt: "下午 06:16 2023年03月16日",
-    updatedAt: "2023-03-23T14:56:53.000Z",
-    likeCount: 4,
-    replyCount: 12,
-    User: {
-      id: 3,
-      account: "user2",
-      name: "user2",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=28",
-    },
-    isLiked: false,
-  },
-  {
-    id: 3,
-    UserId: 3,
-    description: "In aliquid voluptatem ipsa est laborum.",
-    createdAt: "下午 06:16 2023年03月16日",
-    updatedAt: "2023-03-23T14:56:53.000Z",
-    likeCount: 4,
-    replyCount: 12,
-    User: {
-      id: 3,
-      account: "user2",
-      name: "user2",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=28",
-    },
-    isLiked: true,
-  },
-  {
-    id: 4,
-    UserId: 3,
-    description: "In aliquid voluptatem ipsa est laborum.",
-    createdAt: "下午 06:16 2023年03月16日",
-    updatedAt: "2023-03-23T14:56:53.000Z",
-    likeCount: 4,
-    replyCount: 12,
-    User: {
-      id: 3,
-      account: "user2",
-      name: "user2",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=28",
-    },
-    isLiked: true,
-  },
-];
+import { getAllTweets } from "api/tweetAuth";
 
 function MainPage() {
+  const [tweets, setTweets] = useState([]);
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+
+  //useEffect
+  useEffect(() => {
+    const getAllTweetsAsync = async () => {
+      try {
+        const allTweets = await getAllTweets();
+        setTweets(allTweets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getAllTweetsAsync();
+  }, []);
 
   return (
     <div className="d-flex">
@@ -94,7 +43,7 @@ function MainPage() {
           </Header>
           <TweetArea onTweetClick={handleTweetClick} />
           <div>
-            {dummyTweets.map((tweet) => (
+            {tweets.map((tweet) => (
               <UserTweetItem
                 key={tweet.id}
                 tweetId={tweet.id}
