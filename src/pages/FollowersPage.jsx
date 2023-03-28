@@ -40,7 +40,6 @@ function FollowersPage() {
             value="follow"
             onPageChange={handlePageChange}
             currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
           />
           <ListCollection>
             <UserItem />

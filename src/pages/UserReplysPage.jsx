@@ -24,7 +24,7 @@ function UserReplysPage() {
     }
     if(changePage === "tweets") {
       setCurrentPage(changePage)
-      navigate(`/user/${userId}/`)
+      navigate(`/user/${userId}`)
     }
   };
 
