@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { TweetContext } from "contexts/TweetContext";
 
 // Components
@@ -22,7 +22,7 @@ const StyledDiv = styled.div`
   // 共同CSS設定
   .cross-box,
   .content {
-    padding: 15px 20px;
+    padding: 16px;
   }
 
   .cross-box {
@@ -39,54 +39,64 @@ const StyledDiv = styled.div`
     }
   }
 
-  // 文字區調整
   .content {
-    height: 80%;
-
-    button,
     textarea {
-      font-size: 17px;
-    }
-
-    textarea {
-      margin: 5px 15px;
-      width: 500px;
-      height: 120px;
+      margin: 10px;
+      height: 150px;
       resize: none; // 禁止拖動改變框的大小
       border: none; // 隱藏邊框
       outline: none; // 輸入過程中不顯示邊框
-    }
 
+      font-size: 17px;
+    }
+  }
+
+  .footer {
     p {
       margin-right: 20px;
-      color: var(--error);
+      color: var(--grey7);
       font-size: 15px;
+
+      span {
+        color: var(--error);
+      }
     }
 
     button {
-      width: 65px;
-      height: 40px;
+      width: 80px;
       margin-top: auto;
-      padding: 0;
+      padding: 8px 16px;
     }
   }
 `;
 
 const TweetModal = () => {
+  const [description, setDescription] = useState("");
   const { handleTweetClick } = useContext(TweetContext);
 
   return (
-    <StyledDiv>
+    <StyledDiv className="d-flex flex-column">
       <div className="cross-box">
         <CrossFocus onClick={handleTweetClick} />
       </div>
-      <div className="content">
+      <div className="content flex-grow-1">
         <div className="d-flex">
           <img src={Avatar} alt="" />
-          <textarea placeholder="有什麼新鮮事？" maxLength="140" />
+          <textarea
+            className="flex-grow-1"
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+            placeholder="有什麼新鮮事？"
+            maxLength="140"
+          />
         </div>
-        <div className="d-flex justify-content-end align-items-center">
-          <p>字數不可超過140字</p>
+        <div className="footer d-flex justify-content-end align-items-center">
+          <p>
+            {description.length === 140 && <span>字數不可超過140字</span>}{" "}
+            {description.length}/140
+          </p>
           <ActButton buttonName={"推文"} />
         </div>
       </div>
