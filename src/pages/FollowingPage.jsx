@@ -11,11 +11,6 @@ import { useState } from "react";
 
 function FollowingPage() {
   const [isTweetModalShow, setIsTweetModalShow] = useState(false);
-  const [pageTab, setPageTab] = useState();
-  
-  const handlePageChange = (tab) => {
-    setPageTab(tab);
-  };
 
   const handleTweetClick = () => {
     setIsTweetModalShow(!isTweetModalShow);
