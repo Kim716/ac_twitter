@@ -37,7 +37,7 @@ export const getTopUsers = async () => {
 
 export const getAllTweets = async () => {
   try {
-    // 發送新增推文的請求
+    // 發送取得所有推文的請求
     const res = await axiosInstance.get(baseUrl);
 
     return res.data;
@@ -63,7 +63,7 @@ export const postTweet = async ({ description }) => {
 
 export const getSingleTweet = async (tweetId) => {
   try {
-    // 發送新增推文的請求
+    // 發送取得單一推文資訊的請求
     const res = await axiosInstance.get(`${baseUrl}/${tweetId}`);
 
     return res.data;
@@ -79,7 +79,7 @@ export const getSingleTweet = async (tweetId) => {
 
 export const getSingleTweetReplies = async (tweetId) => {
   try {
-    // 發送新增推文的請求
+    // 發送取得單一推文所有回覆的請求
     const res = await axiosInstance.get(`${baseUrl}/${tweetId}/replies`);
 
     return res.data;
