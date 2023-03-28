@@ -52,7 +52,7 @@ const StyledPopularItem = styled.div`
 `;
 
 // 傳入TopUsers 資料。
-function PopularCard({ topUser, onTopUserLike }) {
+function PopularCard({ topUser, onFollowClick }) {
   return (
     <StyledPopularItem className="d-flex">
       <img src={topUser.avatar} alt="" />
@@ -63,7 +63,7 @@ function PopularCard({ topUser, onTopUserLike }) {
       <StatusButton
         defaultName={topUser.isFollowed ? "正在跟隨" : "跟隨"}
         clickName={topUser.isFollowed ? "正在跟隨" : "跟隨"}
-        onTopUserLike={(id) => onTopUserLike?.(id)}
+        onFollowClick={(id) => onFollowClick?.(id)}
         topUser={topUser}
         isFollowed={topUser.isFollowed}
       />
@@ -87,20 +87,20 @@ function SideBar() {
     getTopUsersAsync();
   }, []);
 
-  // 點擊愛心狀態
-  const handleTopUserLike = (id) => {
+  // 點擊更改跟隨狀態
+  const handleFollowClick = (id) => {
     setTopUsers((prveTopUser) => {
       return prveTopUser.map((topUser) => {
         if (topUser.id === id) {
           return {
             ...topUser,
             isFollowed: !topUser.isFollowed,
-          }
+          };
         }
         return topUser;
-      })
-    })
-  }
+      });
+    });
+  };
 
   return (
     <StyledDiv className="col-4">
@@ -113,7 +113,7 @@ function SideBar() {
             <PopularCard
               key={topUser.id}
               topUser={topUser}
-              onTopUserLike={handleTopUserLike}
+              onFollowClick={handleFollowClick}
             />
           );
         })}

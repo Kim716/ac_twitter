@@ -26,6 +26,7 @@ const StyledHeader = styled.div`
   }
 
   span {
+    margin-top: 5px;
     color: var(--secondary);
     font-size: 13px;
   }

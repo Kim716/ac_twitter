@@ -19,7 +19,7 @@ function FollowersPage() {
   return (
     <div className="d-flex">
       {isTweetModalShow && <ModalContainer value="推文" />}
-      <NavBar isUser={true} onTweetClick={handleTweetClick} status="首頁" />
+      <NavBar isUser={true} onTweetClick={handleTweetClick} />
       <MainContainer>
         <ViewContainer>
           <Header backIcon={true}>
