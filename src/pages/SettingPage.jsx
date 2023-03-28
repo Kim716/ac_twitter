@@ -38,6 +38,8 @@ function SettingPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isTweetModalShow, setIsTweetModalShow] = useState(false);
 
+  const userId = localStorage.getItem("userId");
+
   const handleTweetClick = () => {
     setIsTweetModalShow(!isTweetModalShow);
   };
@@ -132,7 +134,7 @@ function SettingPage() {
         // 確認儲存就進到後端
         try {
           const { message } = await putUserSettingInfo({
-            id: 134, // !!! 現階段 id 為 hard code，等後端提供
+            id: userId,
             account,
             name,
             email,
@@ -218,7 +220,7 @@ function SettingPage() {
   useEffect(() => {
     const setUserInfo = async () => {
       try {
-        const info = await getUserSettingInfo(134); // !!! 現階段 id 為 hard code，等後端提供
+        const info = await getUserSettingInfo(userId);
         setAccount(info.account);
         setName(info.name);
         setEmail(info.email);
