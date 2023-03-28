@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import Avatar from "assets/images/avatar_default.png";
 import StatusButton from "components/StatusButton";
+import { useEffect, useState } from "react";
+import { getTopUsers } from "api/tweetAuth";
 
 const StyledDiv = styled.div`
   height: 100vh;
@@ -30,6 +31,7 @@ const StyledPopularItem = styled.div`
   img {
     width: 40px;
     height: 40px;
+    border-radius: 50%;
   }
   .user-title {
     margin: 0 10px;
@@ -47,43 +49,77 @@ const StyledPopularItem = styled.div`
   button {
     margin-left: auto;
   }
-`
+`;
 
-// 檢查10個使用者在頁面上的效果，等傳入資料後修改此處或刪除。
-function PopularCard() {
+// 傳入TopUsers 資料。
+function PopularCard({ topUser, onFollowClick }) {
   return (
     <StyledPopularItem className="d-flex">
-      <img src={Avatar} alt="" />
+      <img src={topUser.avatar} alt="" />
       <div className="user-title d-flex flex-column">
-        <p className="user-name">Name2312341234</p>
-        <p>@帳號312421421414</p>
+        <p className="user-name">{topUser.name}</p>
+        <p>@{topUser.account}</p>
       </div>
-      <StatusButton defaultName={"跟隨"} clickName={"正在跟隨"}/>
+      <StatusButton
+        defaultName={topUser.isFollowed ? "正在跟隨" : "跟隨"}
+        clickName={topUser.isFollowed ? "正在跟隨" : "跟隨"}
+        onFollowClick={(id) => onFollowClick?.(id)}
+        topUser={topUser}
+        isFollowed={topUser.isFollowed}
+      />
     </StyledPopularItem>
-  )
+  );
 }
-// 以上等傳入資料後修改此處或刪除。
+
 
 function SideBar() {
+  const [topUsers, setTopUsers] = useState([]);
+  
+  useEffect(() => {
+    const getTopUsersAsync = async () => {
+      try {
+        const topUsers = await getTopUsers();
+        setTopUsers(topUsers.map((topUser) => ({ ...topUser })));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getTopUsersAsync();
+  }, []);
+
+  // 點擊更改跟隨狀態
+  const handleFollowClick = (id) => {
+    setTopUsers((prveTopUser) => {
+      return prveTopUser.map((topUser) => {
+        if (topUser.id === id) {
+          return {
+            ...topUser,
+            isFollowed: !topUser.isFollowed,
+          };
+        }
+        return topUser;
+      });
+    });
+  };
+
   return (
     <StyledDiv className="col-4">
       <StyledPopular>
         <div className="header">
           <h1>推薦跟隨</h1>
         </div>
-        <PopularCard />
-        <PopularCard />
-        <PopularCard />
-        <PopularCard />
-        <PopularCard />
-        <PopularCard />
-        <PopularCard />
-        <PopularCard />
-        <PopularCard />
-        <PopularCard />
+        {topUsers.map((topUser) => {
+          return (
+            <PopularCard
+              key={topUser.id}
+              topUser={topUser}
+              onFollowClick={handleFollowClick}
+            />
+          );
+        })}
       </StyledPopular>
     </StyledDiv>
-  )
+  );
 }
 
 export default SideBar;

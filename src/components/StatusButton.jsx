@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 
 const StyledButton = styled.button`
@@ -12,12 +11,19 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-function StatusButton({ defaultName, clickName }) {
-  const [isClick, setIsClick] = useState(false);
-
+function StatusButton({
+  defaultName,
+  clickName,
+  onTopUserLike,
+  topUser,
+  isFollowed,
+}) {
   return (
-    <StyledButton onClick={() => setIsClick(!isClick)} isClick={isClick}>
-      {isClick ? clickName : defaultName}
+    <StyledButton
+      isClick={isFollowed}
+      onClick={() => onTopUserLike?.(topUser.id)}
+    >
+      {onTopUserLike ? clickName : defaultName}
     </StyledButton>
   );
 }

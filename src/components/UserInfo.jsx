@@ -8,6 +8,7 @@ import styled from "styled-components";
 import ActButton from "./ActButton";
 import ModalContainer from "./containers/ModalContainer";
 import StatusButton from "./StatusButton";
+import { useNavigate } from "react-router-dom";
 
 const StyledDiv = styled.div`
   .image-box {
@@ -72,7 +73,7 @@ const StyledDiv = styled.div`
 
 const StyledIcon = styled.div`
   margin: 20px 20px 20px auto;
-  & svg {
+  svg {
     width: 40px;
     height: 40px;
     margin-right: 10px;
@@ -123,6 +124,8 @@ function OtherUserInfo() {
 
 function UserInfo() {
   const [isInfoModal, setIsInfoModal] = useState(false);
+  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate()
 
   const handleInfoModalClick = () => {
     setIsInfoModal(!isInfoModal);
@@ -130,7 +133,7 @@ function UserInfo() {
 
   return (
     <StyledDiv>
-      {isInfoModal ? <ModalContainer value="編輯個人資料" /> : ""}
+      {isInfoModal && <ModalContainer value="編輯個人資料" />}
       <div className="image-box d-flex flex-column">
         <img className="cover" src={Cover} alt="" />
         <img className="avatar" src={Avatar} alt="" />
@@ -145,11 +148,15 @@ function UserInfo() {
         </p>
         <div className="follow-box d-flex">
           <p>
-            <span>34 個</span>
+            <span onClick={() => navigate(`/user/${userId}/following`)}>
+              34 個
+            </span>
             <span className="grey">跟隨中</span>
           </p>
           <p>
-            <span>59 位</span>
+            <span onClick={() => navigate(`/user/${userId}/followers`)}>
+              59 位
+            </span>
             <span className="grey">跟隨者</span>
           </p>
         </div>
