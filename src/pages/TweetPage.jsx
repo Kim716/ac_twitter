@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { TweetContext } from "contexts/TweetContext";
+import { useLocation } from "react-router-dom";
+import { getSingleTweet, getSingleTweetReplies } from "api/tweetAuth";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -10,8 +12,6 @@ import NavBar from "components/NavBar";
 import ReplyItem from "components/ReplyItem";
 import SideBar from "components/SideBar";
 import TweetCard from "components/TweetCard";
-import { useLocation } from "react-router-dom";
-import { getSingleTweet, getSingleTweetReplies } from "api/tweetAuth";
 
 function TweetPage() {
   const [tweet, setTweet] = useState({});

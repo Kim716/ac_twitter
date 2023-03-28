@@ -1,3 +1,8 @@
+import { TweetContext } from "contexts/TweetContext";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
+
+// Components
 import MainContainer from "components/containers/MainContainer";
 import ViewContainer from "components/containers/ViewContainer";
 import Header from "components/Header";
@@ -8,12 +13,12 @@ import UserInfo from "components/UserInfo";
 import ListCollection from "components/ListCollection";
 import ModalContainer from "components/containers/ModalContainer";
 import { UserTweetItem } from "components/TweetItem";
-import { useState } from "react";
-import { useNavigate } from "react-router";
 
 function UserMainPage() {
-  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
   const [currentPage, setCurrentPage] = useState("tweets");
+
+  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
@@ -22,10 +27,6 @@ function UserMainPage() {
       setCurrentPage(changePage);
       navigate(`/user/${userId}/${changePage}`);
     }
-  };
-
-  const handleTweetClick = () => {
-    setIsTweetModalShow(!isTweetModalShow);
   };
 
   return (
