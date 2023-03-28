@@ -1,3 +1,8 @@
+import { useContext, useEffect, useState } from "react";
+import { TweetContext } from "contexts/TweetContext";
+import { getAllTweets } from "api/tweetAuth";
+
+// Components
 import MainContainer from "components/containers/MainContainer";
 import SideBar from "components/SideBar";
 import ViewContainer from "components/containers/ViewContainer";
@@ -5,95 +10,42 @@ import TweetArea from "components/TweetArea";
 import Header from "components/Header";
 import NavBar from "components/NavBar";
 import { UserTweetItem } from "components/TweetItem";
-import { useState } from "react";
 import ModalContainer from "components/containers/ModalContainer";
 
-const dummyTweets = [
-  {
-    id: 1,
-    UserId: 3,
-    description: "In aliquid voluptatem ipsa est laborum.",
-    createdAt: "下午 06:16 2023年03月16日",
-    updatedAt: "2023-03-23T14:56:53.000Z",
-    likeCount: 4,
-    replyCount: 12,
-    User: {
-      id: 3,
-      account: "user2",
-      name: "user2",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=28",
-    },
-    isLiked: true,
-  },
-  {
-    id: 2,
-    UserId: 3,
-    description: "In aliquid voluptatem ipsa est laborum.",
-    createdAt: "下午 06:16 2023年03月16日",
-    updatedAt: "2023-03-23T14:56:53.000Z",
-    likeCount: 4,
-    replyCount: 12,
-    User: {
-      id: 3,
-      account: "user2",
-      name: "user2",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=28",
-    },
-    isLiked: false,
-  },
-  {
-    id: 3,
-    UserId: 3,
-    description: "In aliquid voluptatem ipsa est laborum.",
-    createdAt: "下午 06:16 2023年03月16日",
-    updatedAt: "2023-03-23T14:56:53.000Z",
-    likeCount: 4,
-    replyCount: 12,
-    User: {
-      id: 3,
-      account: "user2",
-      name: "user2",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=28",
-    },
-    isLiked: true,
-  },
-  {
-    id: 4,
-    UserId: 3,
-    description: "In aliquid voluptatem ipsa est laborum.",
-    createdAt: "下午 06:16 2023年03月16日",
-    updatedAt: "2023-03-23T14:56:53.000Z",
-    likeCount: 4,
-    replyCount: 12,
-    User: {
-      id: 3,
-      account: "user2",
-      name: "user2",
-      avatar: "https://loremflickr.com/320/240/man,woman/?lock=28",
-    },
-    isLiked: true,
-  },
-];
-
 function MainPage() {
-  const [isTweetModalShow, setIsTweetModalShow] = useState(false);
+  const [tweets, setTweets] = useState([]);
 
-  const handleTweetClick = () => {
-    setIsTweetModalShow(!isTweetModalShow);
-  };
+  const { isTweetModalShow, handleTweetClick, userAvatar } =
+    useContext(TweetContext);
+
+  // useEffect
+  useEffect(() => {
+    const getAllTweetsAsync = async () => {
+      try {
+        const allTweets = await getAllTweets();
+        setTweets(allTweets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getAllTweetsAsync();
+  }, []);
 
   return (
     <div className="d-flex">
-      {isTweetModalShow && <ModalContainer value="推文" />}
+      {isTweetModalShow && (
+        <ModalContainer value="推文" onTweetClick={handleTweetClick} />
+      )}
       <NavBar isUser={true} onTweetClick={handleTweetClick} status="首頁" />
       <MainContainer>
         <ViewContainer>
           <Header>
             <h1>首頁</h1>
           </Header>
-          <TweetArea />
+          <TweetArea onTweetClick={handleTweetClick} avatar={userAvatar} />
           <div>
-            {dummyTweets.map((tweet) => (
+            {tweets.map((tweet) => (
               <UserTweetItem
                 key={tweet.id}
                 tweetId={tweet.id}

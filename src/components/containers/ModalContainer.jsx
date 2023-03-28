@@ -11,9 +11,9 @@ const StyledDiv = styled.div`
   left: 0;
   z-index: 2;
   padding-top: 50px;
-  background-color: rgba(0, 0, 0, .4);
+  background-color: rgba(0, 0, 0, 0.4);
   background-size: cover;
-`
+`;
 
 function ModalContainer({ value }) {
   return (
@@ -24,5 +24,4 @@ function ModalContainer({ value }) {
     </StyledDiv>
   );
 }
-export default ModalContainer
-
+export default ModalContainer;
