@@ -9,6 +9,7 @@ import Input from "components/Input";
 import { ReactComponent as AddImg } from "assets/icons/addimg_unfocus.svg";
 import { ReactComponent as CrossWhite } from "assets/icons/cross_white.svg";
 import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
+import { putUserInfo } from "api/userAuth";
 
 const StyledDiv = styled.div`
   width: 600px;
@@ -159,26 +160,38 @@ const StyledEditText = styled.div`
     margin: 0;
   }
 
-  span {
+  p {
     margin: 5px;
     color: var(--secondary);
+    text-align: end;
+
+    span {
+      margin-right: 20px;
+      color: var(--error);
+    }
   }
 `;
 
 function InfoModal() {
-  const { handleInfoEditClick, userInfo } = useContext(InfoContext);
+  const { handleInfoEditClick, userInfo, setUserInfo } =
+    useContext(InfoContext);
 
   const [cover, setCover] = useState(userInfo.cover);
   const [avatar, setAvatar] = useState(userInfo.avatar);
   const [name, setName] = useState(userInfo.name);
   const [introduction, setIntroduction] = useState(userInfo.introduction);
+  const [isNameEmpty, setIsNameEmpty] = useState(false);
+  const [coverFile, setCoverFile] = useState("");
+  const [avatarFile, setAvatarFile] = useState("");
+
+  const userId = localStorage.getItem("userId");
 
   const handleChangeImg = (event) => {
     const fileMaxSize = 1024 * 1024 * 20; // 20MB
     const file = event.target.files[0];
 
     // 超過檔案大小就先擋
-    if (file?.size > fileMaxSize) {
+    if (file.size > fileMaxSize) {
       // 跳通知
       Swal.fire({
         icon: "error",
@@ -189,22 +202,21 @@ function InfoModal() {
     }
 
     const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.addEventListener(
       "load",
       function () {
         if (event.target.name === "cover") {
           setCover(reader.result);
+          setCoverFile(file);
         }
         if (event.target.name === "avatar") {
           setAvatar(reader.result);
+          setAvatarFile(file);
         }
       },
       false
     );
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleDeleteImg = () => {
@@ -219,6 +231,56 @@ function InfoModal() {
     setIntroduction(e.target.value);
   };
 
+  const handleSaveClick = async (e) => {
+    // name 內容空白，或是全為空白格會先被擋掉
+    if (name.trim().length === 0) {
+      setIsNameEmpty(true);
+      return;
+    }
+
+    try {
+      const { status } = await putUserInfo({
+        userId,
+        name,
+        introduction,
+        avatar: avatarFile,
+        cover: coverFile,
+      });
+
+      // 成功
+      if (status === "success") {
+        // 跳通知
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: "儲存成功",
+          timer: 1500,
+          showConfirmButton: false,
+          customClass: {
+            icon: "swalIcon right",
+            title: "swalTitle",
+          },
+        });
+        // 關 modal
+        handleInfoEditClick();
+        // 更新畫面資訊
+        setUserInfo((preInfo) => {
+          return { ...preInfo, name, introduction, avatar, cover };
+        });
+
+        return;
+      }
+
+      // 失敗通知
+      Swal.fire({
+        icon: "error",
+        text: "儲存失敗",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <StyledDiv>
       <header className="cross-box d-flex justify-content-between">
@@ -228,7 +290,7 @@ function InfoModal() {
           </button>
           <h1>編輯個人資料</h1>
         </div>
-        <ActButton buttonName={"儲存"} />
+        <ActButton buttonName={"儲存"} onClick={handleSaveClick} />
       </header>
 
       {/* 圖片區 */}
@@ -282,18 +344,26 @@ function InfoModal() {
           value={name}
           onChange={handleNameChange}
         />
-        <span className="gray d-flex justify-content-end">0/50</span>
+        <p>
+          {isNameEmpty && <span>內容不可全為空白</span>}
+          {name.length === 50 && <span>字數不可超過50字</span>}
+          {name.length}/50
+        </p>
         <Input
           className="input-text"
           id="user_introduce"
           label="自我介紹"
+          placeholder="介紹一下你自己吧"
           type="text"
           maxLength="160"
           value={introduction}
           onChange={handleIntroductionChange}
           isTextarea={true}
         />
-        <span className="gray d-flex justify-content-end">0/160</span>
+        <p>
+          {introduction?.length === 160 && <span>字數不可超過160字</span>}
+          {introduction?.length}/160
+        </p>
       </StyledEditText>
     </StyledDiv>
   );

@@ -1,7 +1,5 @@
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserInfo } from "api/userAuth";
-import Swal from "sweetalert2";
 import styled from "styled-components";
 import { InfoContext } from "contexts/InfoContext";
 
@@ -128,46 +126,12 @@ function OtherInfoButton() {
 }
 
 function UserInfo({ pageUserId }) {
-  const [userInfo, setUserInfo] = useState({});
-
-  const { isInfoModalShow, handleInfoEditClick } = useContext(InfoContext);
+  const { isInfoModalShow, handleInfoEditClick, userInfo } =
+    useContext(InfoContext);
 
   const userId = Number(localStorage.getItem("userId"));
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const getUserInfoAsync = async () => {
-      try {
-        const data = await getUserInfo(pageUserId);
-
-        // 如果為 error 就會跳通知轉到首頁
-        if (data.status === "error") {
-          // 跳通知
-          Swal.fire({
-            position: "top",
-            icon: "error",
-            title: data.message,
-            timer: 1500,
-            showConfirmButton: false,
-            customClass: {
-              icon: "swalIcon right",
-              title: "swalTitle",
-            },
-          });
-
-          navigate("/main");
-          return;
-        }
-
-        setUserInfo(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getUserInfoAsync();
-  }, [pageUserId, navigate]);
 
   return (
     <StyledDiv>

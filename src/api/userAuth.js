@@ -73,6 +73,43 @@ export const getUserInfo = async (userId) => {
   }
 };
 
+export const putUserInfo = async ({
+  userId,
+  name,
+  introduction,
+  avatar,
+  cover,
+}) => {
+  const config = {
+    headers: {
+      // Accept: "application/json",
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  try {
+    const res = await axiosInstance.put(
+      `${baseUrl}/${userId}`,
+      {
+        name,
+        introduction,
+        avatar,
+        cover,
+      },
+      config
+    );
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Put User Info Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};
+
 export const getUserTweets = async (userId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/${userId}/tweets`);

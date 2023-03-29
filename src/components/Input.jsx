@@ -89,6 +89,7 @@ function Input({
         <StyledTextArea
           className={isError ? "error" : ""}
           id={id}
+          placeholder={placeholder}
           type={type}
           maxLength={maxLength}
           value={value}
