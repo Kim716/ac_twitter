@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
+import { InfoContext } from "contexts/InfoContext";
+
+// Components
 import ActButton from "components/ActButton";
 import Input from "components/Input";
 import Cover from "assets/images/cover.png";
 import Avatar from "assets/images/avatar.png";
-import { ReactComponent as Addimg } from "assets/icons/addimg_unfocus.svg";
+import { ReactComponent as AddImg } from "assets/icons/addimg_unfocus.svg";
 import { ReactComponent as CrossWhite } from "assets/icons/cross_white.svg";
 import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
 
@@ -15,10 +18,10 @@ const StyledDiv = styled.div`
   background-color: var(--white);
 
   // header的CSS設定
-  & .cross-box {
+  .cross-box {
     padding: 15px 20px;
 
-    & .cross-icon {
+    .cross-icon {
       margin-right: 30px;
       padding: 0;
       width: 25px;
@@ -26,6 +29,12 @@ const StyledDiv = styled.div`
       outline: none;
       background-color: transparent;
       cursor: pointer;
+
+      &:hover {
+        path {
+          fill: var(--grey9);
+        }
+      }
     }
 
     h1 {
@@ -142,7 +151,9 @@ function InfoModal() {
   const [coverSrc, setCoverSrc] = useState(Cover);
   const [avatarSrc, setAvatarSrc] = useState(Avatar);
 
-  const handleChengeImg = (event) => {
+  const { handleInfoEditClick, userInfo } = useContext(InfoContext);
+
+  const handleChangeImg = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.addEventListener(
@@ -172,7 +183,7 @@ function InfoModal() {
       <header className="cross-box d-flex justify-content-between">
         <div className="d-flex align-items-center">
           <button className="cross-icon">
-            <CrossFocus />
+            <CrossFocus onClick={handleInfoEditClick} />
           </button>
           <h1>編輯個人資料</h1>
         </div>
@@ -187,14 +198,14 @@ function InfoModal() {
           </div>
           <div className="edit-img-item">
             <label htmlFor="addCover">
-              <Addimg />
+              <AddImg />
               <input
                 className="input-file"
                 id="addCover"
                 name="cover"
                 type="file"
                 accept="image/.png, .jpg, .jpeg"
-                onChange={handleChengeImg}
+                onChange={handleChangeImg}
               />
             </label>
             <label onClick={handleDeleteImg}>
@@ -206,14 +217,14 @@ function InfoModal() {
           </div>
           <div className="avatar-item">
             <label htmlFor="addAvatar">
-              <Addimg />
+              <AddImg />
               <input
                 className="input-file"
                 id="addAvatar"
                 name="avatar"
                 type="file"
                 accept="image/.png, .jpg, .jpeg"
-                onChange={handleChengeImg}
+                onChange={handleChangeImg}
               />
             </label>
           </div>

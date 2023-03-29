@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "api/userAuth";
 import Swal from "sweetalert2";
 import styled from "styled-components";
+import { InfoContext } from "contexts/InfoContext";
 
 // Components
 import { ReactComponent as EmailIcon } from "assets/icons/mail_unfocus.svg";
@@ -128,15 +129,12 @@ function OtherInfoButton() {
 
 function UserInfo({ pageUserId }) {
   const [userInfo, setUserInfo] = useState({});
-  const [isInfoModal, setIsInfoModal] = useState(false);
+
+  const { isInfoModalShow, handleInfoEditClick } = useContext(InfoContext);
 
   const userId = Number(localStorage.getItem("userId"));
 
   const navigate = useNavigate();
-
-  const handleInfoModalClick = () => {
-    setIsInfoModal(!isInfoModal);
-  };
 
   useEffect(() => {
     const getUserInfoAsync = async () => {
@@ -173,12 +171,12 @@ function UserInfo({ pageUserId }) {
 
   return (
     <StyledDiv>
-      {isInfoModal && <ModalContainer value="編輯個人資料" />}
+      {isInfoModalShow && <ModalContainer value="編輯個人資料" />}
       <div className="image-box d-flex flex-column">
         <img className="cover" src={userInfo.cover} alt="" />
         <img className="avatar" src={userInfo.avatar} alt="" />
         {pageUserId === userId ? (
-          <EditInfoButton onClick={handleInfoModalClick} />
+          <EditInfoButton onClick={handleInfoEditClick} />
         ) : (
           <OtherInfoButton />
         )}
