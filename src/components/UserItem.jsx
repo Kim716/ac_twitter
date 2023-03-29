@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Avatar from "assets/images/avatar_default.png";
 import StatusButton from "./StatusButton";
 
 const StyledDiv = styled.div`
@@ -21,10 +20,12 @@ const StyledDiv = styled.div`
     height: 50px;
     float: left;
     margin-right: 8px;
+    border-radius: 50%;
   }
 
   // 文字區塊的排版
   .text-box {
+    width: 100%;
     .user-name {
       font-weight: bold;
       font-size: 20px;
@@ -39,24 +40,25 @@ const StyledDiv = styled.div`
   }
 `;
 
-function UserItem() {
+function UserItem({ 
+  name, 
+  account, 
+  introduction, 
+  avatar, 
+  isFollowed 
+}) {
   return (
     <StyledDiv className="d-flex">
-      <img src={Avatar} alt="" />
+      <img src={avatar} alt="" />
       <div className="text-box d-flex flex-column flex-wrap">
         <div className="d-flex justify-content-between align-items-center">
           <div>
-            <span className="user-name">Name</span>
-            <span className="grey">@apple</span>
+            <span className="user-name">{name}</span>
+            <span className="grey">@{account}</span>
           </div>
-          <StatusButton defaultName={"跟隨"} clickName={"正在跟隨"} />
+          <StatusButton isFollowed={isFollowed} />
         </div>
-        {/* 最大顯示字數140字 */}
-        <p className="content">
-          Forget real people. Real people don’t text you back, they have
-          incorrect opinions about the latest episode of Riverdale, and they
-          continue u
-        </p>
+        <p className="content">{introduction}</p>
       </div>
     </StyledDiv>
   );

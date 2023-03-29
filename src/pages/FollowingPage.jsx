@@ -1,6 +1,7 @@
 import { TweetContext } from "contexts/TweetContext";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { getFollowings } from "api/userAuth";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -15,12 +16,12 @@ import UserItem from "components/UserItem";
 
 function FollowingPage() {
   const [currentPage, setCurrentPage] = useState("following");
-
+  const [followings, setFollowings] = useState([])
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
-
   const navigate = useNavigate();
 
-  const userId = localStorage.getItem("userId");
+  const location = useLocation();
+  const userId = Number(location.pathname.split("/")[2]);
 
   const handlePageChange = (changePage) => {
     if (changePage !== "following") {
@@ -28,6 +29,18 @@ function FollowingPage() {
       navigate(`/user/${userId}/${changePage}`);
     }
   };
+
+  useEffect(() => {
+    const getFollowingsAsync = async () => {
+      try {
+        const getFollowing = await getFollowings(userId);
+        setFollowings(getFollowing);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getFollowingsAsync();
+  }, [userId]);
 
   return (
     <div className="d-flex">
@@ -45,7 +58,18 @@ function FollowingPage() {
             currentPage={currentPage}
           />
           <ListCollection>
-            <UserItem />
+            {followings.map((following) => {
+              return (
+                <UserItem
+                  key={following.followingId}
+                  name={following.Followings.name}
+                  account={following.Followings.account}
+                  introduction={following.Followings.introduction}
+                  avatar={following.Followings.avatar}
+                  isFollowed={following.Followings.isFollowed}
+                />
+              );
+            })}
           </ListCollection>
         </ViewContainer>
         <SideBar />

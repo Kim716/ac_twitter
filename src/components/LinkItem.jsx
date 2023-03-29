@@ -31,8 +31,6 @@ const StyledDiv = styled.div`
   }
 `;
 
-// 接上換頁功能後，要思考按鈕一個亮，其他的不亮
-
 function LinkItem({ title, isClick, onClick }) {
   return (
     <StyledDiv onClick={onClick} isClick={isClick}>

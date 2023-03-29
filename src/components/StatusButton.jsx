@@ -11,19 +11,13 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-function StatusButton({
-  defaultName,
-  clickName,
-  onFollowClick,
-  topUser,
-  isFollowed,
-}) {
+function StatusButton({ id, isFollowed, onFollowClick }) {
   return (
     <StyledButton
       isClick={isFollowed}
-      onClick={() => onFollowClick?.(topUser.id)}
+      onClick={() => onFollowClick?.(id)}
     >
-      {onFollowClick ? clickName : defaultName}
+      {isFollowed ? "正在跟隨" : "跟隨"}
     </StyledButton>
   );
 }
