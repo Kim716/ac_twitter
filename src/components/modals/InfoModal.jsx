@@ -1,12 +1,11 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import { InfoContext } from "contexts/InfoContext";
+import Swal from "sweetalert2";
 
 // Components
 import ActButton from "components/ActButton";
 import Input from "components/Input";
-import Cover from "assets/images/cover.png";
-import Avatar from "assets/images/avatar.png";
 import { ReactComponent as AddImg } from "assets/icons/addimg_unfocus.svg";
 import { ReactComponent as CrossWhite } from "assets/icons/cross_white.svg";
 import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
@@ -57,77 +56,96 @@ const StyledEditImg = styled.div`
     cursor: pointer;
   }
 
-  & .input-file {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .input-file {
     display: none;
   }
 
-  & .cover {
+  .cover {
     position: relative;
+    height: 200px;
+
     img {
       width: 100%;
-      height: 200px;
+      height: 100%;
       object-fit: cover;
     }
-  }
 
-  & .cover::after {
-    content: " ";
-    position: absolute;
-    width: 100%;
-    height: 200px;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-
-  // 編輯背景的icon
-  & .edit-img-item {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    svg {
-      margin: 20px;
-    }
-  }
-
-  & .avatar {
-    img {
-      width: 140px;
-      height: 140px;
+    &::after {
+      content: "";
       position: absolute;
-      z-index: 2;
-      border-radius: 50%;
-      left: 5%;
-      top: 60%;
-      object-fit: cover;
+      width: 100%;
+      height: 200px;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    // 編輯背景的icon
+    .edit-img-item {
+      position: absolute;
+      z-index: 4;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      svg {
+        margin: 20px;
+
+        &:hover {
+          path {
+            fill: var(--grey9);
+          }
+        }
+      }
     }
   }
 
-  & .avatar::after {
-    content: " ";
-    position: absolute;
-    z-index: 3;
+  .avatar {
+    background-color: var(--success);
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    border: 5px solid var(--white);
+    position: absolute;
+    z-index: 2;
     left: 5%;
     top: 60%;
-    transform: translate(-3%, -3%);
-    background-color: rgba(0, 0, 0, 0.5);
-  }
 
-  // 編輯頭像的icon
-  & .avatar-item {
-    position: absolute;
-    z-index: 4;
-    top: 90%;
-    left: 14%;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 5px solid var(--white);
+      border-radius: 50%;
+
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    // 編輯頭像的icon
+    .avatar-item {
+      position: absolute;
+      z-index: 4;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      &:hover {
+        path {
+          fill: var(--grey9);
+        }
+      }
+    }
   }
 `;
 
@@ -148,22 +166,37 @@ const StyledEditText = styled.div`
 `;
 
 function InfoModal() {
-  const [coverSrc, setCoverSrc] = useState(Cover);
-  const [avatarSrc, setAvatarSrc] = useState(Avatar);
-
   const { handleInfoEditClick, userInfo } = useContext(InfoContext);
 
+  const [cover, setCover] = useState(userInfo.cover);
+  const [avatar, setAvatar] = useState(userInfo.avatar);
+  const [name, setName] = useState(userInfo.name);
+  const [introduction, setIntroduction] = useState(userInfo.introduction);
+
   const handleChangeImg = (event) => {
+    const fileMaxSize = 1024 * 1024 * 20; // 20MB
     const file = event.target.files[0];
+
+    // 超過檔案大小就先擋
+    if (file?.size > fileMaxSize) {
+      // 跳通知
+      Swal.fire({
+        icon: "error",
+        text: "檔案超過 20MB",
+      });
+
+      return;
+    }
+
     const reader = new FileReader();
     reader.addEventListener(
       "load",
       function () {
         if (event.target.name === "cover") {
-          setCoverSrc(reader.result);
+          setCover(reader.result);
         }
         if (event.target.name === "avatar") {
-          setAvatarSrc(reader.result);
+          setAvatar(reader.result);
         }
       },
       false
@@ -175,7 +208,15 @@ function InfoModal() {
   };
 
   const handleDeleteImg = () => {
-    setCoverSrc(Cover);
+    setCover(userInfo.cover);
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleIntroductionChange = (e) => {
+    setIntroduction(e.target.value);
   };
 
   return (
@@ -190,12 +231,10 @@ function InfoModal() {
         <ActButton buttonName={"儲存"} />
       </header>
 
-      <form className="user-container" action="">
-        {/* 圖片區 */}
-        <StyledEditImg>
-          <div className="cover">
-            <img className="cover" src={coverSrc} alt="" />
-          </div>
+      {/* 圖片區 */}
+      <StyledEditImg>
+        <div className="cover">
+          <img src={cover} alt="cover" />
           <div className="edit-img-item">
             <label htmlFor="addCover">
               <AddImg />
@@ -212,9 +251,10 @@ function InfoModal() {
               <CrossWhite />
             </label>
           </div>
-          <div className="avatar">
-            <img src={avatarSrc} alt="" />
-          </div>
+        </div>
+
+        <div className="avatar">
+          <img src={avatar} alt="avatar" />
           <div className="avatar-item">
             <label htmlFor="addAvatar">
               <AddImg />
@@ -228,27 +268,33 @@ function InfoModal() {
               />
             </label>
           </div>
-        </StyledEditImg>
-        {/* 文字區 */}
-        <StyledEditText>
-          <Input
-            className="input-text"
-            id="user_name"
-            label="名稱"
-            type="text"
-            maxLength="50"
-          />
-          <span className="gray d-flex justify-content-end">0/50</span>
-          <Input
-            className="input-text"
-            id="user_introduce"
-            label="自我介紹"
-            type="text"
-            maxLength="160"
-          />
-          <span className="gray d-flex justify-content-end">0/160</span>
-        </StyledEditText>
-      </form>
+        </div>
+      </StyledEditImg>
+
+      {/* 文字區 */}
+      <StyledEditText>
+        <Input
+          className="input-text"
+          id="user_name"
+          label="名稱"
+          type="text"
+          maxLength="50"
+          value={name}
+          onChange={handleNameChange}
+        />
+        <span className="gray d-flex justify-content-end">0/50</span>
+        <Input
+          className="input-text"
+          id="user_introduce"
+          label="自我介紹"
+          type="text"
+          maxLength="160"
+          value={introduction}
+          onChange={handleIntroductionChange}
+          isTextarea={true}
+        />
+        <span className="gray d-flex justify-content-end">0/160</span>
+      </StyledEditText>
     </StyledDiv>
   );
 }
