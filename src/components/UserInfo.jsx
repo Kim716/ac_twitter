@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cover from "assets/images/cover.png";
 import Avatar from "assets/images/avatar.png";
 import { ReactComponent as EmailIcon } from "assets/icons/mail_unfocus.svg";
@@ -9,6 +9,7 @@ import ActButton from "./ActButton";
 import ModalContainer from "./containers/ModalContainer";
 import StatusButton from "./StatusButton";
 import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "api/userAuth";
 
 const StyledDiv = styled.div`
   .image-box {
@@ -125,6 +126,7 @@ function OtherInfoButton() {
 }
 
 function UserInfo({ pageUserId }) {
+  const [userInfo, setUserInfo] = useState({});
   const [isInfoModal, setIsInfoModal] = useState(false);
 
   const userId = Number(localStorage.getItem("userId"));
@@ -135,12 +137,25 @@ function UserInfo({ pageUserId }) {
     setIsInfoModal(!isInfoModal);
   };
 
+  useEffect(() => {
+    const getUserInfoAsync = async () => {
+      try {
+        const data = await getUserInfo(pageUserId);
+        setUserInfo(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUserInfoAsync();
+  }, [userId]);
+
   return (
     <StyledDiv>
       {isInfoModal && <ModalContainer value="編輯個人資料" />}
       <div className="image-box d-flex flex-column">
-        <img className="cover" src={Cover} alt="" />
-        <img className="avatar" src={Avatar} alt="" />
+        <img className="cover" src={userInfo.cover} alt="" />
+        <img className="avatar" src={userInfo.avatar} alt="" />
         {pageUserId === userId ? (
           <EditInfoButton onClick={handleInfoModalClick} />
         ) : (
@@ -148,21 +163,19 @@ function UserInfo({ pageUserId }) {
         )}
       </div>
       <div className="text-box">
-        <h1>User Name</h1>
-        <span className="grey">@account</span>
-        <p>
-          The snow glows white on the mountain tonight Not a footprint to be
-        </p>
+        <h1>{userInfo.name}</h1>
+        <span className="grey">@{userInfo.account}</span>
+        <p>{userInfo.introduction}</p>
         <div className="follow-box d-flex">
           <p>
             <span onClick={() => navigate(`/user/${userId}/following`)}>
-              34 個
+              {userInfo.followingCount} 個
             </span>
             <span className="grey">跟隨中</span>
           </p>
           <p>
             <span onClick={() => navigate(`/user/${userId}/followers`)}>
-              59 位
+              {userInfo.followerCount} 位
             </span>
             <span className="grey">跟隨者</span>
           </p>
