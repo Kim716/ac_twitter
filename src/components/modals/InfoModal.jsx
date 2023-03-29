@@ -224,6 +224,7 @@ function InfoModal() {
   };
 
   const handleNameChange = (e) => {
+    setIsNameEmpty(false);
     setName(e.target.value);
   };
 
