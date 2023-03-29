@@ -64,7 +64,7 @@ function TweetPage() {
               name={reply.User.name}
               account={reply.User.account}
               createAt={reply.createdAt}
-              replyTo={reply.Tweet.User.account}
+              replyToAccount={reply.Tweet.User.account}
               comment={reply.comment}
             />
           ))}

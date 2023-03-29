@@ -103,6 +103,21 @@ export const getUserReplies = async (userId) => {
   }
 };
 
+export const getUserLikedTweets = async (userId) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/${userId}/likes`);
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Get User Liked Tweets Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};
+
 export const getUserSettingInfo = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/${id}/setting`);
