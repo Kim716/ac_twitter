@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import Cover from "assets/images/cover.png";
-import Avatar from "assets/images/avatar.png";
+import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "api/userAuth";
+import Swal from "sweetalert2";
+import styled from "styled-components";
+
+// Components
 import { ReactComponent as EmailIcon } from "assets/icons/mail_unfocus.svg";
 import { ReactComponent as NotiFocus } from "assets/icons/noti_focus.svg";
 import { ReactComponent as NotiUnfocus } from "assets/icons/noti_unfocus.svg";
-import styled from "styled-components";
 import ActButton from "./ActButton";
 import ModalContainer from "./containers/ModalContainer";
 import StatusButton from "./StatusButton";
-import { useNavigate } from "react-router-dom";
-import { getUserInfo } from "api/userAuth";
 
 const StyledDiv = styled.div`
   .image-box {
@@ -141,6 +142,26 @@ function UserInfo({ pageUserId }) {
     const getUserInfoAsync = async () => {
       try {
         const data = await getUserInfo(pageUserId);
+
+        // 如果為 error 就會跳通知轉到首頁
+        if (data.status === "error") {
+          // 跳通知
+          Swal.fire({
+            position: "top",
+            icon: "error",
+            title: data.message,
+            timer: 1500,
+            showConfirmButton: false,
+            customClass: {
+              icon: "swalIcon right",
+              title: "swalTitle",
+            },
+          });
+
+          navigate("/main");
+          return;
+        }
+
         setUserInfo(data);
       } catch (error) {
         console.error(error);
@@ -148,7 +169,7 @@ function UserInfo({ pageUserId }) {
     };
 
     getUserInfoAsync();
-  }, [userId]);
+  }, [pageUserId, navigate]);
 
   return (
     <StyledDiv>
