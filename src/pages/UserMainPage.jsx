@@ -23,13 +23,12 @@ function UserMainPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const userId = Number(localStorage.getItem("userId"));
   const pageUserId = Number(location.pathname.split("/")[2]);
 
   const handlePageChange = (changePage) => {
     if (changePage !== "tweets") {
       setCurrentPage(changePage);
-      navigate(`/user/${userId}/${changePage}`);
+      navigate(`/user/${pageUserId}/${changePage}`);
     }
   };
 

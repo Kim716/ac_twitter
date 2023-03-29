@@ -88,6 +88,21 @@ export const getUserTweets = async (userId) => {
   }
 };
 
+export const getUserReplies = async (userId) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/${userId}/replied_tweets`);
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Get User Replies Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};
+
 export const getUserSettingInfo = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/${id}/setting`);
