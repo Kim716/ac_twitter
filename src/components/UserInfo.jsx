@@ -97,7 +97,7 @@ const StyledActButton = styled.div`
   }
 `;
 
-function EditInfo({ onClick }) {
+function EditInfoButton({ onClick }) {
   return (
     <StyledActButton>
       <ActButton buttonName="編輯個人資料" onClick={onClick} />
@@ -105,12 +105,13 @@ function EditInfo({ onClick }) {
   );
 }
 
-function OtherUserInfo() {
+function OtherInfoButton() {
   const [isNoti, setIsNoto] = useState(false);
 
   const handleNotiChange = () => {
     setIsNoto(!isNoti);
   };
+
   return (
     <StyledIcon className="d-flex justify-content-end">
       <EmailIcon />
@@ -123,10 +124,12 @@ function OtherUserInfo() {
   );
 }
 
-function UserInfo() {
+function UserInfo({ pageUserId }) {
   const [isInfoModal, setIsInfoModal] = useState(false);
-  const userId = localStorage.getItem("userId");
-  const navigate = useNavigate()
+
+  const userId = Number(localStorage.getItem("userId"));
+
+  const navigate = useNavigate();
 
   const handleInfoModalClick = () => {
     setIsInfoModal(!isInfoModal);
@@ -138,8 +141,11 @@ function UserInfo() {
       <div className="image-box d-flex flex-column">
         <img className="cover" src={Cover} alt="" />
         <img className="avatar" src={Avatar} alt="" />
-        <EditInfo onClick={handleInfoModalClick} />
-        {/* <OtherUserInfo /> */}
+        {pageUserId === userId ? (
+          <EditInfoButton onClick={handleInfoModalClick} />
+        ) : (
+          <OtherInfoButton />
+        )}
       </div>
       <div className="text-box">
         <h1>User Name</h1>
@@ -167,4 +173,3 @@ function UserInfo() {
 }
 
 export default UserInfo;
-export { OtherUserInfo };

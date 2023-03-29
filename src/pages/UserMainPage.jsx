@@ -1,6 +1,6 @@
 import { TweetContext } from "contexts/TweetContext";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -20,7 +20,10 @@ function UserMainPage() {
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
 
   const navigate = useNavigate();
-  const userId = localStorage.getItem("userId");
+  const location = useLocation();
+
+  const userId = Number(localStorage.getItem("userId"));
+  const pageUserId = Number(location.pathname.split("/")[2]);
 
   const handlePageChange = (changePage) => {
     if (changePage !== "tweets") {
@@ -38,7 +41,7 @@ function UserMainPage() {
           <Header backIcon={true}>
             <h1>個人資料</h1>
           </Header>
-          <UserInfo />
+          <UserInfo pageUserId={pageUserId} />
           <SwitchBar
             value="info"
             onPageChange={handlePageChange}
