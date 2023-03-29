@@ -73,6 +73,21 @@ export const getUserInfo = async (userId) => {
   }
 };
 
+export const getUserTweets = async (userId) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/${userId}/tweets`);
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Get User Tweets Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};
+
 export const getUserSettingInfo = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/${id}/setting`);
@@ -119,7 +134,7 @@ export const putUserSettingInfo = async ({
 export const getFollowers = async (userId) => {
   try {
     // 發送取得特定使用者的跟隨者們的請求
-    const res = await axiosInstance.get(`${baseUrl}/${userId}/followers`)
+    const res = await axiosInstance.get(`${baseUrl}/${userId}/followers`);
     return res.data;
   } catch (error) {
     console.error(
@@ -142,4 +157,4 @@ export const getFollowings = async (userId) => {
     );
     return error.response.data;
   }
-}
+};
