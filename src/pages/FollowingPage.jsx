@@ -1,6 +1,6 @@
 import { TweetContext } from "contexts/TweetContext";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { getFollowings } from "api/userAuth";
 
 // Components
@@ -19,7 +19,9 @@ function FollowingPage() {
   const [followings, setFollowings] = useState([])
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
   const navigate = useNavigate();
-  const userId = localStorage.getItem("userId");
+
+  const location = useLocation();
+  const userId = Number(location.pathname.split("/")[2]);
 
   const handlePageChange = (changePage) => {
     if (changePage !== "following") {
@@ -59,7 +61,7 @@ function FollowingPage() {
             {followings.map((following) => {
               return (
                 <UserItem
-                  key={following.followerId}
+                  key={following.followingId}
                   name={following.Followings.name}
                   account={following.Followings.account}
                   introduction={following.Followings.introduction}

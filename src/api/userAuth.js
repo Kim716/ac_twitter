@@ -137,7 +137,7 @@ export const getFollowings = async (userId) => {
     return res.data;
   } catch (error) {
     console.error(
-      "[ ⚠️⚠️⚠️ Get Followering Failed ]:",
+      "[ ⚠️⚠️⚠️ Get Followings Failed ]:",
       error.response.data.message
     );
     return error.response.data;

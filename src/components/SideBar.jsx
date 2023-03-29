@@ -53,11 +53,11 @@ const StyledPopularItem = styled.div`
 
 
 function PopularCard({ 
-  name, 
-  account, 
-  avatar, 
-  isFollowed, 
-  topUser, 
+  id,
+  name,
+  account,
+  avatar,
+  isFollowed,
   onFollowClick 
 }) {
   return (
@@ -68,7 +68,7 @@ function PopularCard({
         <p>@{account}</p>
       </div>
       <StatusButton
-        id={topUser.id}
+        id={id}
         isFollowed={isFollowed}
         onFollowClick={(id) => onFollowClick?.(id)}
       />
@@ -117,6 +117,7 @@ function SideBar() {
           return (
             <PopularCard
               key={topUser.id}
+              id={topUser.id}
               name={topUser.name}
               account={topUser.account}
               avatar={topUser.avatar}
