@@ -47,8 +47,8 @@ function ReplyItem({
   avatar,
   name,
   account,
-  createAt,
-  replyTo,
+  createdAt,
+  replyToAccount,
   comment,
 }) {
   return (
@@ -57,10 +57,10 @@ function ReplyItem({
 
       <div>
         <p className="user_info">
-          <span className="reply_name">{name}</span>@{account}・{createAt}
+          <span className="reply_name">{name}</span>@{account}・{createdAt}
         </p>
         <p className="reply_to">
-          回覆 <span className="reply_to_account">@{replyTo}</span>
+          回覆 <span className="reply_to_account">@{replyToAccount}</span>
         </p>
         <p className="comment">{comment}</p>
       </div>

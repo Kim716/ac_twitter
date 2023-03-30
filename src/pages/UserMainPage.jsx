@@ -1,6 +1,6 @@
 import { TweetContext } from "contexts/TweetContext";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -10,24 +10,41 @@ import NavBar from "components/NavBar";
 import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
-import ListCollection from "components/ListCollection";
 import ModalContainer from "components/containers/ModalContainer";
 import { UserTweetItem } from "components/TweetItem";
+import { getUserTweets } from "api/userAuth";
 
 function UserMainPage() {
+  const [userTweets, serUserTweets] = useState([]);
   const [currentPage, setCurrentPage] = useState("tweets");
 
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
 
   const navigate = useNavigate();
-  const userId = localStorage.getItem("userId");
+  const location = useLocation();
+
+  const pageUserId = Number(location.pathname.split("/")[2]);
 
   const handlePageChange = (changePage) => {
     if (changePage !== "tweets") {
       setCurrentPage(changePage);
-      navigate(`/user/${userId}/${changePage}`);
+      navigate(`/user/${pageUserId}/${changePage}`);
     }
   };
+
+  // useEffect
+  useEffect(() => {
+    const getUserTweetsAsync = async () => {
+      try {
+        const userTweetsData = await getUserTweets(pageUserId);
+        serUserTweets(userTweetsData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUserTweetsAsync();
+  }, [pageUserId]);
 
   return (
     <div className="d-flex">
@@ -38,17 +55,29 @@ function UserMainPage() {
           <Header backIcon={true}>
             <h1>個人資料</h1>
           </Header>
-          <UserInfo />
+          <UserInfo pageUserId={pageUserId} />
           <SwitchBar
             value="info"
             onPageChange={handlePageChange}
             currentPage={currentPage}
           />
-          <ListCollection>
-            <UserTweetItem />
-            <UserTweetItem />
-            <UserTweetItem />
-          </ListCollection>
+          <div>
+            {userTweets.map((tweet) => (
+              <UserTweetItem
+                key={tweet.id}
+                tweetId={tweet.id}
+                avatar={tweet.User.avatar}
+                userId={tweet.UserId}
+                name={tweet.User.name}
+                account={tweet.User.account}
+                createdAt={tweet.createdAt}
+                description={tweet.description}
+                replyCount={tweet.replyCount}
+                likeCount={tweet.replyCount}
+                isLiked={tweet.isLiked}
+              />
+            ))}
+          </div>
         </ViewContainer>
         <SideBar />
       </MainContainer>
