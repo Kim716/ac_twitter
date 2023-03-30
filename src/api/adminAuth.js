@@ -35,7 +35,7 @@ export const adminLogin = async ({ account, password }) => {
 
 export const getAdminTweets = async () => {
   try {
-    // 發出登入請求
+    // 發出獲取推文資料的請求
     const res = await axiosInstance.get(`${baseUrl}/tweets`);
 
     return res.data;
@@ -48,7 +48,7 @@ export const getAdminTweets = async () => {
 
 export const getAdminUsers = async () => {
   try {
-    // 發出登入請求
+    // 發出獲取使用者資料的請求
     const res = await axiosInstance.get(`${baseUrl}/users`);
 
     return res.data;
@@ -61,7 +61,7 @@ export const getAdminUsers = async () => {
 
 export const deleteTweet = async (id) => {
   try {
-    // 發出登入請求
+    // 發出刪除推文的請求
     const res = await axiosInstance.delete(`${baseUrl}/tweets/${id}`);
 
     return res.data;

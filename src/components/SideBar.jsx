@@ -1,13 +1,16 @@
 import styled from "styled-components";
-import StatusButton from "components/StatusButton";
 import { useEffect, useState } from "react";
 import { getTopUsers } from "api/tweetAuth";
+import { deleteFollowships, postFollowships } from "api/followerAuth";
+
+// components
+import StatusButton from "components/StatusButton";
 
 const StyledDiv = styled.div`
   height: 100vh;
   border-left: 1px solid var(--grey3);
   padding: 10px 25px;
-`
+`;
 
 const StyledPopular = styled.div`
   background-color: var(--grey1);
@@ -23,7 +26,7 @@ const StyledPopular = styled.div`
       font-size: 24px;
     }
   }
-`
+`;
 
 const StyledPopularItem = styled.div`
   height: 60px;
@@ -32,6 +35,7 @@ const StyledPopularItem = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    object-fit: cover;
   }
   .user-title {
     margin: 0 10px;
@@ -51,15 +55,7 @@ const StyledPopularItem = styled.div`
   }
 `;
 
-
-function PopularCard({ 
-  id,
-  name,
-  account,
-  avatar,
-  isFollowed,
-  onFollowClick 
-}) {
+function PopularCard({ id, name, account, avatar, isFollowed, onFollowClick }) {
   return (
     <StyledPopularItem className="d-flex">
       <img src={avatar} alt="" />
@@ -70,30 +66,19 @@ function PopularCard({
       <StatusButton
         id={id}
         isFollowed={isFollowed}
-        onFollowClick={(id) => onFollowClick?.(id)}
+        onFollowClick={({ id, isFollowed }) =>
+          onFollowClick?.({ id, isFollowed })
+        }
       />
     </StyledPopularItem>
   );
 }
 
-
 function SideBar() {
   const [topUsers, setTopUsers] = useState([]);
-  
-  useEffect(() => {
-    const getTopUsersAsync = async () => {
-      try {
-        const topUsers = await getTopUsers();
-        setTopUsers(topUsers.map((topUser) => ({ ...topUser })));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getTopUsersAsync();
-  }, []);
 
   // 點擊更改跟隨狀態
-  const handleFollowClick = (id) => {
+  const handleFollowClick = async ({ id, isFollowed }) => {
     setTopUsers((prveTopUser) => {
       return prveTopUser.map((topUser) => {
         if (topUser.id === id) {
@@ -105,7 +90,31 @@ function SideBar() {
         return topUser;
       });
     });
+    try {
+      if (isFollowed === true) {
+        await deleteFollowships(id);
+        return;
+      } else {
+        await postFollowships({id});
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  // useEffect
+  useEffect(() => {
+    const getTopUsersAsync = async () => {
+      try {
+        const topUsers = await getTopUsers();
+        setTopUsers(topUsers.map((topUser) => ({ ...topUser })));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getTopUsersAsync();
+  }, []);
 
   return (
     <StyledDiv className="col-4">
@@ -122,7 +131,6 @@ function SideBar() {
               account={topUser.account}
               avatar={topUser.avatar}
               isFollowed={topUser.isFollowed}
-              topUser={topUser}
               onFollowClick={handleFollowClick}
             />
           );

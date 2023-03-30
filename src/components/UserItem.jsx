@@ -40,12 +40,14 @@ const StyledDiv = styled.div`
   }
 `;
 
-function UserItem({ 
-  name, 
-  account, 
-  introduction, 
-  avatar, 
-  isFollowed 
+function UserItem({
+  id,
+  name,
+  account,
+  introduction,
+  avatar,
+  isFollowed,
+  onFollowClick,
 }) {
   return (
     <StyledDiv className="d-flex">
@@ -56,7 +58,13 @@ function UserItem({
             <span className="user-name">{name}</span>
             <span className="grey">@{account}</span>
           </div>
-          <StatusButton isFollowed={isFollowed} />
+          <StatusButton
+            id={id}
+            isFollowed={isFollowed}
+            onFollowClick={({ id, isFollowed }) =>
+              onFollowClick?.({ id, isFollowed })
+            }
+          />
         </div>
         <p className="content">{introduction}</p>
       </div>
