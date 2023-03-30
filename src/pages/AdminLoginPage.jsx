@@ -62,7 +62,7 @@ function AdminLoginPage() {
       // 如果 token 存在代表登入成功
       if (token) {
         // 儲存 token
-        localStorage.setItem("token", token);
+        localStorage.setItem("adminToken", token);
 
         // 跳通知
         Swal.fire({

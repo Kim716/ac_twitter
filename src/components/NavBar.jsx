@@ -68,9 +68,6 @@ function NavBar({ isUser, onTweetClick, status }) {
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-
     // 跳通知
     Swal.fire({
       position: "top",
@@ -84,7 +81,18 @@ function NavBar({ isUser, onTweetClick, status }) {
       },
     });
 
-    navigate("/login");
+    // 後台登出回後台登入頁
+    if (localStorage.getItem("adminToken")) {
+      navigate("/admin");
+      localStorage.removeItem("adminToken");
+    }
+
+    // 前台登出回前台登入頁
+    if (localStorage.getItem("token")) {
+      navigate("/login");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+    }
   };
 
   return (
