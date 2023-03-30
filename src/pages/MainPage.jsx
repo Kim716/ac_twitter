@@ -18,7 +18,6 @@ function MainPage() {
 
   // useEffect
   useEffect(() => {
-    console.log("我抓了一次tweet");
     const getAllTweetsAsync = async () => {
       try {
         const allTweets = await getAllTweets();

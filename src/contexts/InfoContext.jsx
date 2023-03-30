@@ -26,7 +26,6 @@ export function InfoContextProvider({ children }) {
   useEffect(() => {
     // 有進入 UserPages 系列，並且抓到 id 才打資料
     if (isUserPages && pageUserId) {
-      console.log("進入使用者系列");
       const getUserInfoAsync = async () => {
         try {
           const userInfoData = await getUserInfo(pageUserId);
@@ -63,7 +62,6 @@ export function InfoContextProvider({ children }) {
   useEffect(() => {
     // 是登入狀態就先打使用者資料
     if (loginUserId && token) {
-      console.log("你有登入喔");
       const getUserInfoAsync = async () => {
         try {
           const userInfoData = await getUserInfo(loginUserId);
