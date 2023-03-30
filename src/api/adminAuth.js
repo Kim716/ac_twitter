@@ -9,9 +9,9 @@ const axiosInstance = axios.create({
 // 發送請求前都要做一個在 header 放 authToken 的動作
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+    const adminToken = localStorage.getItem("adminToken");
+    if (adminToken) {
+      config.headers["Authorization"] = `Bearer ${adminToken}`;
     }
     return config;
   },

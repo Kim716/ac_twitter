@@ -17,12 +17,56 @@ export function InfoContextProvider({ children }) {
   const pageUserId = Number(location.pathname.split("/")[2]);
   const loginUserId = Number(localStorage.getItem("userId"));
   const token = localStorage.getItem("token");
+  const adminToken = localStorage.getItem("adminToken");
 
   const handleInfoEditClick = () => {
     setIsInfoModalShow(!isInfoModalShow);
   };
 
   // useEffect
+  // !!! 驗證登入的邏輯應該可以再優化，目前寫法可能會有使用者一直沒登出，但 token 效期過了的後患
+  useEffect(() => {
+    const whichPage = location.pathname.split("/")[1];
+    const loginAlert = () => {
+      Swal.fire({
+        position: "top",
+        icon: "warning",
+        title: "請先登入",
+        timer: 1500,
+        showConfirmButton: false,
+        customClass: {
+          icon: "swalIcon right",
+          title: "swalTitle",
+        },
+      });
+    };
+
+    // 前台在註冊、登入頁不需要驗證有沒有登入
+    if (
+      !(
+        whichPage === "login" ||
+        whichPage === "register" ||
+        whichPage === "admin"
+      )
+    ) {
+      // localStorage 沒有這兩項代表沒有登入導引回「前台登入頁」
+      if (!(token && loginUserId)) {
+        loginAlert();
+        navigate("/login");
+        return;
+      }
+    }
+
+    if (whichPage === "admin" && location.pathname.split("/").length > 2) {
+      // 後台沒有登入就想看後台也回到「後台登入頁」
+      if (!adminToken) {
+        loginAlert();
+        navigate("/admin");
+        return;
+      }
+    }
+  }, [adminToken, location.pathname, loginUserId, navigate, token]);
+
   useEffect(() => {
     // 有進入 UserPages 系列，並且抓到 id 才打資料
     if (isUserPages && pageUserId) {

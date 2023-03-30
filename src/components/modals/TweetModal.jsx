@@ -77,8 +77,7 @@ const StyledDiv = styled.div`
 const TweetModal = () => {
   const [description, setDescription] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
-  const { handleTweetClick, userAvatar, tweets, setTweets } =
-    useContext(TweetContext);
+  const { handleTweetClick, tweets, setTweets } = useContext(TweetContext);
   const { loginUserInfo } = useContext(InfoContext);
 
   const handleAddTweetClick = async () => {
@@ -158,7 +157,7 @@ const TweetModal = () => {
       </div>
       <div className="content flex-grow-1">
         <div className="d-flex">
-          <img src={userAvatar} alt="" />
+          <img src={loginUserInfo.avatar} alt="" />
           <textarea
             className="flex-grow-1"
             value={description}
