@@ -21,6 +21,7 @@ const StyledDiv = styled.div`
     float: left;
     margin-right: 8px;
     border-radius: 50%;
+    object-fit: cover;
   }
 
   // 文字區塊的排版

@@ -23,8 +23,9 @@ const StyledDiv = styled.div`
       img {
         width: 50px;
         height: 50px;
-        border-radius: 50%;
         margin-right: 8px;
+        border-radius: 50%;
+        object-fit: cover;
       }
 
       .name {

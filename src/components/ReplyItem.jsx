@@ -11,6 +11,7 @@ const StyledDiv = styled.div`
     height: 50px;
     border-radius: 50%;
     margin-right: 8px;
+    object-fit: cover;
   }
 
   div {
