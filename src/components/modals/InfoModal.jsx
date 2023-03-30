@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
+import { InfoContext } from "contexts/InfoContext";
+import Swal from "sweetalert2";
+
+// Components
 import ActButton from "components/ActButton";
 import Input from "components/Input";
-import Cover from "assets/images/cover.png";
-import Avatar from "assets/images/avatar.png";
-import { ReactComponent as Addimg } from "assets/icons/addimg_unfocus.svg";
+import { ReactComponent as AddImg } from "assets/icons/addimg_unfocus.svg";
 import { ReactComponent as CrossWhite } from "assets/icons/cross_white.svg";
 import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
+import { putUserInfo } from "api/userAuth";
 
 const StyledDiv = styled.div`
   width: 600px;
@@ -15,10 +18,10 @@ const StyledDiv = styled.div`
   background-color: var(--white);
 
   // header的CSS設定
-  & .cross-box {
+  .cross-box {
     padding: 15px 20px;
 
-    & .cross-icon {
+    .cross-icon {
       margin-right: 30px;
       padding: 0;
       width: 25px;
@@ -26,6 +29,12 @@ const StyledDiv = styled.div`
       outline: none;
       background-color: transparent;
       cursor: pointer;
+
+      &:hover {
+        path {
+          fill: var(--grey9);
+        }
+      }
     }
 
     h1 {
@@ -48,77 +57,96 @@ const StyledEditImg = styled.div`
     cursor: pointer;
   }
 
-  & .input-file {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .input-file {
     display: none;
   }
 
-  & .cover {
+  .cover {
     position: relative;
+    height: 200px;
+
     img {
       width: 100%;
-      height: 200px;
+      height: 100%;
       object-fit: cover;
     }
-  }
 
-  & .cover::after {
-    content: " ";
-    position: absolute;
-    width: 100%;
-    height: 200px;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-
-  // 編輯背景的icon
-  & .edit-img-item {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    svg {
-      margin: 20px;
-    }
-  }
-
-  & .avatar {
-    img {
-      width: 140px;
-      height: 140px;
+    &::after {
+      content: "";
       position: absolute;
-      z-index: 2;
-      border-radius: 50%;
-      left: 5%;
-      top: 60%;
-      object-fit: cover;
+      width: 100%;
+      height: 200px;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    // 編輯背景的icon
+    .edit-img-item {
+      position: absolute;
+      z-index: 4;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      svg {
+        margin: 20px;
+
+        &:hover {
+          path {
+            fill: var(--grey9);
+          }
+        }
+      }
     }
   }
 
-  & .avatar::after {
-    content: " ";
-    position: absolute;
-    z-index: 3;
+  .avatar {
+    background-color: var(--success);
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    border: 5px solid var(--white);
+    position: absolute;
+    z-index: 2;
     left: 5%;
     top: 60%;
-    transform: translate(-3%, -3%);
-    background-color: rgba(0, 0, 0, 0.5);
-  }
 
-  // 編輯頭像的icon
-  & .avatar-item {
-    position: absolute;
-    z-index: 4;
-    top: 90%;
-    left: 14%;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 5px solid var(--white);
+      border-radius: 50%;
+
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    // 編輯頭像的icon
+    .avatar-item {
+      position: absolute;
+      z-index: 4;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      &:hover {
+        path {
+          fill: var(--grey9);
+        }
+      }
+    }
   }
 `;
 
@@ -132,39 +160,126 @@ const StyledEditText = styled.div`
     margin: 0;
   }
 
-  span {
+  p {
     margin: 5px;
     color: var(--secondary);
+    text-align: end;
+
+    span {
+      margin-right: 20px;
+      color: var(--error);
+    }
   }
 `;
 
 function InfoModal() {
-  const [coverSrc, setCoverSrc] = useState(Cover);
-  const [avatarSrc, setAvatarSrc] = useState(Avatar);
+  const { handleInfoEditClick, userInfo, setUserInfo } =
+    useContext(InfoContext);
 
-  const handleChengeImg = (event) => {
+  const [cover, setCover] = useState(userInfo.cover);
+  const [avatar, setAvatar] = useState(userInfo.avatar);
+  const [name, setName] = useState(userInfo.name);
+  const [introduction, setIntroduction] = useState(userInfo.introduction || "");
+  const [isNameEmpty, setIsNameEmpty] = useState(false);
+  const [coverFile, setCoverFile] = useState("");
+  const [avatarFile, setAvatarFile] = useState("");
+
+  const userId = localStorage.getItem("userId");
+
+  const handleChangeImg = (event) => {
+    const fileMaxSize = 1024 * 1024 * 20; // 20MB
     const file = event.target.files[0];
+
+    // 超過檔案大小就先擋
+    if (file.size > fileMaxSize) {
+      // 跳通知
+      Swal.fire({
+        icon: "error",
+        text: "檔案超過 20MB",
+      });
+
+      return;
+    }
+
     const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.addEventListener(
       "load",
       function () {
         if (event.target.name === "cover") {
-          setCoverSrc(reader.result);
+          setCover(reader.result);
+          setCoverFile(file);
         }
         if (event.target.name === "avatar") {
-          setAvatarSrc(reader.result);
+          setAvatar(reader.result);
+          setAvatarFile(file);
         }
       },
       false
     );
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleDeleteImg = () => {
-    setCoverSrc(Cover);
+    setCover(userInfo.cover);
+  };
+
+  const handleNameChange = (e) => {
+    setIsNameEmpty(false);
+    setName(e.target.value);
+  };
+
+  const handleIntroductionChange = (e) => {
+    setIntroduction(e.target.value);
+  };
+
+  const handleSaveClick = async (e) => {
+    // name 內容空白，或是全為空白格會先被擋掉
+    if (name.trim().length === 0) {
+      setIsNameEmpty(true);
+      return;
+    }
+
+    try {
+      const { status } = await putUserInfo({
+        userId,
+        name,
+        introduction,
+        avatar: avatarFile,
+        cover: coverFile,
+      });
+
+      // 成功
+      if (status === "success") {
+        // 跳通知
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: "儲存成功",
+          timer: 1500,
+          showConfirmButton: false,
+          customClass: {
+            icon: "swalIcon right",
+            title: "swalTitle",
+          },
+        });
+        // 關 modal
+        handleInfoEditClick();
+        // 更新畫面資訊
+        setUserInfo((preInfo) => {
+          return { ...preInfo, name, introduction, avatar, cover };
+        });
+
+        return;
+      }
+
+      // 失敗通知
+      Swal.fire({
+        icon: "error",
+        text: "儲存失敗",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -172,72 +287,85 @@ function InfoModal() {
       <header className="cross-box d-flex justify-content-between">
         <div className="d-flex align-items-center">
           <button className="cross-icon">
-            <CrossFocus />
+            <CrossFocus onClick={handleInfoEditClick} />
           </button>
           <h1>編輯個人資料</h1>
         </div>
-        <ActButton buttonName={"儲存"} />
+        <ActButton buttonName={"儲存"} onClick={handleSaveClick} />
       </header>
 
-      <form className="user-container" action="">
-        {/* 圖片區 */}
-        <StyledEditImg>
-          <div className="cover">
-            <img className="cover" src={coverSrc} alt="" />
-          </div>
+      {/* 圖片區 */}
+      <StyledEditImg>
+        <div className="cover">
+          <img src={cover} alt="cover" />
           <div className="edit-img-item">
             <label htmlFor="addCover">
-              <Addimg />
+              <AddImg />
               <input
                 className="input-file"
                 id="addCover"
                 name="cover"
                 type="file"
-                accept="image/.png, .jpg, .jpeg"
-                onChange={handleChengeImg}
+                accept="image/.jpg, .jpeg, .png"
+                onChange={handleChangeImg}
               />
             </label>
             <label onClick={handleDeleteImg}>
               <CrossWhite />
             </label>
           </div>
-          <div className="avatar">
-            <img src={avatarSrc} alt="" />
-          </div>
+        </div>
+
+        <div className="avatar">
+          <img src={avatar} alt="avatar" />
           <div className="avatar-item">
             <label htmlFor="addAvatar">
-              <Addimg />
+              <AddImg />
               <input
                 className="input-file"
                 id="addAvatar"
                 name="avatar"
                 type="file"
-                accept="image/.png, .jpg, .jpeg"
-                onChange={handleChengeImg}
+                accept="image/.jpg, .jpeg, .png"
+                onChange={handleChangeImg}
               />
             </label>
           </div>
-        </StyledEditImg>
-        {/* 文字區 */}
-        <StyledEditText>
-          <Input
-            className="input-text"
-            id="user_name"
-            label="名稱"
-            type="text"
-            maxLength="50"
-          />
-          <span className="gray d-flex justify-content-end">0/50</span>
-          <Input
-            className="input-text"
-            id="user_introduce"
-            label="自我介紹"
-            type="text"
-            maxLength="160"
-          />
-          <span className="gray d-flex justify-content-end">0/160</span>
-        </StyledEditText>
-      </form>
+        </div>
+      </StyledEditImg>
+
+      {/* 文字區 */}
+      <StyledEditText>
+        <Input
+          className="input-text"
+          id="user_name"
+          label="名稱"
+          type="text"
+          maxLength="50"
+          value={name}
+          onChange={handleNameChange}
+        />
+        <p>
+          {isNameEmpty && <span>內容不可全為空白</span>}
+          {name.length === 50 && <span>字數不可超過50字</span>}
+          {name.length}/50
+        </p>
+        <Input
+          className="input-text"
+          id="user_introduce"
+          label="自我介紹"
+          placeholder="介紹一下你自己吧"
+          type="text"
+          maxLength="160"
+          value={introduction}
+          onChange={handleIntroductionChange}
+          isTextarea={true}
+        />
+        <p>
+          {introduction?.length === 160 && <span>字數不可超過160字</span>}
+          {introduction?.length}/160
+        </p>
+      </StyledEditText>
     </StyledDiv>
   );
 }

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "api/userAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 // components
@@ -87,6 +87,29 @@ function LoginPage() {
       console.error(error);
     }
   };
+
+  // 簡易前端驗證，如果使用者已經是登入狀態，localStorage 會有這兩個東西，就直接導入前台首頁
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    if (token && userId) {
+      // 跳通知
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "您已成功登入",
+        timer: 1500,
+        showConfirmButton: false,
+        customClass: {
+          icon: "swalIcon right",
+          title: "swalTitle",
+        },
+      });
+
+      navigate("/main");
+    }
+  }, [navigate]);
 
   return (
     <AuthContainer>

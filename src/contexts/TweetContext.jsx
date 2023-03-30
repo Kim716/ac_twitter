@@ -15,16 +15,19 @@ export function TweetContextProvider({ children }) {
 
   // useEffect
   useEffect(() => {
-    const getUserInfoAsync = async () => {
-      try {
-        const { avatar } = await getUserInfo(userId);
-        setUserAvatar(avatar);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    // 有登入在抓資料
+    if (userId) {
+      const getUserInfoAsync = async () => {
+        try {
+          const { avatar } = await getUserInfo(userId);
+          setUserAvatar(avatar);
+        } catch (error) {
+          console.error(error);
+        }
+      };
 
-    getUserInfoAsync();
+      getUserInfoAsync();
+    }
   }, [userId]);
 
   return (

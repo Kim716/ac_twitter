@@ -5,7 +5,7 @@ const StyledDiv = styled.div`
   background-color: var(--grey2);
   border-bottom: 2px solid #657786;
   margin-bottom: 32px;
-  padding-left: 10px;
+  padding: 0 10px;
   border-radius: 2px;
 
   &:hover,
@@ -54,7 +54,21 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledTextArea = styled.textarea``;
+const StyledTextArea = styled.textarea`
+  display: block;
+  width: 100%;
+  height: 100px;
+  background-color: transparent;
+  resize: none;
+  border: 0;
+  padding: 5px 0;
+  font-size: 16px;
+  line-height: 24px;
+
+  &:focus {
+    outline: none;
+  }
+`;
 
 function Input({
   id,
@@ -72,7 +86,15 @@ function Input({
     <StyledDiv data-content={isError ? errorMessage : ""}>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
       {isTextarea ? (
-        <StyledTextArea />
+        <StyledTextArea
+          className={isError ? "error" : ""}
+          id={id}
+          placeholder={placeholder}
+          type={type}
+          maxLength={maxLength}
+          value={value || ""}
+          onChange={onChange}
+        />
       ) : (
         <StyledInput
           className={isError ? "error" : ""}
@@ -80,7 +102,7 @@ function Input({
           type={type}
           placeholder={placeholder}
           maxLength={maxLength}
-          value={value}
+          value={value || ""}
           onChange={onChange}
           // 發現不能寫 require 這樣 submit 會先被擋
         />
