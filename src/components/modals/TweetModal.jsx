@@ -7,6 +7,7 @@ import { TweetContext } from "contexts/TweetContext";
 import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
 import ActButton from "components/ActButton";
 import { postTweet } from "api/tweetAuth";
+import { InfoContext } from "contexts/InfoContext";
 
 const StyledDiv = styled.div`
   width: 600px;
@@ -18,6 +19,7 @@ const StyledDiv = styled.div`
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    object-fit: cover;
   }
 
   // 共同CSS設定
@@ -75,7 +77,9 @@ const StyledDiv = styled.div`
 const TweetModal = () => {
   const [description, setDescription] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
-  const { handleTweetClick, userAvatar } = useContext(TweetContext);
+  const { handleTweetClick, userAvatar, tweets, setTweets } =
+    useContext(TweetContext);
+  const { loginUserInfo } = useContext(InfoContext);
 
   const handleAddTweetClick = async () => {
     // 內容空白，或是全為空白格會先被擋掉
@@ -85,36 +89,19 @@ const TweetModal = () => {
     }
 
     try {
-      const { status, message } = await postTweet({ description });
+      const tweetData = await postTweet({ description });
 
-      if (status === "success") {
-        // 清空內容，回歸初始狀態
-        setDescription("");
-        setIsEmpty(false);
-        // 關閉 modal
-        handleTweetClick();
-        // 跳出成功通知
-        Swal.fire({
-          position: "top",
-          icon: "success",
-          title: message,
-          timer: 1500,
-          showConfirmButton: false,
-          customClass: {
-            icon: "swalIcon right",
-            title: "swalTitle",
-          },
-        });
-
+      // 發送失敗就 return，基本上會通過，除非打到一半token效期過了
+      if (tweetData.status === "error") {
         return;
       }
 
       // 伺服器有誤
-      if (message === "伺服器出現問題，請稍後再使用") {
+      if (tweetData.message === "伺服器出現問題，請稍後再使用") {
         Swal.fire({
           position: "top",
           icon: "warning",
-          title: message,
+          title: tweetData.message,
           timer: 1500,
           showConfirmButton: false,
           customClass: {
@@ -124,6 +111,41 @@ const TweetModal = () => {
         });
         return;
       }
+
+      // 推文成功
+      // 清空內容，回歸初始狀態
+      setDescription("");
+      // 關閉 modal
+      handleTweetClick();
+      // 跳出成功通知
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "推文成功",
+        timer: 1500,
+        showConfirmButton: false,
+        customClass: {
+          icon: "swalIcon right",
+          title: "swalTitle",
+        },
+      });
+
+      // 更新畫面 要塞前面
+      setTweets([
+        {
+          ...tweetData,
+          likeCount: 0,
+          replyCount: 0,
+          User: {
+            id: loginUserInfo.id,
+            account: loginUserInfo.account,
+            name: loginUserInfo.name,
+            avatar: loginUserInfo.avatar,
+          },
+          isLiked: false,
+        },
+        ...tweets,
+      ]);
     } catch (error) {
       console.error(error);
     }

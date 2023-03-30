@@ -173,13 +173,15 @@ const StyledEditText = styled.div`
 `;
 
 function InfoModal() {
-  const { handleInfoEditClick, userInfo, setUserInfo } =
+  const { handleInfoEditClick, pageUserInfo, setPageUserInfo } =
     useContext(InfoContext);
 
-  const [cover, setCover] = useState(userInfo.cover);
-  const [avatar, setAvatar] = useState(userInfo.avatar);
-  const [name, setName] = useState(userInfo.name);
-  const [introduction, setIntroduction] = useState(userInfo.introduction || "");
+  const [cover, setCover] = useState(pageUserInfo.cover);
+  const [avatar, setAvatar] = useState(pageUserInfo.avatar);
+  const [name, setName] = useState(pageUserInfo.name);
+  const [introduction, setIntroduction] = useState(
+    pageUserInfo.introduction || ""
+  );
   const [isNameEmpty, setIsNameEmpty] = useState(false);
   const [coverFile, setCoverFile] = useState("");
   const [avatarFile, setAvatarFile] = useState("");
@@ -220,7 +222,7 @@ function InfoModal() {
   };
 
   const handleDeleteImg = () => {
-    setCover(userInfo.cover);
+    setCover(pageUserInfo.cover);
   };
 
   const handleNameChange = (e) => {
@@ -265,7 +267,7 @@ function InfoModal() {
         // 關 modal
         handleInfoEditClick();
         // 更新畫面資訊
-        setUserInfo((preInfo) => {
+        setPageUserInfo((preInfo) => {
           return { ...preInfo, name, introduction, avatar, cover };
         });
 

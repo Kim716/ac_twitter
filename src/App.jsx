@@ -42,8 +42,8 @@ const NoMatch = () => {
 function App() {
   return (
     <BrowserRouter basename={basename}>
-      <TweetContextProvider>
-        <InfoContextProvider>
+      <InfoContextProvider>
+        <TweetContextProvider>
           <Routes>
             <Route path="admin">
               <Route index element={<AdminLoginPage />} />
@@ -68,8 +68,8 @@ function App() {
             {/* * 代表除了以上設定好的路由，其他字串不符合的會被導引到 NoMatch */}
             <Route path="*" element={<NoMatch />} />
           </Routes>
-        </InfoContextProvider>
-      </TweetContextProvider>
+        </TweetContextProvider>
+      </InfoContextProvider>
     </BrowserRouter>
   );
 }

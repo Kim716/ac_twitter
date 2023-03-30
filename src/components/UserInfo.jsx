@@ -126,10 +126,13 @@ function OtherInfoButton() {
 }
 
 function UserInfo({ pageUserId }) {
-  const { isInfoModalShow, handleInfoEditClick, userInfo } =
-    useContext(InfoContext);
+  const {
+    isInfoModalShow,
+    handleInfoEditClick,
+    pageUserInfo,
+  } = useContext(InfoContext);
 
-  const userId = Number(localStorage.getItem("userId"));
+  const loginUserId = Number(localStorage.getItem("userId"));
 
   const navigate = useNavigate();
 
@@ -137,28 +140,28 @@ function UserInfo({ pageUserId }) {
     <StyledDiv>
       {isInfoModalShow && <ModalContainer value="編輯個人資料" />}
       <div className="image-box d-flex flex-column">
-        <img className="cover" src={userInfo.cover} alt="" />
-        <img className="avatar" src={userInfo.avatar} alt="" />
-        {pageUserId === userId ? (
+        <img className="cover" src={pageUserInfo.cover} alt="" />
+        <img className="avatar" src={pageUserInfo.avatar} alt="" />
+        {pageUserId === loginUserId ? (
           <EditInfoButton onClick={handleInfoEditClick} />
         ) : (
           <OtherInfoButton />
         )}
       </div>
       <div className="text-box">
-        <h1>{userInfo.name}</h1>
-        <span className="grey">@{userInfo.account}</span>
-        <p>{userInfo.introduction}</p>
+        <h1>{pageUserInfo.name}</h1>
+        <span className="grey">@{pageUserInfo.account}</span>
+        <p>{pageUserInfo.introduction}</p>
         <div className="follow-box d-flex">
           <p>
-            <span onClick={() => navigate(`/user/${userId}/following`)}>
-              {userInfo.followingCount} 個
+            <span onClick={() => navigate(`/user/${loginUserId}/following`)}>
+              {pageUserInfo.followingCount} 個
             </span>
             <span className="grey">跟隨中</span>
           </p>
           <p>
-            <span onClick={() => navigate(`/user/${userId}/followers`)}>
-              {userInfo.followerCount} 位
+            <span onClick={() => navigate(`/user/${loginUserId}/followers`)}>
+              {pageUserInfo.followerCount} 位
             </span>
             <span className="grey">跟隨者</span>
           </p>

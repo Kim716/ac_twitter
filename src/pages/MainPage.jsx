@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { TweetContext } from "contexts/TweetContext";
 import { getAllTweets } from "api/tweetAuth";
 
@@ -13,13 +13,12 @@ import { UserTweetItem } from "components/TweetItem";
 import ModalContainer from "components/containers/ModalContainer";
 
 function MainPage() {
-  const [tweets, setTweets] = useState([]);
-
-  const { isTweetModalShow, handleTweetClick, userAvatar } =
+  const { isTweetModalShow, handleTweetClick, userAvatar, tweets, setTweets } =
     useContext(TweetContext);
 
   // useEffect
   useEffect(() => {
+    console.log("我抓了一次tweet");
     const getAllTweetsAsync = async () => {
       try {
         const allTweets = await getAllTweets();
@@ -30,7 +29,7 @@ function MainPage() {
     };
 
     getAllTweetsAsync();
-  }, []);
+  }, [setTweets]);
 
   return (
     <div className="d-flex">

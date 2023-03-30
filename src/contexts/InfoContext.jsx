@@ -6,13 +6,17 @@ import Swal from "sweetalert2";
 export const InfoContext = createContext("");
 
 export function InfoContextProvider({ children }) {
-  const [userInfo, setUserInfo] = useState({});
+  const [loginUserInfo, setLoginUserInfo] = useState({});
+  const [pageUserInfo, setPageUserInfo] = useState({});
   const [isInfoModalShow, setIsInfoModalShow] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isUserPages = location.pathname.split("/")[1] === "user";
   const pageUserId = Number(location.pathname.split("/")[2]);
+  const loginUserId = Number(localStorage.getItem("userId"));
+  const token = localStorage.getItem("token");
 
   const handleInfoEditClick = () => {
     setIsInfoModalShow(!isInfoModalShow);
@@ -20,8 +24,9 @@ export function InfoContextProvider({ children }) {
 
   // useEffect
   useEffect(() => {
-    // 有id才抓資料
-    if (pageUserId) {
+    // 有進入 UserPages 系列，並且抓到 id 才打資料
+    if (isUserPages && pageUserId) {
+      console.log("進入使用者系列");
       const getUserInfoAsync = async () => {
         try {
           const userInfoData = await getUserInfo(pageUserId);
@@ -45,7 +50,7 @@ export function InfoContextProvider({ children }) {
             return;
           }
 
-          setUserInfo(userInfoData);
+          setPageUserInfo(userInfoData);
         } catch (error) {
           console.error(error);
         }
@@ -53,11 +58,42 @@ export function InfoContextProvider({ children }) {
 
       getUserInfoAsync();
     }
-  }, [pageUserId, navigate]);
+  }, [isUserPages, pageUserId, navigate]);
+
+  useEffect(() => {
+    // 是登入狀態就先打使用者資料
+    if (loginUserId && token) {
+      console.log("你有登入喔");
+      const getUserInfoAsync = async () => {
+        try {
+          const userInfoData = await getUserInfo(loginUserId);
+
+          //  預防 token 效期過了，或是資料庫重整 id 消失
+          if (userInfoData.message === "請先登入") {
+            navigate("/login");
+            return;
+          }
+
+          setLoginUserInfo(userInfoData);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getUserInfoAsync();
+    }
+    //eslint-disable-next-line
+  }, [loginUserId, token]);
 
   return (
     <InfoContext.Provider
-      value={{ isInfoModalShow, handleInfoEditClick, userInfo, setUserInfo }}
+      value={{
+        isInfoModalShow,
+        handleInfoEditClick,
+        pageUserInfo,
+        setPageUserInfo,
+        loginUserInfo,
+      }}
     >
       {children}
     </InfoContext.Provider>
