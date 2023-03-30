@@ -36,7 +36,7 @@ function FollowersPage() {
   const handleFollowClick = async ({ id, isFollowed }) => {
     try {
       if (isFollowed === true) {
-        await deleteFollowships(id);
+        await deleteFollowships({ id });
       } else {
         await postFollowships({ id });
       }

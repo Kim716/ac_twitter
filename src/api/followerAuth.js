@@ -37,9 +37,11 @@ export const postFollowships = async ({ id }) => {
   }
 }
 
-export const deleteFollowships = async (id) => {
+export const deleteFollowships = async ({ id }) => {
   try {
-    const res = await axiosInstance.delete(`${baseUrl}/${id}`, id);
+    const res = await axiosInstance.delete(`${baseUrl}/${id}`, {
+      id,
+    });
 
     return res.data;
   } catch (error) {
