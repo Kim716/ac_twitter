@@ -87,7 +87,7 @@ function AdminLoginPage() {
     }
   };
 
-  // 簡易前端驗證，如果管理者已經是登入狀態，localStorage 會有這兩個東西，就直接導入前台首頁
+  // 簡易前端驗證，如果管理者已經是登入狀態，localStorage 會有adminToken東西，就直接導入後台首頁
   useEffect(() => {
     const adminToken = localStorage.getItem("adminToken");
 
