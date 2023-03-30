@@ -7,7 +7,7 @@ import { TweetContext } from "contexts/TweetContext";
 
 const StyledDiv = styled.div`
   width: 600px;
-  height: 450px;
+  height: 500px;
   position: relative;
   z-index: 3;
   border-radius: 20px;
@@ -37,6 +37,45 @@ const StyledContent = styled.div`
     object-fit: cover;
   }
 
+  .side-line {
+    margin: 15px 25px;
+    width: 2px;
+    height: 115px;
+    background-color: var(--grey5);
+  }
+
+  .content-area {
+    .title {
+      .user-name {
+        margin-right: 5px;
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      span {
+        color: var(--secondary);
+        font-size: 14px;
+      }
+    }
+
+    .tweet-text {
+      font-size: 16px;
+      line-height: 26px;
+      min-height: 130px;
+    }
+
+    .reply-to {
+      margin-top: 5px;
+      color: var(--secondary);
+      font-size: 14px;
+
+      .account {
+        margin-left: 5px;
+        color: var(--brand-color);
+      }
+    }
+  }
+
   button {
     width: 65px;
     height: 40px;
@@ -44,53 +83,18 @@ const StyledContent = styled.div`
     font-size: 16px;
   }
 
-  p,
-  span,
-  textarea {
-    margin-left: 15px;
-    width: 480px;
-    font-size: 17px;
-  }
-
   textarea {
     margin-top: 10px;
+    width: 100%;
     height: 150px;
-    padding-top: 10px;
-    padding-right: 20px;
+    padding: 10px;
     resize: none; //禁止拖動改變框的大小
     border: none;
     outline: none;
-  }
-
-  .user-name {
-    margin-right: 5px;
-    font-weight: bold;
-    font-size: 20px;
-  }
-
-  .grey {
-    color: var(--secondary);
-    font-size: 14px;
-  }
-
-  .side-line {
-    margin: 15px 25px;
-    width: 1px;
-    height: 80px;
-    width: 1px;
-    background-color: var(--grey5);
-  }
-
-  .account {
-    color: var(--brand-color);
-  }
-
-  .tweet-text {
-    height: 90px;
+    font-size: 17px;
   }
 
   .error {
-    width: 120px;
     color: var(--error);
   }
 `;
@@ -110,26 +114,28 @@ function ReplyModal() {
         <CrossFocus onClick={handleReplyClick} />
       </div>
       <StyledContent className="d-flex">
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column me-3">
           <img src={tweet.User?.avatar} alt="avatar" />
           <div className="side-line d-flex justify-content-center align-items-center"></div>
           <img src={Avatar} alt="" />
         </div>
-        <div className="d-flex flex-column">
-          <div>
-            <span className="user-name">{tweet.User?.name}</span>
+        <div className="content-area flex-grow-1">
+          <div className="d-flex align-items-center title">
+            <p className="user-name">{tweet.User?.name}</p>
             <span className="grey">
               @ {tweet.User?.account} · {tweet.createdAt}
             </span>
           </div>
           <p className="tweet-text">{tweet.description}</p>
-          <span className="grey">
+          <p className="reply-to">
             回覆給
             <span className="account">@{tweet.User?.account}</span>
-          </span>
+          </p>
           <textarea placeholder="推你的回覆" maxLength="140" />
           <div className="d-flex justify-content-end align-items-center">
-            <p className="error">內容不可空白</p>
+            <p className="me-3">
+              <span className="error me-3">內容不可空白</span> 0/140
+            </p>
             <ActButton buttonName={"回覆"} />
           </div>
         </div>
