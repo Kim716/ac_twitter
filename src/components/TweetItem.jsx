@@ -71,6 +71,7 @@ const StyledDiv = styled.div`
 
       &:hover {
         path {
+          pointer-events: none;
           fill: var(--brand-color);
         }
       }
@@ -101,6 +102,7 @@ function UserTweetItem({
   replyCount,
   likeCount,
   isLiked,
+  tweet,
 }) {
   const { handleReplyClick } = useContext(TweetContext);
   const navigate = useNavigate();
@@ -137,8 +139,8 @@ function UserTweetItem({
         {/* 最大顯示字數140字 */}
         <p className="description">{description}</p>
         <div className="icon-box d-flex">
-          <div className="d-flex align-items-center" onClick={handleReplyClick}>
-            <ReplyUnfocus className="reply-icon" />
+          <div className="d-flex align-items-center">
+            <ReplyUnfocus onClick={handleReplyClick} data-id={tweetId} />
             <span>{replyCount}</span>
           </div>
           <div className="d-flex align-items-center" onClick={handleLikeClick}>

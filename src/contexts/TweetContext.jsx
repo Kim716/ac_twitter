@@ -1,11 +1,14 @@
+import { getSingleTweet } from "api/tweetAuth";
 import { createContext, useState } from "react";
 
 export const TweetContext = createContext("");
 
 export function TweetContextProvider({ children }) {
+  const [tweet, setTweet] = useState({});
   const [tweets, setTweets] = useState([]);
   const [isTweetModalShow, setIsTweetModalShow] = useState(false);
   const [isReplyModalShow, setIsReplyModalShow] = useState(false);
+  const [tweetId, setTweetId] = useState({});
 
   const handleTweetClick = () => {
     setIsTweetModalShow(!isTweetModalShow);
@@ -13,7 +16,17 @@ export function TweetContextProvider({ children }) {
 
   const handleReplyClick = (e) => {
     e.stopPropagation();
+    setTweetId(e.target.dataset.id);
     setIsReplyModalShow(!isReplyModalShow);
+  };
+
+  const getSingleTweetAsync = async (tweetId) => {
+    try {
+      const singleTweet = await getSingleTweet(tweetId);
+      setTweet(singleTweet);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -25,6 +38,9 @@ export function TweetContextProvider({ children }) {
         setTweets,
         isReplyModalShow,
         handleReplyClick,
+        getSingleTweetAsync,
+        tweet,
+        tweetId,
       }}
     >
       {children}

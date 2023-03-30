@@ -4,7 +4,7 @@ import { ReactComponent as ReplyIcon } from "assets/icons/reply_unfocus.svg";
 import { ReactComponent as UnLikeIcon } from "assets/icons/heart_unfocus.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/heart_focus.svg";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { TweetContext } from "contexts/TweetContext";
 
 const StyledDiv = styled.div`
@@ -82,10 +82,11 @@ const StyledDiv = styled.div`
       margin-right: 130px;
       width: 30px;
       height: 30px;
-      cursor: pointer;
+      cursor: pointer;      
 
       &:hover {
       path {
+        pointer-events: none;
         fill: var(--brand-color);
       }
     }
@@ -93,14 +94,20 @@ const StyledDiv = styled.div`
   }
 `;
 
-function TweetCard({ tweet }) {
-  const { handleReplyClick } = useContext(TweetContext);
+function TweetCard({ tweetId }) {
+  const { handleReplyClick, getSingleTweetAsync, tweet } =
+    useContext(TweetContext);
 
   const navigate = useNavigate();
 
   const handleAvatarClick = (e) => {
     navigate(`/user/${e.target.dataset.id}`);
   };
+
+  useEffect(() => {
+    getSingleTweetAsync(tweetId);
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <StyledDiv>
@@ -135,7 +142,7 @@ function TweetCard({ tweet }) {
         </div>
       </div>
       <div className="card_action">
-        <ReplyIcon onClick={handleReplyClick} />
+        <ReplyIcon onClick={handleReplyClick} data-id={tweet.id} />
         {tweet?.isLiked ? <LikeIcon /> : <UnLikeIcon />}
       </div>
     </StyledDiv>

@@ -14,7 +14,6 @@ import SideBar from "components/SideBar";
 import TweetCard from "components/TweetCard";
 
 function TweetPage() {
-  const [tweet, setTweet] = useState({});
   const [tweetReplies, setTweetReplies] = useState([]);
 
   const location = useLocation();
@@ -25,15 +24,6 @@ function TweetPage() {
 
   // useEffect
   useEffect(() => {
-    const getSingleTweetAsync = async () => {
-      try {
-        const singleTweet = await getSingleTweet(tweetId);
-        setTweet(singleTweet);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     const getSingleTweetRepliesAsync = async () => {
       try {
         const singleTweetReplies = await getSingleTweetReplies(tweetId);
@@ -43,7 +33,6 @@ function TweetPage() {
       }
     };
 
-    getSingleTweetAsync();
     getSingleTweetRepliesAsync();
   }, [tweetId]);
 
@@ -57,7 +46,7 @@ function TweetPage() {
           <Header backIcon="true">
             <h1>推文</h1>
           </Header>
-          <TweetCard tweet={tweet} />
+          <TweetCard tweetId={tweetId} />
           {tweetReplies.map((reply) => (
             <ReplyItem
               key={reply.id}

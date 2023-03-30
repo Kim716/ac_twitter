@@ -65,6 +65,7 @@ function MainPage() {
                 replyCount={tweet.replyCount}
                 likeCount={tweet.likeCount}
                 isLiked={tweet.isLiked}
+                tweet={tweet}
               />
             ))}
           </div>

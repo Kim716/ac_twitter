@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
 import Avatar from "assets/images/avatar.png";
 import ActButton from "components/ActButton";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { TweetContext } from "contexts/TweetContext";
 
 const StyledDiv = styled.div`
@@ -34,6 +34,7 @@ const StyledContent = styled.div`
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    object-fit: cover;
   }
 
   button {
@@ -93,26 +94,15 @@ const StyledContent = styled.div`
     color: var(--error);
   }
 `;
-// 假資料
-const dummyData = {
-  id: 1,
-  UserId: 2,
-  description: "Non illo enim rem non esse.",
-  createdAt: "3小時",
-  updatedAt: "2023-03-22T22:37:24.000Z",
-  replyCount: 24,
-  likeCount: 0,
-  User: {
-    id: 2,
-    account: "user1",
-    name: "user1",
-    avatar: "https://loremflickr.com/320/240/man,woman/?lock=27",
-  },
-  isLiked: false,
-};
 
 function ReplyModal() {
-  const { handleReplyClick } = useContext(TweetContext);
+  const { handleReplyClick, getSingleTweetAsync, tweet, tweetId } =
+    useContext(TweetContext);
+
+  useEffect(() => {
+    getSingleTweetAsync(tweetId);
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <StyledDiv>
@@ -121,21 +111,21 @@ function ReplyModal() {
       </div>
       <StyledContent className="d-flex">
         <div className="d-flex flex-column">
-          <img src={Avatar} alt="" />
+          <img src={tweet.User?.avatar} alt="avatar" />
           <div className="side-line d-flex justify-content-center align-items-center"></div>
           <img src={Avatar} alt="" />
         </div>
         <div className="d-flex flex-column">
           <div>
-            <span className="user-name">{dummyData.User.name}</span>
+            <span className="user-name">{tweet.User?.name}</span>
             <span className="grey">
-              @ {dummyData.User.account} · {dummyData.createdAt}
+              @ {tweet.User?.account} · {tweet.createdAt}
             </span>
           </div>
-          <p className="tweet-text">{dummyData.description}</p>
+          <p className="tweet-text">{tweet.description}</p>
           <span className="grey">
             回覆給
-            <span className="account">@{dummyData.User.account}</span>
+            <span className="account">@{tweet.User?.account}</span>
           </span>
           <textarea placeholder="推你的回覆" maxLength="140" />
           <div className="d-flex justify-content-end align-items-center">
