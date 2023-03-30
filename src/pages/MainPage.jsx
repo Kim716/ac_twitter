@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { TweetContext } from "contexts/TweetContext";
 import { getAllTweets } from "api/tweetAuth";
 
@@ -13,9 +13,7 @@ import { UserTweetItem } from "components/TweetItem";
 import ModalContainer from "components/containers/ModalContainer";
 
 function MainPage() {
-  const [tweets, setTweets] = useState([]);
-
-  const { isTweetModalShow, handleTweetClick, userAvatar } =
+  const { isTweetModalShow, handleTweetClick, userAvatar, tweets, setTweets } =
     useContext(TweetContext);
 
   // useEffect
@@ -30,7 +28,7 @@ function MainPage() {
     };
 
     getAllTweetsAsync();
-  }, []);
+  }, [setTweets]);
 
   return (
     <div className="d-flex">

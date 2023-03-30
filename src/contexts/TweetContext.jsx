@@ -4,10 +4,11 @@ import { createContext, useEffect, useState } from "react";
 export const TweetContext = createContext("");
 
 export function TweetContextProvider({ children }) {
+  const [tweets, setTweets] = useState([]);
   const [userAvatar, setUserAvatar] = useState("");
   const [isTweetModalShow, setIsTweetModalShow] = useState(false);
 
-  const userId = localStorage.getItem("userId");
+  const loginUserId = localStorage.getItem("userId");
 
   const handleTweetClick = () => {
     setIsTweetModalShow(!isTweetModalShow);
@@ -16,10 +17,10 @@ export function TweetContextProvider({ children }) {
   // useEffect
   useEffect(() => {
     // 有登入在抓資料
-    if (userId) {
+    if (loginUserId) {
       const getUserInfoAsync = async () => {
         try {
-          const { avatar } = await getUserInfo(userId);
+          const { avatar } = await getUserInfo(loginUserId);
           setUserAvatar(avatar);
         } catch (error) {
           console.error(error);
@@ -28,11 +29,17 @@ export function TweetContextProvider({ children }) {
 
       getUserInfoAsync();
     }
-  }, [userId]);
+  }, [loginUserId]);
 
   return (
     <TweetContext.Provider
-      value={{ isTweetModalShow, handleTweetClick, userAvatar }}
+      value={{
+        isTweetModalShow,
+        handleTweetClick,
+        userAvatar,
+        tweets,
+        setTweets,
+      }}
     >
       {children}
     </TweetContext.Provider>
