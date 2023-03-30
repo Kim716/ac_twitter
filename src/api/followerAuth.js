@@ -26,7 +26,7 @@ export const postFollowships = async ({ id }) => {
     const res = await axiosInstance.post(`${baseUrl}`, {
       id
     });
-    console.log(res.data);
+
     return res.data;
   } catch (error) {
     console.error(
@@ -40,7 +40,7 @@ export const postFollowships = async ({ id }) => {
 export const deleteFollowships = async (id) => {
   try {
     const res = await axiosInstance.delete(`${baseUrl}/${id}`, id);
-    console.log(res.data);
+
     return res.data;
   } catch (error) {
     console.error(

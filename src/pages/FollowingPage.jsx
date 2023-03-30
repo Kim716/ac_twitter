@@ -2,6 +2,7 @@ import { TweetContext } from "contexts/TweetContext";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { getFollowings } from "api/userAuth";
+import { deleteFollowships, postFollowships } from "api/followerAuth";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -16,31 +17,59 @@ import UserItem from "components/UserItem";
 
 function FollowingPage() {
   const [currentPage, setCurrentPage] = useState("following");
-  const [followings, setFollowings] = useState([])
+  const [followings, setFollowings] = useState([]);
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
   const navigate = useNavigate();
 
   const location = useLocation();
-  const userId = Number(location.pathname.split("/")[2]);
+  const pageUserId = Number(location.pathname.split("/")[2]);
 
+  // 換頁
   const handlePageChange = (changePage) => {
     if (changePage !== "following") {
       setCurrentPage(changePage);
-      navigate(`/user/${userId}/${changePage}`);
+      navigate(`/user/${pageUserId}/${changePage}`);
+    }
+  };
+
+  // 點擊更改跟隨狀態
+  const handleFollowClick = async ({ id, isFollowed }) => {
+    try {
+      if (isFollowed === true) {
+        await deleteFollowships(id);
+      } else {
+        await postFollowships({ id });
+      }
+      setFollowings((prvefollowings) => {
+        return prvefollowings.map((following) => {
+          if (following.followingId === id) {
+            return {
+              ...following,
+              Followings: {
+                ...following.Followings,
+                isFollowed: !following.Followings.isFollowed,
+              },
+            };
+          }
+          return following;
+        });
+      });
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
     const getFollowingsAsync = async () => {
       try {
-        const getFollowing = await getFollowings(userId);
+        const getFollowing = await getFollowings(pageUserId);
         setFollowings(getFollowing);
       } catch (error) {
         console.error(error);
       }
     };
     getFollowingsAsync();
-  }, [userId]);
+  }, [pageUserId]);
 
   return (
     <div className="d-flex">
@@ -62,11 +91,13 @@ function FollowingPage() {
               return (
                 <UserItem
                   key={following.followingId}
+                  id={following.followingId}
                   name={following.Followings.name}
                   account={following.Followings.account}
                   introduction={following.Followings.introduction}
                   avatar={following.Followings.avatar}
                   isFollowed={following.Followings.isFollowed}
+                  onFollowClick={handleFollowClick}
                 />
               );
             })}

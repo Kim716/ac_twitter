@@ -79,25 +79,23 @@ function SideBar() {
 
   // 點擊更改跟隨狀態
   const handleFollowClick = async ({ id, isFollowed }) => {
-    setTopUsers((prveTopUser) => {
-      return prveTopUser.map((topUser) => {
-        if (topUser.id === id) {
-          return {
-            ...topUser,
-            isFollowed: !topUser.isFollowed,
-          };
-        }
-        return topUser;
-      });
-    });
     try {
       if (isFollowed === true) {
         await deleteFollowships(id);
-        return;
       } else {
-        await postFollowships({id});
-        return;
+        await postFollowships({ id });
       }
+      setTopUsers((prveTopUser) => {
+        return prveTopUser.map((topUser) => {
+          if (topUser.id === id) {
+            return {
+              ...topUser,
+              isFollowed: !topUser.isFollowed,
+            };
+          }
+          return topUser;
+        });
+      });
     } catch (error) {
       console.error(error);
     }
