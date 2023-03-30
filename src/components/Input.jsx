@@ -92,7 +92,7 @@ function Input({
           placeholder={placeholder}
           type={type}
           maxLength={maxLength}
-          value={value}
+          value={value || ""}
           onChange={onChange}
         />
       ) : (
@@ -102,7 +102,7 @@ function Input({
           type={type}
           placeholder={placeholder}
           maxLength={maxLength}
-          value={value}
+          value={value || ""}
           onChange={onChange}
           // 發現不能寫 require 這樣 submit 會先被擋
         />

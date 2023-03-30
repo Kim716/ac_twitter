@@ -179,7 +179,7 @@ function InfoModal() {
   const [cover, setCover] = useState(userInfo.cover);
   const [avatar, setAvatar] = useState(userInfo.avatar);
   const [name, setName] = useState(userInfo.name);
-  const [introduction, setIntroduction] = useState(userInfo.introduction);
+  const [introduction, setIntroduction] = useState(userInfo.introduction || "");
   const [isNameEmpty, setIsNameEmpty] = useState(false);
   const [coverFile, setCoverFile] = useState("");
   const [avatarFile, setAvatarFile] = useState("");
@@ -306,7 +306,7 @@ function InfoModal() {
                 id="addCover"
                 name="cover"
                 type="file"
-                accept="image/.png, .jpg, .jpeg"
+                accept="image/.jpg, .jpeg, .png"
                 onChange={handleChangeImg}
               />
             </label>
@@ -326,7 +326,7 @@ function InfoModal() {
                 id="addAvatar"
                 name="avatar"
                 type="file"
-                accept="image/.png, .jpg, .jpeg"
+                accept="image/.jpg, .jpeg, .png"
                 onChange={handleChangeImg}
               />
             </label>
