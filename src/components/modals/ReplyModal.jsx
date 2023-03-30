@@ -1,7 +1,9 @@
-import styled from "styled-components"
-import {ReactComponent as CrossFocus} from "assets/icons/cross_focus.svg"
-import Avatar from "assets/images/avatar.png"
-import ActButton from "components/ActButton"
+import styled from "styled-components";
+import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
+import Avatar from "assets/images/avatar.png";
+import ActButton from "components/ActButton";
+import { useContext } from "react";
+import { TweetContext } from "contexts/TweetContext";
 
 const StyledDiv = styled.div`
   width: 600px;
@@ -14,8 +16,15 @@ const StyledDiv = styled.div`
   .cross-box {
     padding: 15px;
     border-bottom: 1px solid #e6ecf0;
+    cursor: pointer;
+
+    &:hover {
+      path {
+        fill: var(--grey9);
+      }
+    }
   }
-`
+`;
 
 const StyledContent = styled.div`
   padding: 25px;
@@ -57,7 +66,7 @@ const StyledContent = styled.div`
     font-weight: bold;
     font-size: 20px;
   }
-  
+
   .grey {
     color: var(--secondary);
     font-size: 14px;
@@ -70,7 +79,7 @@ const StyledContent = styled.div`
     width: 1px;
     background-color: var(--grey5);
   }
-  
+
   .account {
     color: var(--brand-color);
   }
@@ -83,65 +92,60 @@ const StyledContent = styled.div`
     width: 120px;
     color: var(--error);
   }
-`
+`;
 // 假資料
 const dummyData = {
-    "id": 1,
-    "UserId": 2,
-    "description": "Non illo enim rem non esse.",
-    "createdAt": "3小時",
-    "updatedAt": "2023-03-22T22:37:24.000Z",
-    "replyCount": 24,
-    "likeCount": 0,
-    "User": {
-      "id": 2,
-      "account": "user1",
-      "name": "user1",
-      "avatar": "https://loremflickr.com/320/240/man,woman/?lock=27"
-    },
-    "isLiked": false
-  }
-
-
-function ReplyItem() {
-  return (
-    <StyledContent className="d-flex">
-      <div className="d-flex flex-column">
-        <img src={Avatar} alt="" />
-        <div className="side-line d-flex justify-content-center align-items-center"></div>
-        <img src={Avatar} alt="" />
-      </div>
-      <div className="d-flex flex-column">
-        <div>
-          <span className="user-name">{dummyData.User.name}</span>
-          <span className="grey">@ {dummyData.User.account} · {dummyData.createdAt}</span>
-        </div>
-        <p className="tweet-text">
-          {dummyData.description}
-        </p>
-        <span className="grey">
-          回覆給 
-          <span className="account">@{dummyData.User.account}</span>
-        </span>
-        <textarea placeholder="推你的回覆" maxLength="140"/>
-        <div className="d-flex justify-content-end align-items-center">
-          <p className="error">內容不可空白</p>
-          <ActButton buttonName={"回覆"}/>
-        </div>
-      </div>
-    </StyledContent>
-  )
-}
+  id: 1,
+  UserId: 2,
+  description: "Non illo enim rem non esse.",
+  createdAt: "3小時",
+  updatedAt: "2023-03-22T22:37:24.000Z",
+  replyCount: 24,
+  likeCount: 0,
+  User: {
+    id: 2,
+    account: "user1",
+    name: "user1",
+    avatar: "https://loremflickr.com/320/240/man,woman/?lock=27",
+  },
+  isLiked: false,
+};
 
 function ReplyModal() {
+  const { handleReplyClick } = useContext(TweetContext);
+
   return (
     <StyledDiv>
       <div className="cross-box">
-        <CrossFocus />
+        <CrossFocus onClick={handleReplyClick} />
       </div>
-      <ReplyItem />
+      <StyledContent className="d-flex">
+        <div className="d-flex flex-column">
+          <img src={Avatar} alt="" />
+          <div className="side-line d-flex justify-content-center align-items-center"></div>
+          <img src={Avatar} alt="" />
+        </div>
+        <div className="d-flex flex-column">
+          <div>
+            <span className="user-name">{dummyData.User.name}</span>
+            <span className="grey">
+              @ {dummyData.User.account} · {dummyData.createdAt}
+            </span>
+          </div>
+          <p className="tweet-text">{dummyData.description}</p>
+          <span className="grey">
+            回覆給
+            <span className="account">@{dummyData.User.account}</span>
+          </span>
+          <textarea placeholder="推你的回覆" maxLength="140" />
+          <div className="d-flex justify-content-end align-items-center">
+            <p className="error">內容不可空白</p>
+            <ActButton buttonName={"回覆"} />
+          </div>
+        </div>
+      </StyledContent>
     </StyledDiv>
-  )
+  );
 }
 
 export default ReplyModal;

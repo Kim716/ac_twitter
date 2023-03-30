@@ -4,6 +4,8 @@ import { ReactComponent as ReplyIcon } from "assets/icons/reply_unfocus.svg";
 import { ReactComponent as UnLikeIcon } from "assets/icons/heart_unfocus.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/heart_focus.svg";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { TweetContext } from "contexts/TweetContext";
 
 const StyledDiv = styled.div`
   background: var(--white);
@@ -92,6 +94,8 @@ const StyledDiv = styled.div`
 `;
 
 function TweetCard({ tweet }) {
+  const { handleReplyClick } = useContext(TweetContext);
+
   const navigate = useNavigate();
 
   const handleAvatarClick = (e) => {
@@ -131,7 +135,7 @@ function TweetCard({ tweet }) {
         </div>
       </div>
       <div className="card_action">
-        <ReplyIcon />
+        <ReplyIcon onClick={handleReplyClick} />
         {tweet?.isLiked ? <LikeIcon /> : <UnLikeIcon />}
       </div>
     </StyledDiv>

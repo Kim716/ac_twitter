@@ -20,7 +20,8 @@ function TweetPage() {
   const location = useLocation();
   const tweetId = Number(location.pathname.split("/")[2]);
 
-  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+  const { isTweetModalShow, handleTweetClick, isReplyModalShow } =
+    useContext(TweetContext);
 
   // useEffect
   useEffect(() => {
@@ -49,6 +50,7 @@ function TweetPage() {
   return (
     <div className="d-flex">
       {isTweetModalShow && <ModalContainer value="推文" />}
+      {isReplyModalShow && <ModalContainer value="回覆" />}
       <NavBar isUser={true} onTweetClick={handleTweetClick} status="首頁" />
       <MainContainer>
         <ViewContainer>

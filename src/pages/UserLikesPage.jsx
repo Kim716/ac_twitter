@@ -18,7 +18,8 @@ function UserLikesPage() {
   const [userLikedTweets, setUserLikedTweets] = useState([]);
   const [currentPage, setCurrentPage] = useState("likes");
 
-  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+  const { isTweetModalShow, handleTweetClick, isReplyModalShow } =
+    useContext(TweetContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,6 +54,7 @@ function UserLikesPage() {
   return (
     <div className="d-flex">
       {isTweetModalShow && <ModalContainer value="推文" />}
+      {isReplyModalShow && <ModalContainer value="回覆" />}
       <NavBar isUser={true} onTweetClick={handleTweetClick} status="個人資料" />
       <MainContainer>
         <ViewContainer>

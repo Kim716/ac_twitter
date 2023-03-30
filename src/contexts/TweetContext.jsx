@@ -5,9 +5,15 @@ export const TweetContext = createContext("");
 export function TweetContextProvider({ children }) {
   const [tweets, setTweets] = useState([]);
   const [isTweetModalShow, setIsTweetModalShow] = useState(false);
+  const [isReplyModalShow, setIsReplyModalShow] = useState(false);
 
   const handleTweetClick = () => {
     setIsTweetModalShow(!isTweetModalShow);
+  };
+
+  const handleReplyClick = (e) => {
+    e.stopPropagation();
+    setIsReplyModalShow(!isReplyModalShow);
   };
 
   return (
@@ -17,6 +23,8 @@ export function TweetContextProvider({ children }) {
         handleTweetClick,
         tweets,
         setTweets,
+        isReplyModalShow,
+        handleReplyClick,
       }}
     >
       {children}

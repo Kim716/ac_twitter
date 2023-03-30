@@ -14,8 +14,13 @@ import ModalContainer from "components/containers/ModalContainer";
 import { InfoContext } from "contexts/InfoContext";
 
 function MainPage() {
-  const { isTweetModalShow, handleTweetClick, tweets, setTweets } =
-    useContext(TweetContext);
+  const {
+    isTweetModalShow,
+    handleTweetClick,
+    tweets,
+    setTweets,
+    isReplyModalShow,
+  } = useContext(TweetContext);
   const { loginUserInfo } = useContext(InfoContext);
 
   // useEffect
@@ -34,9 +39,8 @@ function MainPage() {
 
   return (
     <div className="d-flex">
-      {isTweetModalShow && (
-        <ModalContainer value="推文" onTweetClick={handleTweetClick} />
-      )}
+      {isTweetModalShow && <ModalContainer value="推文" />}
+      {isReplyModalShow && <ModalContainer value="回覆" />}
       <NavBar isUser={true} onTweetClick={handleTweetClick} status="首頁" />
       <MainContainer>
         <ViewContainer>

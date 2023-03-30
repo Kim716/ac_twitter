@@ -1,9 +1,13 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { TweetContext } from "contexts/TweetContext";
+
+// Components
 import { ReactComponent as ReplyUnfocus } from "assets/icons/reply_unfocus.svg";
 import { ReactComponent as CrossUnfocus } from "assets/icons/cross_unfocus.svg";
 import { ReactComponent as HeartUnfocus } from "assets/icons/heart_unfocus.svg";
 import { ReactComponent as HeartFocus } from "assets/icons/heart_focus.svg";
-import { useNavigate } from "react-router-dom";
 
 const StyledDiv = styled.div`
   padding: 16px 24px;
@@ -98,6 +102,7 @@ function UserTweetItem({
   likeCount,
   isLiked,
 }) {
+  const { handleReplyClick } = useContext(TweetContext);
   const navigate = useNavigate();
 
   const handleTweetItemClick = () => {
@@ -113,11 +118,6 @@ function UserTweetItem({
   const handleAvatarClick = (e) => {
     e.stopPropagation();
     navigate(`/user/${e.target.dataset.id}`);
-  };
-
-  const handleReplyClick = (e) => {
-    e.stopPropagation();
-    console.log("reply");
   };
 
   return (
