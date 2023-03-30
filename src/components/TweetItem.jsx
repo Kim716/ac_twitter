@@ -20,6 +20,7 @@ const StyledDiv = styled.div`
     height: 50px;
     margin-right: 8px;
     border-radius: 50%;
+    object-fit: cover;
   }
 
   .grey {

@@ -15,7 +15,7 @@ function StatusButton({ id, isFollowed, onFollowClick }) {
   return (
     <StyledButton
       isClick={isFollowed}
-      onClick={() => onFollowClick?.(id)}
+      onClick={() => onFollowClick?.({ id, isFollowed })}
     >
       {isFollowed ? "正在跟隨" : "跟隨"}
     </StyledButton>

@@ -37,6 +37,7 @@ const StyledUserCard = styled.div`
       left: 50%;
       top: 45%;
       transform: translateX(-50%);
+      object-fit: cover;
     }
   }
 
