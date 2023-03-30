@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { TweetContext } from "contexts/TweetContext";
 import { useLocation } from "react-router-dom";
-import { getSingleTweet, getSingleTweetReplies } from "api/tweetAuth";
+import { getSingleTweetReplies } from "api/tweetAuth";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -14,13 +14,16 @@ import SideBar from "components/SideBar";
 import TweetCard from "components/TweetCard";
 
 function TweetPage() {
-  const [tweetReplies, setTweetReplies] = useState([]);
-
   const location = useLocation();
   const tweetId = Number(location.pathname.split("/")[2]);
 
-  const { isTweetModalShow, handleTweetClick, isReplyModalShow } =
-    useContext(TweetContext);
+  const {
+    isTweetModalShow,
+    handleTweetClick,
+    isReplyModalShow,
+    tweetReplies,
+    setTweetReplies,
+  } = useContext(TweetContext);
 
   // useEffect
   useEffect(() => {
@@ -34,6 +37,7 @@ function TweetPage() {
     };
 
     getSingleTweetRepliesAsync();
+    //eslint-disable-next-line
   }, [tweetId]);
 
   return (
@@ -51,11 +55,11 @@ function TweetPage() {
             <ReplyItem
               key={reply.id}
               userId={reply.UserId}
-              avatar={reply.User.avatar}
-              name={reply.User.name}
-              account={reply.User.account}
+              avatar={reply.User?.avatar}
+              name={reply.User?.name}
+              account={reply.User?.account}
               createAt={reply.createdAt}
-              replyToAccount={reply.Tweet.User.account}
+              replyToAccount={reply.Tweet?.User?.account}
               comment={reply.comment}
             />
           ))}

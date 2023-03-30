@@ -5,18 +5,21 @@ export const TweetContext = createContext("");
 
 export function TweetContextProvider({ children }) {
   const [tweet, setTweet] = useState({});
+  const [tweetReplies, setTweetReplies] = useState([]);
   const [tweets, setTweets] = useState([]);
   const [isTweetModalShow, setIsTweetModalShow] = useState(false);
   const [isReplyModalShow, setIsReplyModalShow] = useState(false);
-  const [tweetId, setTweetId] = useState({});
+  const [tweetId, setTweetId] = useState(0);
 
   const handleTweetClick = () => {
     setIsTweetModalShow(!isTweetModalShow);
   };
 
   const handleReplyClick = (e) => {
-    e.stopPropagation();
-    setTweetId(e.target.dataset.id);
+    if (e) {
+      e.stopPropagation();
+      setTweetId(Number(e.target.dataset.id));
+    }
     setIsReplyModalShow(!isReplyModalShow);
   };
 
@@ -40,7 +43,10 @@ export function TweetContextProvider({ children }) {
         handleReplyClick,
         getSingleTweetAsync,
         tweet,
+        setTweet,
         tweetId,
+        tweetReplies,
+        setTweetReplies,
       }}
     >
       {children}

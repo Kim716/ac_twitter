@@ -1,9 +1,13 @@
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
-import Avatar from "assets/images/avatar.png";
-import ActButton from "components/ActButton";
-import { useContext, useEffect } from "react";
+import Swal from "sweetalert2";
 import { TweetContext } from "contexts/TweetContext";
+import { InfoContext } from "contexts/InfoContext";
+import { postReply } from "api/tweetAuth";
+
+// Components
+import { ReactComponent as CrossFocus } from "assets/icons/cross_focus.svg";
+import ActButton from "components/ActButton";
 
 const StyledDiv = styled.div`
   width: 600px;
@@ -94,14 +98,98 @@ const StyledContent = styled.div`
     font-size: 17px;
   }
 
+  .hint {
+    color: var(--grey7);
+  }
+
   .error {
     color: var(--error);
   }
 `;
 
 function ReplyModal() {
-  const { handleReplyClick, getSingleTweetAsync, tweet, tweetId } =
-    useContext(TweetContext);
+  const [comment, setComment] = useState("");
+  const [isEmpty, setIsEmpty] = useState(false);
+  const {
+    handleReplyClick,
+    getSingleTweetAsync,
+    tweet,
+    setTweet,
+    tweetId,
+    tweetReplies,
+    setTweetReplies,
+    tweets,
+    setTweets,
+  } = useContext(TweetContext);
+  const { loginUserInfo } = useContext(InfoContext);
+
+  const handleAddReplyClick = async () => {
+    // 內容空白，或是全為空白格會先被擋掉
+    if (comment.trim().length === 0) {
+      setIsEmpty(true);
+      return;
+    }
+
+    try {
+      const replyData = await postReply({ tweetId, comment });
+      console.log(replyData);
+
+      // 發送失敗就 return，基本上會通過，除非打到一半token效期過了
+      if (replyData.status === "error") {
+        return;
+      }
+
+      // 伺服器有誤
+      if (replyData.message === "伺服器出現問題，請稍後再使用") {
+        Swal.fire({
+          position: "top",
+          icon: "warning",
+          title: replyData.message,
+          timer: 1500,
+          showConfirmButton: false,
+          customClass: {
+            icon: "swalIcon right",
+            title: "swalTitle",
+          },
+        });
+        return;
+      }
+
+      // 回覆成功
+      // 清空內容，回歸初始狀態
+      setComment("");
+      // 關閉 modal
+      handleReplyClick();
+      // 跳出成功通知
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "回覆成功",
+        timer: 1500,
+        showConfirmButton: false,
+        customClass: {
+          icon: "swalIcon right",
+          title: "swalTitle",
+        },
+      });
+
+      // 更新單一推文畫面，塞前面
+      setTweetReplies([replyData, ...tweetReplies]);
+      setTweet({ ...tweet, replyCount: tweet.replyCount + 1 });
+      // 更新瀏覽全部 tweets 的回覆數字
+      setTweets(
+        tweets.map((tweet) => {
+          if (tweet.id === tweetId) {
+            console.log(tweet);
+            return { ...tweet, replyCount: tweet.replyCount + 1 };
+          }
+          return tweet;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     getSingleTweetAsync(tweetId);
@@ -117,7 +205,7 @@ function ReplyModal() {
         <div className="d-flex flex-column me-3">
           <img src={tweet.User?.avatar} alt="avatar" />
           <div className="side-line d-flex justify-content-center align-items-center"></div>
-          <img src={Avatar} alt="" />
+          <img src={loginUserInfo.avatar} alt="" />
         </div>
         <div className="content-area flex-grow-1">
           <div className="d-flex align-items-center title">
@@ -131,12 +219,24 @@ function ReplyModal() {
             回覆給
             <span className="account">@{tweet.User?.account}</span>
           </p>
-          <textarea placeholder="推你的回覆" maxLength="140" />
+          <textarea
+            value={comment}
+            onChange={(e) => {
+              setComment(e.target.value);
+              setIsEmpty(false);
+            }}
+            placeholder="推你的回覆"
+            maxLength="140"
+          />
           <div className="d-flex justify-content-end align-items-center">
-            <p className="me-3">
-              <span className="error me-3">內容不可空白</span> 0/140
+            <p className="hint me-3">
+              {isEmpty && <span className="error me-3">內容不可全為空白</span>}
+              {comment.length === 140 && (
+                <span className="error me-3">字數不可超過140字</span>
+              )}
+              {comment.length}/140
             </p>
-            <ActButton buttonName={"回覆"} />
+            <ActButton buttonName={"回覆"} onClick={handleAddReplyClick} />
           </div>
         </div>
       </StyledContent>

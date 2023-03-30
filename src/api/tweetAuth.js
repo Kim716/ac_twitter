@@ -92,3 +92,21 @@ export const getSingleTweetReplies = async (tweetId) => {
     return error.response.data;
   }
 };
+
+export const postReply = async ({ tweetId, comment }) => {
+  try {
+    // 發送回覆推文的請求
+    const res = await axiosInstance.post(`${baseUrl}/${tweetId}/replies`, {
+      comment,
+    });
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Get Post Reply Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};

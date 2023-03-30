@@ -15,11 +15,16 @@ import { UserTweetItem } from "components/TweetItem";
 import { getUserTweets } from "api/userAuth";
 
 function UserMainPage() {
-  const [userTweets, serUserTweets] = useState([]);
+  console.log("＝＝＝＝＝＝＝＝＝＝＝");
   const [currentPage, setCurrentPage] = useState("tweets");
 
-  const { isTweetModalShow, handleTweetClick, isReplyModalShow } =
-    useContext(TweetContext);
+  const {
+    tweets,
+    setTweets,
+    isTweetModalShow,
+    handleTweetClick,
+    isReplyModalShow,
+  } = useContext(TweetContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,14 +43,14 @@ function UserMainPage() {
     const getUserTweetsAsync = async () => {
       try {
         const userTweetsData = await getUserTweets(pageUserId);
-        serUserTweets(userTweetsData);
+        setTweets(userTweetsData);
       } catch (error) {
         console.error(error);
       }
     };
 
     getUserTweetsAsync();
-  }, [pageUserId]);
+  }, [pageUserId, setTweets]);
 
   return (
     <div className="d-flex">
@@ -64,7 +69,7 @@ function UserMainPage() {
             currentPage={currentPage}
           />
           <div>
-            {userTweets.map((tweet) => (
+            {tweets.map((tweet) => (
               <UserTweetItem
                 key={tweet.id}
                 tweetId={tweet.id}
@@ -75,7 +80,7 @@ function UserMainPage() {
                 createdAt={tweet.createdAt}
                 description={tweet.description}
                 replyCount={tweet.replyCount}
-                likeCount={tweet.replyCount}
+                likeCount={tweet.likeCount}
                 isLiked={tweet.isLiked}
               />
             ))}
