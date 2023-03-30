@@ -16,7 +16,8 @@ import TweetCard from "components/TweetCard";
 function TweetPage() {
   const [tweet, setTweet] = useState({});
   const [tweetReplies, setTweetReplies] = useState([]);
-
+  const [tweetLike, setTweetLike] = useState();
+  const [currentLikeCount, setCurrentLikeCount] = useState();
   const location = useLocation();
   const tweetId = Number(location.pathname.split("/")[2]);
 
@@ -55,7 +56,13 @@ function TweetPage() {
           <Header backIcon="true">
             <h1>推文</h1>
           </Header>
-          <TweetCard tweet={tweet} />
+          <TweetCard
+            tweet={tweet}
+            tweetLike={tweetLike}
+            setTweetLike={setTweetLike}
+            currentLikeCount={currentLikeCount}
+            setCurrentLikeCount={setCurrentLikeCount}
+          />
           {tweetReplies.map((reply) => (
             <ReplyItem
               key={reply.id}
