@@ -11,10 +11,12 @@ import Header from "components/Header";
 import NavBar from "components/NavBar";
 import { UserTweetItem } from "components/TweetItem";
 import ModalContainer from "components/containers/ModalContainer";
+import { InfoContext } from "contexts/InfoContext";
 
 function MainPage() {
-  const { isTweetModalShow, handleTweetClick, userAvatar, tweets, setTweets } =
+  const { isTweetModalShow, handleTweetClick, tweets, setTweets } =
     useContext(TweetContext);
+  const { loginUserInfo } = useContext(InfoContext);
 
   // useEffect
   useEffect(() => {
@@ -41,7 +43,10 @@ function MainPage() {
           <Header>
             <h1>首頁</h1>
           </Header>
-          <TweetArea onTweetClick={handleTweetClick} avatar={userAvatar} />
+          <TweetArea
+            onTweetClick={handleTweetClick}
+            avatar={loginUserInfo.avatar}
+          />
           <div>
             {tweets.map((tweet) => (
               <UserTweetItem
