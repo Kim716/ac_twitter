@@ -5,6 +5,7 @@ import { deleteFollowships, postFollowships } from "api/followerAuth";
 
 // components
 import StatusButton from "components/StatusButton";
+import { useNavigate } from "react-router-dom";
 
 const StyledDiv = styled.div`
   height: 100vh;
@@ -31,34 +32,46 @@ const StyledPopular = styled.div`
 const StyledPopularItem = styled.div`
   height: 60px;
   padding: 10px;
+
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
   }
+
   .user-title {
     margin: 0 10px;
     width: 80px;
+
     p {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       line-height: 1.3;
     }
+
     .user-name {
       font-weight: bold;
     }
   }
+
   button {
     margin-left: auto;
   }
 `;
 
 function PopularCard({ id, name, account, avatar, isFollowed, onFollowClick }) {
+  const navigate = useNavigate();
+
+  const handleAvatarClick = (e) => {
+    navigate(`/user/${e.target.dataset.id}`);
+  };
+
   return (
     <StyledPopularItem className="d-flex">
-      <img src={avatar} alt="" />
+      <img src={avatar} data-id={id} alt="avatar" onClick={handleAvatarClick} />
       <div className="user-title d-flex flex-column">
         <p className="user-name">{name}</p>
         <p>@{account}</p>

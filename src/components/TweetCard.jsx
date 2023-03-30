@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as ReplyIcon } from "assets/icons/reply_unfocus.svg";
 import { ReactComponent as UnLikeIcon } from "assets/icons/heart_unfocus.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/heart_focus.svg";
+import { useNavigate } from "react-router-dom";
 
 const StyledDiv = styled.div`
   background: var(--white);
@@ -26,6 +27,7 @@ const StyledDiv = styled.div`
         margin-right: 8px;
         border-radius: 50%;
         object-fit: cover;
+        cursor: pointer;
       }
 
       .name {
@@ -90,11 +92,22 @@ const StyledDiv = styled.div`
 `;
 
 function TweetCard({ tweet }) {
+  const navigate = useNavigate();
+
+  const handleAvatarClick = (e) => {
+    navigate(`/user/${e.target.dataset.id}`);
+  };
+
   return (
     <StyledDiv>
       <div className="card_content">
         <div className="content_head d-flex align-items-center">
-          <img src={tweet.User?.avatar} alt="avatar" />
+          <img
+            src={tweet.User?.avatar}
+            alt="avatar"
+            data-id={tweet.User?.id}
+            onClick={handleAvatarClick}
+          />
           <div>
             <p className="name">{tweet.User?.name}</p>
             <p className="account">{tweet.User?.account}</p>

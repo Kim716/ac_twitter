@@ -21,6 +21,10 @@ const StyledDiv = styled.div`
     margin-right: 8px;
     border-radius: 50%;
     object-fit: cover;
+
+    &:hover {
+      outline: 2px solid var(--light-orange);
+    }
   }
 
   .grey {
@@ -29,6 +33,8 @@ const StyledDiv = styled.div`
 
   // 文字區塊的排版
   .text-box {
+    width: calc(${100 % -50}px);
+
     .user-name {
       font-weight: bold;
       font-size: 20px;
@@ -45,16 +51,25 @@ const StyledDiv = styled.div`
   // 使用者頁面，調整3欄式icon排版
   .icon-box {
     margin-top: 10px;
-    height: 16px;
+    height: 20px;
 
     span {
       margin-right: 20px;
+      color: var(--secondary);
+      font-family: var(--number);
+      font-weight: 600;
     }
 
     svg {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       margin-right: 5px;
+
+      &:hover {
+        path {
+          fill: var(--brand-color);
+        }
+      }
     }
   }
 
@@ -85,12 +100,24 @@ function UserTweetItem({
 }) {
   const navigate = useNavigate();
 
-  const handleLikeClick = () => {
+  const handleTweetItemClick = () => {
+    navigate(`/tweet/${tweetId}`);
+  };
+
+  const handleLikeClick = (e) => {
+    e.stopPropagation();
+    console.log("like");
     // 愛心的點擊反應是直接根據傳進來的 isLiked 資料來判斷呈現，之後他綁定的事件就是改動資料 變成喜歡或取消喜歡，有可能要思考是不是在父層處理這個事件
   };
 
-  const handleTweetItemClick = () => {
-    navigate(`/tweet/${tweetId}`);
+  const handleAvatarClick = (e) => {
+    e.stopPropagation();
+    navigate(`/user/${e.target.dataset.id}`);
+  };
+
+  const handleReplyClick = (e) => {
+    e.stopPropagation();
+    console.log("reply");
   };
 
   return (
@@ -99,8 +126,8 @@ function UserTweetItem({
       data-id={tweetId}
       onClick={handleTweetItemClick}
     >
-      <img src={avatar} alt="" data-id={userId} />
-      <div className="d-flex flex-column flex-wrap text-box">
+      <img src={avatar} alt="" data-id={userId} onClick={handleAvatarClick} />
+      <div className="text-box flex-grow-1">
         <div>
           <span className="user-name">{name}</span>
           <span className="grey">
@@ -110,11 +137,11 @@ function UserTweetItem({
         {/* 最大顯示字數140字 */}
         <p className="description">{description}</p>
         <div className="icon-box d-flex">
-          <div>
+          <div className="d-flex align-items-center" onClick={handleReplyClick}>
             <ReplyUnfocus className="reply-icon" />
             <span>{replyCount}</span>
           </div>
-          <div onClick={handleLikeClick}>
+          <div className="d-flex align-items-center" onClick={handleLikeClick}>
             {isLiked ? <HeartFocus /> : <HeartUnfocus />}
             <span>{likeCount}</span>
           </div>
