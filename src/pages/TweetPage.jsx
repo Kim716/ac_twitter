@@ -16,7 +16,7 @@ import TweetCard from "components/TweetCard";
 function TweetPage() {
   const [tweet, setTweet] = useState({});
   const [tweetReplies, setTweetReplies] = useState([]);
-  const [tweetLike, setTweetLike] = useState();
+  const [isTweetLike, setIsTweetLike] = useState();
   const [currentLikeCount, setCurrentLikeCount] = useState();
   const location = useLocation();
   const tweetId = Number(location.pathname.split("/")[2]);
@@ -29,6 +29,8 @@ function TweetPage() {
       try {
         const singleTweet = await getSingleTweet(tweetId);
         setTweet(singleTweet);
+        setIsTweetLike(singleTweet.isLiked);
+        setCurrentLikeCount(singleTweet.likeCount);
       } catch (error) {
         console.error(error);
       }
@@ -58,8 +60,8 @@ function TweetPage() {
           </Header>
           <TweetCard
             tweet={tweet}
-            tweetLike={tweetLike}
-            setTweetLike={setTweetLike}
+            isTweetLike={isTweetLike}
+            setIsTweetLike={setIsTweetLike}
             currentLikeCount={currentLikeCount}
             setCurrentLikeCount={setCurrentLikeCount}
           />

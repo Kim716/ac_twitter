@@ -94,8 +94,8 @@ const StyledDiv = styled.div`
 
 function TweetCard({
   tweet,
-  tweetLike,
-  setTweetLike,
+  isTweetLike,
+  setIsTweetLike,
   currentLikeCount,
   setCurrentLikeCount,
 }) {
@@ -104,14 +104,14 @@ function TweetCard({
   const handleLikeClick = async (e) => {
     e.stopPropagation();
     try {
-      if (tweetLike) {
+      if (isTweetLike) {
         await postTweetUnLike(tweet.id);
         setCurrentLikeCount(currentLikeCount - 1);
       } else {
         await postTweetLike(tweet.id);
         setCurrentLikeCount(currentLikeCount + 1);
       }
-      setTweetLike(!tweetLike);
+      setIsTweetLike(!isTweetLike);
     } catch (error) {
       console.error(error);
     }
@@ -155,7 +155,7 @@ function TweetCard({
       </div>
       <div className="card_action">
         <ReplyIcon />
-        {tweetLike ? (
+        {isTweetLike ? (
           <LikeIcon onClick={handleLikeClick} />
         ) : (
           <UnLikeIcon onClick={handleLikeClick} />

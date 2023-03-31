@@ -102,7 +102,7 @@ function UserTweetItem({
   isLiked,
 }) {
   const navigate = useNavigate();
-  const [tweetLike, setTweetLike] = useState(isLiked);
+  const [isTweetLike, setIsTweetLike] = useState(isLiked);
   const [currentLikeCount, setCurrentLikeCount] = useState(likeCount);
 
   const handleTweetItemClick = () => {
@@ -113,14 +113,14 @@ function UserTweetItem({
   const handleLikeClick = async (e) => {
     e.stopPropagation();
     try {
-      if (tweetLike) {
+      if (isTweetLike) {
         await postTweetUnLike(tweetId);
         setCurrentLikeCount(currentLikeCount - 1);
       } else {
         await postTweetLike(tweetId);
         setCurrentLikeCount(currentLikeCount + 1);
       }
-      setTweetLike(!tweetLike);
+      setIsTweetLike(!isTweetLike);
     } catch (error) {
       console.error(error);
     }
@@ -158,7 +158,7 @@ function UserTweetItem({
             <span>{replyCount}</span>
           </div>
           <div className="d-flex align-items-center" onClick={handleLikeClick}>
-            {tweetLike ? <HeartFocus /> : <HeartUnfocus />}
+            {isTweetLike ? <HeartFocus /> : <HeartUnfocus />}
             <span>{currentLikeCount}</span>
           </div>
         </div>
