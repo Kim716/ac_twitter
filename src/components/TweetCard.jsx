@@ -6,6 +6,7 @@ import { ReactComponent as LikeIcon } from "assets/icons/heart_focus.svg";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { TweetContext } from "contexts/TweetContext";
+import { postTweetLike, postTweetUnLike } from "api/tweetAuth";
 
 const StyledDiv = styled.div`
   background: var(--white);
@@ -94,11 +95,33 @@ const StyledDiv = styled.div`
   }
 `;
 
-function TweetCard({ tweetId }) {
+function TweetCard({
+  tweetId,
+  isTweetLike,
+  setIsTweetLike,
+  currentLikeCount,
+  setCurrentLikeCount,
+}) {
+  const navigate = useNavigate();
+
   const { handleReplyClick, getSingleTweetAsync, tweet } =
     useContext(TweetContext);
 
-  const navigate = useNavigate();
+  const handleLikeClick = async (e) => {
+    e.stopPropagation();
+    try {
+      if (isTweetLike) {
+        await postTweetUnLike(tweet.id);
+        setCurrentLikeCount(currentLikeCount - 1);
+      } else {
+        await postTweetLike(tweet.id);
+        setCurrentLikeCount(currentLikeCount + 1);
+      }
+      setIsTweetLike(!isTweetLike);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleAvatarClick = (e) => {
     navigate(`/user/${e.target.dataset.id}`);
@@ -137,13 +160,17 @@ function TweetCard({ tweetId }) {
             <span>{tweet.replyCount}</span>回覆
           </p>
           <p>
-            <span>{tweet.likeCount}</span>喜歡
+            <span>{currentLikeCount}</span>喜歡
           </p>
         </div>
       </div>
       <div className="card_action">
         <ReplyIcon onClick={handleReplyClick} data-id={tweet.id} />
-        {tweet?.isLiked ? <LikeIcon /> : <UnLikeIcon />}
+        {isTweetLike ? (
+          <LikeIcon onClick={handleLikeClick} />
+        ) : (
+          <UnLikeIcon onClick={handleLikeClick} />
+        )}
       </div>
     </StyledDiv>
   );

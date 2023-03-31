@@ -110,3 +110,35 @@ export const postReply = async ({ tweetId, comment }) => {
     return error.response.data;
   }
 };
+
+export const postTweetLike = async (tweetId) => {
+  try {
+    // 發送新增喜歡特定推文的請求
+    const res = await axiosInstance.post(`${baseUrl}/${tweetId}/like`);
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Post Tweet Like Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};
+
+export const postTweetUnLike = async (tweetId) => {
+  try {
+    // 發送取消喜歡特定推文的請求
+    const res = await axiosInstance.post(`${baseUrl}/${tweetId}/unlike`);
+
+    return res.data;
+  } catch (error) {
+    console.error(
+      "[ ⚠️⚠️⚠️ Post Tweet Unlike Failed ]:",
+      error.response.data.message
+    );
+
+    return error.response.data;
+  }
+};

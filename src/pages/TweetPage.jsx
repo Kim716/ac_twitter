@@ -1,7 +1,7 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TweetContext } from "contexts/TweetContext";
 import { useLocation } from "react-router-dom";
-import { getSingleTweetReplies } from "api/tweetAuth";
+import { getSingleTweet, getSingleTweetReplies } from "api/tweetAuth";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -14,6 +14,9 @@ import SideBar from "components/SideBar";
 import TweetCard from "components/TweetCard";
 
 function TweetPage() {
+  const [tweet, setTweet] = useState({});
+  const [isTweetLike, setIsTweetLike] = useState(0);
+  const [currentLikeCount, setCurrentLikeCount] = useState(0);
   const location = useLocation();
   const tweetId = Number(location.pathname.split("/")[2]);
 
@@ -27,6 +30,17 @@ function TweetPage() {
 
   // useEffect
   useEffect(() => {
+    const getSingleTweetAsync = async () => {
+      try {
+        const singleTweet = await getSingleTweet(tweetId);
+        setTweet(singleTweet);
+        setIsTweetLike(singleTweet.isLiked);
+        setCurrentLikeCount(singleTweet.likeCount);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     const getSingleTweetRepliesAsync = async () => {
       try {
         const singleTweetReplies = await getSingleTweetReplies(tweetId);
@@ -36,6 +50,7 @@ function TweetPage() {
       }
     };
 
+    getSingleTweetAsync();
     getSingleTweetRepliesAsync();
     //eslint-disable-next-line
   }, [tweetId]);
@@ -50,7 +65,14 @@ function TweetPage() {
           <Header backIcon="true">
             <h1>推文</h1>
           </Header>
-          <TweetCard tweetId={tweetId} />
+          <TweetCard
+            tweet={tweet}
+            tweetId={tweetId}
+            isTweetLike={isTweetLike}
+            setIsTweetLike={setIsTweetLike}
+            currentLikeCount={currentLikeCount}
+            setCurrentLikeCount={setCurrentLikeCount}
+          />
           {tweetReplies.map((reply) => (
             <ReplyItem
               key={reply.id}

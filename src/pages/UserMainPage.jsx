@@ -59,7 +59,8 @@ function UserMainPage() {
       <MainContainer>
         <ViewContainer>
           <Header backIcon={true}>
-            <h1>個人資料</h1>
+            <h1>User name</h1>
+            <span>main 推文</span>
           </Header>
           <UserInfo pageUserId={pageUserId} />
           <SwitchBar
