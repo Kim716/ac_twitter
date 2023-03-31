@@ -121,7 +121,8 @@ function ReplyModal() {
     tweets,
     setTweets,
   } = useContext(TweetContext);
-  const { loginUserInfo } = useContext(InfoContext);
+  const { loginUserInfo, userLikedTweets, setUserLikedTweets } =
+    useContext(InfoContext);
 
   const handleAddReplyClick = async () => {
     // 內容空白，或是全為空白格會先被擋掉
@@ -132,7 +133,6 @@ function ReplyModal() {
 
     try {
       const replyData = await postReply({ tweetId, comment });
-      console.log(replyData);
 
       // 發送失敗就 return，基本上會通過，除非打到一半token效期過了
       if (replyData.status === "error") {
@@ -180,8 +180,20 @@ function ReplyModal() {
       setTweets(
         tweets.map((tweet) => {
           if (tweet.id === tweetId) {
-            console.log(tweet);
             return { ...tweet, replyCount: tweet.replyCount + 1 };
+          }
+          return tweet;
+        })
+      );
+
+      // 更新瀏覽喜愛 tweets 的回覆數字
+      setUserLikedTweets(
+        userLikedTweets.map((tweet) => {
+          if (tweet.TweetId === tweetId) {
+            return {
+              ...tweet,
+              Tweet: { ...tweet.Tweet, replyCount: tweet.Tweet.replyCount + 1 },
+            };
           }
           return tweet;
         })

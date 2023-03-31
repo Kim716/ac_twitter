@@ -1,4 +1,4 @@
-import { getUserInfo } from "api/userAuth";
+import { getUserInfo, getUserLikedTweets } from "api/userAuth";
 import { createContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ export function InfoContextProvider({ children }) {
   const [loginUserInfo, setLoginUserInfo] = useState({});
   const [pageUserInfo, setPageUserInfo] = useState({});
   const [isInfoModalShow, setIsInfoModalShow] = useState(false);
+  const [userLikedTweets, setUserLikedTweets] = useState([]);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,6 +22,15 @@ export function InfoContextProvider({ children }) {
 
   const handleInfoEditClick = () => {
     setIsInfoModalShow(!isInfoModalShow);
+  };
+
+  const getUserLikedTweetsAsync = async () => {
+    try {
+      const userLikedTweetsData = await getUserLikedTweets(pageUserId);
+      setUserLikedTweets(userLikedTweetsData);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // useEffect
@@ -136,6 +146,9 @@ export function InfoContextProvider({ children }) {
         pageUserInfo,
         setPageUserInfo,
         loginUserInfo,
+        getUserLikedTweetsAsync,
+        userLikedTweets,
+        setUserLikedTweets,
       }}
     >
       {children}
