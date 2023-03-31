@@ -26,9 +26,8 @@ function AdminUsersPage() {
   useEffect(() => {
     const showUsers = async () => {
       const userItems = await getAdminUsers();
-      setUsers(userItems);
+      setUsers(userItems.filter((user) => user.account !== "root"));
     };
-
     showUsers();
   }, []);
 
