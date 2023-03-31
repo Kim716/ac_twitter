@@ -85,7 +85,7 @@ function UserMainPage() {
                 key={tweet.id}
                 tweetId={tweet.id}
                 avatar={tweet.User.avatar}
-                userId={tweet.UserId}
+                userId={tweet.User.id}
                 name={tweet.User.name}
                 account={tweet.User.account}
                 createdAt={tweet.createdAt}

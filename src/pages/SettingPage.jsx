@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { getUserSettingInfo, putUserSettingInfo } from "api/userAuth";
+import { putUserSettingInfo } from "api/userAuth";
 import Swal from "sweetalert2";
 import { TweetContext } from "contexts/TweetContext";
 
@@ -40,7 +40,7 @@ function SettingPage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
-  const { isUserLogin, loginAlert } = useContext(InfoContext);
+  const { isUserLogin, loginAlert, loginUserInfo } = useContext(InfoContext);
 
   const navigate = useNavigate();
 
@@ -229,19 +229,10 @@ function SettingPage() {
 
   // 打使用者個人資料
   useEffect(() => {
-    const setUserInfo = async () => {
-      try {
-        const info = await getUserSettingInfo(userId);
-        setAccount(info.account);
-        setName(info.name);
-        setEmail(info.email);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    setUserInfo();
-  }, [userId]);
+    setAccount(loginUserInfo.account);
+    setName(loginUserInfo.name);
+    setEmail(loginUserInfo.email);
+  }, [loginUserInfo.account, loginUserInfo.email, loginUserInfo.name, userId]);
 
   return (
     <div className="d-flex">
