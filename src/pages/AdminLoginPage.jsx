@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { adminLogin } from "api/adminAuth";
 import Swal from "sweetalert2";
 
@@ -9,14 +9,15 @@ import Logo from "components/Logo";
 import Title from "components/Title";
 import Input from "components/Input";
 import ActButton from "components/ActButton";
+import { AdminContext } from "contexts/AdminContext";
 
 function AdminLoginPage() {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
-
   const [whichError, setWhichError] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const { isAdminLogin, setIsAdminLogin } = useContext(AdminContext);
   const navigate = useNavigate();
 
   const handleAccountChange = (e) => {
@@ -77,6 +78,8 @@ function AdminLoginPage() {
           },
         });
 
+        // 更新管理者登入狀態
+        setIsAdminLogin(true);
         // 跳轉頁面
         navigate("/admin/tweets");
 
@@ -87,27 +90,12 @@ function AdminLoginPage() {
     }
   };
 
-  // 簡易前端驗證，如果管理者已經是登入狀態，localStorage 會有adminToken東西，就直接導入後台首頁
+  // 驗證登入
   useEffect(() => {
-    const adminToken = localStorage.getItem("adminToken");
-
-    if (adminToken) {
-      // 跳通知
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: "您已成功登入",
-        timer: 1500,
-        showConfirmButton: false,
-        customClass: {
-          icon: "swalIcon right",
-          title: "swalTitle",
-        },
-      });
-
+    if (isAdminLogin) {
       navigate("/admin/tweets");
     }
-  }, [navigate]);
+  }, [isAdminLogin, navigate]);
 
   return (
     <AuthContainer>

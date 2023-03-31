@@ -8,6 +8,7 @@ import LinkItem from "./LinkItem";
 import ActButton from "./ActButton";
 import { useContext } from "react";
 import { InfoContext } from "contexts/InfoContext";
+import { AdminContext } from "contexts/AdminContext";
 
 const StyledNav = styled.div`
   height: 100vh;
@@ -68,6 +69,7 @@ function NavBarLinks({ isUser, onTweetClick, status }) {
 
 function NavBar({ isUser, onTweetClick, status }) {
   const { setIsUserLogin } = useContext(InfoContext);
+  const { setIsAdminLogin } = useContext(AdminContext);
 
   const navigate = useNavigate();
 
@@ -87,6 +89,7 @@ function NavBar({ isUser, onTweetClick, status }) {
 
     // 後台登出回後台登入頁
     if (localStorage.getItem("adminToken")) {
+      setIsAdminLogin(false);
       navigate("/admin");
       localStorage.removeItem("adminToken");
       return;

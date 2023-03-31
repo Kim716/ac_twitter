@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { deleteTweet, getAdminTweets } from "api/adminAuth";
 
@@ -7,6 +7,8 @@ import { deleteTweet, getAdminTweets } from "api/adminAuth";
 import NavBar from "components/NavBar";
 import Header from "components/Header";
 import { AdminTweetItem } from "components/TweetItem";
+import { useNavigate } from "react-router-dom";
+import { AdminContext } from "contexts/AdminContext";
 
 const StyledTweetsDiv = styled.div`
   border-right: 1px solid #e6ecf0;
@@ -20,6 +22,9 @@ const StyledTweetsCollection = styled.div`
 
 function AdminTweetsPage() {
   const [tweets, setTweets] = useState([]);
+
+  const { isAdminLogin, loginAlert } = useContext(AdminContext);
+  const navigate = useNavigate();
 
   const handleDeleteClick = (id) => {
     // 跳是否確認刪除的提示
@@ -75,6 +80,15 @@ function AdminTweetsPage() {
   };
 
   // useEffect
+  // 驗證登入
+  useEffect(() => {
+    if (!isAdminLogin) {
+      loginAlert();
+      navigate("/admin");
+    }
+  }, [isAdminLogin, loginAlert, navigate]);
+
+  // 管理者取得所有推文
   useEffect(() => {
     const showTweets = async () => {
       const tweetItems = await getAdminTweets();
