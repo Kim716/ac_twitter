@@ -85,6 +85,7 @@ function NavBar({ isUser, onTweetClick, status }) {
     if (localStorage.getItem("adminToken")) {
       navigate("/admin");
       localStorage.removeItem("adminToken");
+      return;
     }
 
     // 前台登出回前台登入頁

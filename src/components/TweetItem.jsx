@@ -1,12 +1,14 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { TweetContext } from "contexts/TweetContext";
+import { postTweetLike, postTweetUnLike } from "api/tweetAuth";
+
+// Components
 import { ReactComponent as ReplyUnfocus } from "assets/icons/reply_unfocus.svg";
 import { ReactComponent as CrossUnfocus } from "assets/icons/cross_unfocus.svg";
 import { ReactComponent as HeartUnfocus } from "assets/icons/heart_unfocus.svg";
 import { ReactComponent as HeartFocus } from "assets/icons/heart_focus.svg";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { postTweetLike, postTweetUnLike } from "api/tweetAuth";
-
 
 const StyledDiv = styled.div`
   padding: 16px 24px;
@@ -70,6 +72,7 @@ const StyledDiv = styled.div`
 
       &:hover {
         path {
+          pointer-events: none;
           fill: var(--brand-color);
         }
       }
@@ -100,7 +103,9 @@ function UserTweetItem({
   replyCount,
   likeCount,
   isLiked,
+  tweet,
 }) {
+  const { handleReplyClick } = useContext(TweetContext);
   const navigate = useNavigate();
   const [isTweetLike, setIsTweetLike] = useState(isLiked);
   const [currentLikeCount, setCurrentLikeCount] = useState(likeCount);
@@ -131,11 +136,6 @@ function UserTweetItem({
     navigate(`/user/${e.target.dataset.id}`);
   };
 
-  const handleReplyClick = (e) => {
-    e.stopPropagation();
-    console.log("reply");
-  };
-
   return (
     <StyledDiv
       className="d-flex"
@@ -153,8 +153,8 @@ function UserTweetItem({
         {/* 最大顯示字數140字 */}
         <p className="description">{description}</p>
         <div className="icon-box d-flex">
-          <div className="d-flex align-items-center" onClick={handleReplyClick}>
-            <ReplyUnfocus className="reply-icon" />
+          <div className="d-flex align-items-center">
+            <ReplyUnfocus onClick={handleReplyClick} data-id={tweetId} />
             <span>{replyCount}</span>
           </div>
           <div className="d-flex align-items-center" onClick={handleLikeClick}>

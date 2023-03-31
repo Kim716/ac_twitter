@@ -15,13 +15,18 @@ import TweetCard from "components/TweetCard";
 
 function TweetPage() {
   const [tweet, setTweet] = useState({});
-  const [tweetReplies, setTweetReplies] = useState([]);
   const [isTweetLike, setIsTweetLike] = useState(0);
   const [currentLikeCount, setCurrentLikeCount] = useState(0);
   const location = useLocation();
   const tweetId = Number(location.pathname.split("/")[2]);
 
-  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+  const {
+    isTweetModalShow,
+    handleTweetClick,
+    isReplyModalShow,
+    tweetReplies,
+    setTweetReplies,
+  } = useContext(TweetContext);
 
   // useEffect
   useEffect(() => {
@@ -47,11 +52,13 @@ function TweetPage() {
 
     getSingleTweetAsync();
     getSingleTweetRepliesAsync();
+    //eslint-disable-next-line
   }, [tweetId]);
 
   return (
     <div className="d-flex">
       {isTweetModalShow && <ModalContainer value="推文" />}
+      {isReplyModalShow && <ModalContainer value="回覆" />}
       <NavBar isUser={true} onTweetClick={handleTweetClick} status="首頁" />
       <MainContainer>
         <ViewContainer>
@@ -60,6 +67,7 @@ function TweetPage() {
           </Header>
           <TweetCard
             tweet={tweet}
+            tweetId={tweetId}
             isTweetLike={isTweetLike}
             setIsTweetLike={setIsTweetLike}
             currentLikeCount={currentLikeCount}
@@ -69,11 +77,11 @@ function TweetPage() {
             <ReplyItem
               key={reply.id}
               userId={reply.UserId}
-              avatar={reply.User.avatar}
-              name={reply.User.name}
-              account={reply.User.account}
-              createAt={reply.createdAt}
-              replyToAccount={reply.Tweet.User.account}
+              avatar={reply.User?.avatar}
+              name={reply.User?.name}
+              account={reply.User?.account}
+              createdAt={reply.createdAt}
+              replyToAccount={reply.Tweet?.User?.account}
               comment={reply.comment}
             />
           ))}

@@ -1,4 +1,4 @@
-import { getUserInfo } from "api/userAuth";
+import { getUserInfo, getUserLikedTweets } from "api/userAuth";
 import { createContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ export function InfoContextProvider({ children }) {
   const [loginUserInfo, setLoginUserInfo] = useState({});
   const [pageUserInfo, setPageUserInfo] = useState({});
   const [isInfoModalShow, setIsInfoModalShow] = useState(false);
+  const [userLikedTweets, setUserLikedTweets] = useState([]);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,9 +24,19 @@ export function InfoContextProvider({ children }) {
     setIsInfoModalShow(!isInfoModalShow);
   };
 
+  const getUserLikedTweetsAsync = async () => {
+    try {
+      const userLikedTweetsData = await getUserLikedTweets(pageUserId);
+      setUserLikedTweets(userLikedTweetsData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // useEffect
   // !!! 驗證登入的邏輯應該可以再優化，目前寫法可能會有使用者一直沒登出，但 token 效期過了的後患
   useEffect(() => {
+    console.log("驗證登入 useEffect");
     const whichPage = location.pathname.split("/")[1];
     const loginAlert = () => {
       Swal.fire({
@@ -101,7 +112,7 @@ export function InfoContextProvider({ children }) {
 
       getUserInfoAsync();
     }
-  }, [isUserPages, pageUserId, navigate]);
+  }, [isUserPages, navigate, pageUserId]);
 
   useEffect(() => {
     // 是登入狀態就先打使用者資料
@@ -125,7 +136,7 @@ export function InfoContextProvider({ children }) {
       getUserInfoAsync();
     }
     //eslint-disable-next-line
-  }, [loginUserId, token]);
+  }, []);
 
   return (
     <InfoContext.Provider
@@ -135,6 +146,9 @@ export function InfoContextProvider({ children }) {
         pageUserInfo,
         setPageUserInfo,
         loginUserInfo,
+        getUserLikedTweetsAsync,
+        userLikedTweets,
+        setUserLikedTweets,
       }}
     >
       {children}

@@ -6,20 +6,24 @@ import { getUserTweets } from "api/userAuth";
 // Components
 import MainContainer from "components/containers/MainContainer";
 import ViewContainer from "components/containers/ViewContainer";
+import ModalContainer from "components/containers/ModalContainer";
 import Header from "components/Header";
 import NavBar from "components/NavBar";
 import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
-import ModalContainer from "components/containers/ModalContainer";
 import { UserTweetItem } from "components/TweetItem";
 
 function UserMainPage() {
-  const [userTweets, setUserTweets] = useState([]);
   const [currentPage, setCurrentPage] = useState("tweets");
 
-  const { isTweetModalShow, handleTweetClick } =
-    useContext(TweetContext);
+  const {
+    tweets,
+    setTweets,
+    isTweetModalShow,
+    handleTweetClick,
+    isReplyModalShow,
+  } = useContext(TweetContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,18 +42,19 @@ function UserMainPage() {
     const getUserTweetsAsync = async () => {
       try {
         const userTweetsData = await getUserTweets(pageUserId);
-        setUserTweets(userTweetsData);
+        setTweets(userTweetsData);
       } catch (error) {
         console.error(error);
       }
     };
 
     getUserTweetsAsync();
-  }, [pageUserId]);
+  }, [pageUserId, setTweets]);
 
   return (
     <div className="d-flex">
       {isTweetModalShow && <ModalContainer value="推文" />}
+      {isReplyModalShow && <ModalContainer value="回覆" />}
       <NavBar isUser={true} onTweetClick={handleTweetClick} status="個人資料" />
       <MainContainer>
         <ViewContainer>
@@ -64,7 +69,7 @@ function UserMainPage() {
             currentPage={currentPage}
           />
           <div>
-            {userTweets.map((tweet) => (
+            {tweets.map((tweet) => (
               <UserTweetItem
                 key={tweet.id}
                 tweetId={tweet.id}

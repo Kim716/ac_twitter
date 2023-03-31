@@ -12,13 +12,14 @@ import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
 import { UserTweetItem } from "components/TweetItem";
-import { getUserLikedTweets } from "api/userAuth";
+import { InfoContext } from "contexts/InfoContext";
 
 function UserLikesPage() {
-  const [userLikedTweets, setUserLikedTweets] = useState([]);
   const [currentPage, setCurrentPage] = useState("likes");
 
-  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+  const { isTweetModalShow, handleTweetClick, isReplyModalShow } =
+    useContext(TweetContext);
+  const { getUserLikedTweetsAsync, userLikedTweets } = useContext(InfoContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,21 +39,14 @@ function UserLikesPage() {
 
   // useEffect
   useEffect(() => {
-    const getUserLikedTweetsAsync = async () => {
-      try {
-        const userLikedTweetsData = await getUserLikedTweets(pageUserId);
-        setUserLikedTweets(userLikedTweetsData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     getUserLikedTweetsAsync();
-  }, [pageUserId]);
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <div className="d-flex">
       {isTweetModalShow && <ModalContainer value="推文" />}
+      {isReplyModalShow && <ModalContainer value="回覆" />}
       <NavBar isUser={true} onTweetClick={handleTweetClick} status="個人資料" />
       <MainContainer>
         <ViewContainer>
