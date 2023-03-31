@@ -144,7 +144,7 @@ function TweetCard({
           />
           <div>
             <p className="name">{tweet.User?.name}</p>
-            <p className="account">{tweet.User?.account}</p>
+            <p className="account">@{tweet.User?.account}</p>
           </div>
         </div>
         <p className="description">{tweet.description}</p>

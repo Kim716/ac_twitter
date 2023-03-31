@@ -21,7 +21,7 @@ function UserLikesPage() {
 
   const { isTweetModalShow, handleTweetClick, isReplyModalShow } =
     useContext(TweetContext);
-  const { isUserLogin, loginAlert } = useContext(InfoContext);
+  const { isUserLogin, loginAlert, pageUserInfo } = useContext(InfoContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -70,8 +70,8 @@ function UserLikesPage() {
       <MainContainer>
         <ViewContainer>
           <Header backIcon={true}>
-            <h1>User name</h1>
-            <span>like 推文</span>
+            <h1>{pageUserInfo.name}</h1>
+            <span>{userLikedTweets.length} 則喜歡的推文</span>
           </Header>
           <UserInfo pageUserId={pageUserId} />
           <SwitchBar

@@ -19,6 +19,10 @@ const StyledHeader = styled.div`
     }
   }
 
+  .title:has(span) {
+    margin-top: -8px;
+  }
+
   h1 {
     color: var(--grey9);
     font-weight: 700;
@@ -46,9 +50,7 @@ function Header({ backIcon, children }) {
       ) : (
         false
       )}
-      <div className="d-flex flex-column">
-        {children}
-      </div>
+      <div className="d-flex flex-column title">{children}</div>
     </StyledHeader>
   );
 }
