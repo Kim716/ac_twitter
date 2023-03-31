@@ -15,13 +15,14 @@ const StyledDiv = styled.div`
   }
 
   div {
+    width: calc(${100 % -50}px);
+
     .user_info,
     .reply_to {
       margin-bottom: 8px;
       color: var(--secondary);
       font-size: 14px;
       line-height: 26px;
-      background: white;
 
       .reply_name {
         margin-right: 8px;
@@ -56,7 +57,7 @@ function ReplyItem({
     <StyledDiv className="d-flex">
       <img src={avatar} alt="avatar" data-id={userId} />
 
-      <div>
+      <div className="flex-grow-1">
         <p className="user_info">
           <span className="reply_name">{name}</span>@{account}・{createdAt}
         </p>

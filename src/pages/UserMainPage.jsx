@@ -1,21 +1,20 @@
 import { TweetContext } from "contexts/TweetContext";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { getUserTweets } from "api/userAuth";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
 import ViewContainer from "components/containers/ViewContainer";
+import ModalContainer from "components/containers/ModalContainer";
 import Header from "components/Header";
 import NavBar from "components/NavBar";
 import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
-import ModalContainer from "components/containers/ModalContainer";
 import { UserTweetItem } from "components/TweetItem";
-import { getUserTweets } from "api/userAuth";
 
 function UserMainPage() {
-  console.log("＝＝＝＝＝＝＝＝＝＝＝");
   const [currentPage, setCurrentPage] = useState("tweets");
 
   const {
