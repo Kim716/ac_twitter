@@ -20,7 +20,7 @@ function UserReplysPage() {
   const [currentPage, setCurrentPage] = useState("replys");
 
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
-  const { isUserLogin, loginAlert } = useContext(InfoContext);
+  const { isUserLogin, loginAlert, pageUserInfo } = useContext(InfoContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,8 +68,8 @@ function UserReplysPage() {
       <MainContainer>
         <ViewContainer>
           <Header backIcon={true}>
-            <h1>User Name</h1>
-            <span>relpy 推文</span>
+            <h1>{pageUserInfo.name}</h1>
+            <span>{userReplies.length} 則回覆</span>
           </Header>
           <UserInfo pageUserId={pageUserId} />
           <SwitchBar

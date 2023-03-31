@@ -25,7 +25,7 @@ function UserMainPage() {
     handleTweetClick,
     isReplyModalShow,
   } = useContext(TweetContext);
-  const { isUserLogin, loginAlert } = useContext(InfoContext);
+  const { isUserLogin, loginAlert, pageUserInfo } = useContext(InfoContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -70,8 +70,8 @@ function UserMainPage() {
       <MainContainer>
         <ViewContainer>
           <Header backIcon={true}>
-            <h1>User name</h1>
-            <span>main 推文</span>
+            <h1>{pageUserInfo.name}</h1>
+            <span>{tweets.length} 則推文</span>
           </Header>
           <UserInfo pageUserId={pageUserId} />
           <SwitchBar

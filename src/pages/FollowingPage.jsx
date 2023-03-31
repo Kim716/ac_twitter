@@ -20,8 +20,9 @@ function FollowingPage() {
   const [currentPage, setCurrentPage] = useState("following");
   const [followings, setFollowings] = useState([]);
 
-  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
-  const { isUserLogin, loginAlert } = useContext(InfoContext);
+  const { tweets, isTweetModalShow, handleTweetClick } =
+    useContext(TweetContext);
+  const { isUserLogin, loginAlert, pageUserInfo } = useContext(InfoContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -91,8 +92,8 @@ function FollowingPage() {
       <MainContainer>
         <ViewContainer>
           <Header backIcon={true}>
-            <h1>User Name</h1>
-            <span>20 推文</span>
+            <h1>{pageUserInfo.name}</h1>
+            <span>{tweets.length} 則推文</span>
           </Header>
           <SwitchBar
             value="follow"
