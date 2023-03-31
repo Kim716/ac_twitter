@@ -4,6 +4,9 @@ import { ReactComponent as CrossUnfocus } from "assets/icons/cross_unfocus.svg";
 import { ReactComponent as HeartUnfocus } from "assets/icons/heart_unfocus.svg";
 import { ReactComponent as HeartFocus } from "assets/icons/heart_focus.svg";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { postTweetLike, postTweetUnLike } from "api/tweetAuth";
+
 
 const StyledDiv = styled.div`
   padding: 16px 24px;
@@ -99,15 +102,28 @@ function UserTweetItem({
   isLiked,
 }) {
   const navigate = useNavigate();
+  const [isTweetLike, setIsTweetLike] = useState(isLiked);
+  const [currentLikeCount, setCurrentLikeCount] = useState(likeCount);
 
   const handleTweetItemClick = () => {
     navigate(`/tweet/${tweetId}`);
   };
 
-  const handleLikeClick = (e) => {
+  // 切換愛心狀態
+  const handleLikeClick = async (e) => {
     e.stopPropagation();
-    console.log("like");
-    // 愛心的點擊反應是直接根據傳進來的 isLiked 資料來判斷呈現，之後他綁定的事件就是改動資料 變成喜歡或取消喜歡，有可能要思考是不是在父層處理這個事件
+    try {
+      if (isTweetLike) {
+        await postTweetUnLike(tweetId);
+        setCurrentLikeCount(currentLikeCount - 1);
+      } else {
+        await postTweetLike(tweetId);
+        setCurrentLikeCount(currentLikeCount + 1);
+      }
+      setIsTweetLike(!isTweetLike);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleAvatarClick = (e) => {
@@ -142,8 +158,8 @@ function UserTweetItem({
             <span>{replyCount}</span>
           </div>
           <div className="d-flex align-items-center" onClick={handleLikeClick}>
-            {isLiked ? <HeartFocus /> : <HeartUnfocus />}
-            <span>{likeCount}</span>
+            {isTweetLike ? <HeartFocus /> : <HeartUnfocus />}
+            <span>{currentLikeCount}</span>
           </div>
         </div>
       </div>

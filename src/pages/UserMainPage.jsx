@@ -1,6 +1,7 @@
 import { TweetContext } from "contexts/TweetContext";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { getUserTweets } from "api/userAuth";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -12,13 +13,13 @@ import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
 import ModalContainer from "components/containers/ModalContainer";
 import { UserTweetItem } from "components/TweetItem";
-import { getUserTweets } from "api/userAuth";
 
 function UserMainPage() {
-  const [userTweets, serUserTweets] = useState([]);
+  const [userTweets, setUserTweets] = useState([]);
   const [currentPage, setCurrentPage] = useState("tweets");
 
-  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+  const { isTweetModalShow, handleTweetClick } =
+    useContext(TweetContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,7 +38,7 @@ function UserMainPage() {
     const getUserTweetsAsync = async () => {
       try {
         const userTweetsData = await getUserTweets(pageUserId);
-        serUserTweets(userTweetsData);
+        setUserTweets(userTweetsData);
       } catch (error) {
         console.error(error);
       }
@@ -53,7 +54,8 @@ function UserMainPage() {
       <MainContainer>
         <ViewContainer>
           <Header backIcon={true}>
-            <h1>個人資料</h1>
+            <h1>User name</h1>
+            <span>main 推文</span>
           </Header>
           <UserInfo pageUserId={pageUserId} />
           <SwitchBar
@@ -73,7 +75,7 @@ function UserMainPage() {
                 createdAt={tweet.createdAt}
                 description={tweet.description}
                 replyCount={tweet.replyCount}
-                likeCount={tweet.replyCount}
+                likeCount={tweet.likeCount}
                 isLiked={tweet.isLiked}
               />
             ))}

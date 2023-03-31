@@ -78,7 +78,7 @@ function UserLikesPage() {
                 createdAt={tweet.Tweet.createdAt}
                 description={tweet.Tweet.description}
                 replyCount={tweet.Tweet.replyCount}
-                likeCount={tweet.Tweet.replyCount}
+                likeCount={tweet.Tweet.likeCount}
                 isLiked={tweet.Tweet.isLiked}
               />
             ))}
