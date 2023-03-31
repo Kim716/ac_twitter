@@ -16,8 +16,8 @@ import TweetCard from "components/TweetCard";
 function TweetPage() {
   const [tweet, setTweet] = useState({});
   const [tweetReplies, setTweetReplies] = useState([]);
-  const [isTweetLike, setIsTweetLike] = useState();
-  const [currentLikeCount, setCurrentLikeCount] = useState();
+  const [isTweetLike, setIsTweetLike] = useState(0);
+  const [currentLikeCount, setCurrentLikeCount] = useState(0);
   const location = useLocation();
   const tweetId = Number(location.pathname.split("/")[2]);
 
