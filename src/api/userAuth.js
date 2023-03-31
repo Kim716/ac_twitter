@@ -155,21 +155,6 @@ export const getUserLikedTweets = async (userId) => {
   }
 };
 
-export const getUserSettingInfo = async (id) => {
-  try {
-    const res = await axiosInstance.get(`${baseUrl}/${id}/setting`);
-
-    return res.data;
-  } catch (error) {
-    console.error(
-      "[ ⚠️⚠️⚠️ Get User Setting Info Failed ]:",
-      error.response.data.message
-    );
-
-    return error.response.data;
-  }
-};
-
 export const putUserSettingInfo = async ({
   id,
   account,
