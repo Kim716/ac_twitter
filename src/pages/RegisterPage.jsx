@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { register } from "api/userAuth";
 import Swal from "sweetalert2";
+import { InfoContext } from "contexts/InfoContext";
 
 // components
 import AuthContainer from "components/containers/AuthContainer";
@@ -16,9 +17,10 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
-
   const [whichError, setWhichError] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const { isUserLogin } = useContext(InfoContext);
 
   const navigate = useNavigate();
 
@@ -181,6 +183,14 @@ function RegisterPage() {
       console.error(error);
     }
   };
+
+  // useEffect
+  // 驗證登入
+  useEffect(() => {
+    if (isUserLogin) {
+      navigate("/main");
+    }
+  }, [isUserLogin, navigate]);
 
   return (
     <AuthContainer>

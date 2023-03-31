@@ -11,6 +11,8 @@ import NavBar from "components/NavBar";
 import Input from "components/Input";
 import ActButton from "components/ActButton";
 import ModalContainer from "components/containers/ModalContainer";
+import { InfoContext } from "contexts/InfoContext";
+import { useNavigate } from "react-router-dom";
 
 const StyledDiv = styled.div`
   height: 100vh;
@@ -34,11 +36,13 @@ function SettingPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
-
   const [whichError, setWhichError] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+  const { isUserLogin, loginAlert } = useContext(InfoContext);
+
+  const navigate = useNavigate();
 
   const userId = localStorage.getItem("userId");
 
@@ -215,6 +219,15 @@ function SettingPage() {
   };
 
   // useEffect
+  // 驗證登入
+  useEffect(() => {
+    if (!isUserLogin) {
+      loginAlert();
+      navigate("/login");
+    }
+  }, [isUserLogin, loginAlert, navigate]);
+
+  // 打使用者個人資料
   useEffect(() => {
     const setUserInfo = async () => {
       try {

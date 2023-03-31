@@ -12,6 +12,7 @@ import NavBar from "components/NavBar";
 import { UserTweetItem } from "components/TweetItem";
 import ModalContainer from "components/containers/ModalContainer";
 import { InfoContext } from "contexts/InfoContext";
+import { useNavigate } from "react-router-dom";
 
 function MainPage() {
   const {
@@ -21,9 +22,19 @@ function MainPage() {
     setTweets,
     isReplyModalShow,
   } = useContext(TweetContext);
-  const { loginUserInfo } = useContext(InfoContext);
+  const { isUserLogin, loginAlert, loginUserInfo } = useContext(InfoContext);
+  const navigate = useNavigate();
 
   // useEffect
+  // 驗證登入
+  useEffect(() => {
+    if (!isUserLogin) {
+      loginAlert();
+      navigate("/login");
+    }
+  }, [isUserLogin, loginAlert, navigate]);
+
+  // 取得所有 tweets
   useEffect(() => {
     const getAllTweetsAsync = async () => {
       try {
