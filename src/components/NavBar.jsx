@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import Logo from "./Logo";
 import LinkItem from "./LinkItem";
 import ActButton from "./ActButton";
+import { useContext } from "react";
+import { InfoContext } from "contexts/InfoContext";
 
 const StyledNav = styled.div`
   height: 100vh;
@@ -65,6 +67,8 @@ function NavBarLinks({ isUser, onTweetClick, status }) {
 }
 
 function NavBar({ isUser, onTweetClick, status }) {
+  const { setIsUserLogin } = useContext(InfoContext);
+
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
@@ -90,6 +94,7 @@ function NavBar({ isUser, onTweetClick, status }) {
 
     // 前台登出回前台登入頁
     if (localStorage.getItem("token")) {
+      setIsUserLogin(false);
       navigate("/login");
       localStorage.removeItem("token");
       localStorage.removeItem("userId");

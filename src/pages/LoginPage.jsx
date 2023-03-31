@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "api/userAuth";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 // components
@@ -9,13 +9,15 @@ import Logo from "components/Logo";
 import Title from "components/Title";
 import Input from "components/Input";
 import ActButton from "components/ActButton";
+import { InfoContext } from "contexts/InfoContext";
 
 function LoginPage() {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
-
   const [whichError, setWhichError] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const { isUserLogin, setIsUserLogin } = useContext(InfoContext);
 
   const navigate = useNavigate();
 
@@ -78,6 +80,8 @@ function LoginPage() {
           },
         });
 
+        // 更新使用者登入狀態
+        setIsUserLogin(true);
         // 跳轉頁面
         navigate("/main");
 
@@ -88,28 +92,12 @@ function LoginPage() {
     }
   };
 
-  // 簡易前端驗證，如果使用者已經是登入狀態，localStorage 會有這兩個東西，就直接導入前台首頁
+  // 驗證登入
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
-
-    if (token && userId) {
-      // 跳通知
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: "您已成功登入",
-        timer: 1500,
-        showConfirmButton: false,
-        customClass: {
-          icon: "swalIcon right",
-          title: "swalTitle",
-        },
-      });
-
+    if (isUserLogin) {
       navigate("/main");
     }
-  }, [navigate]);
+  }, [isUserLogin, navigate]);
 
   return (
     <AuthContainer>

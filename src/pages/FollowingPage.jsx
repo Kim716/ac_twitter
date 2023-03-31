@@ -14,13 +14,16 @@ import NavBar from "components/NavBar";
 import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserItem from "components/UserItem";
+import { InfoContext } from "contexts/InfoContext";
 
 function FollowingPage() {
   const [currentPage, setCurrentPage] = useState("following");
   const [followings, setFollowings] = useState([]);
-  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
-  const navigate = useNavigate();
 
+  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+  const { isUserLogin, loginAlert } = useContext(InfoContext);
+
+  const navigate = useNavigate();
   const location = useLocation();
   const pageUserId = Number(location.pathname.split("/")[2]);
 
@@ -59,6 +62,16 @@ function FollowingPage() {
     }
   };
 
+  // useEffect
+  // 驗證登入
+  useEffect(() => {
+    if (!isUserLogin) {
+      loginAlert();
+      navigate("/login");
+    }
+  }, [isUserLogin, loginAlert, navigate]);
+
+  // 取得當前使用者的跟隨者列表
   useEffect(() => {
     const getFollowingsAsync = async () => {
       try {

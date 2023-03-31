@@ -13,6 +13,7 @@ import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
 import { UserTweetItem } from "components/TweetItem";
+import { InfoContext } from "contexts/InfoContext";
 
 function UserMainPage() {
   const [currentPage, setCurrentPage] = useState("tweets");
@@ -24,6 +25,7 @@ function UserMainPage() {
     handleTweetClick,
     isReplyModalShow,
   } = useContext(TweetContext);
+  const { isUserLogin, loginAlert } = useContext(InfoContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,6 +40,15 @@ function UserMainPage() {
   };
 
   // useEffect
+  // 驗證登入
+  useEffect(() => {
+    if (!isUserLogin) {
+      loginAlert();
+      navigate("/login");
+    }
+  }, [isUserLogin, loginAlert, navigate]);
+
+  // 取得當前頁面使用者發過的推文
   useEffect(() => {
     const getUserTweetsAsync = async () => {
       try {

@@ -13,13 +13,15 @@ import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
 import { UserTweetItem } from "components/TweetItem";
 import { InfoContext } from "contexts/InfoContext";
+import { getUserLikedTweets } from "api/userAuth";
 
 function UserLikesPage() {
+  const [userLikedTweets, setUserLikedTweets] = useState([]);
   const [currentPage, setCurrentPage] = useState("likes");
 
   const { isTweetModalShow, handleTweetClick, isReplyModalShow } =
     useContext(TweetContext);
-  const { getUserLikedTweetsAsync, userLikedTweets } = useContext(InfoContext);
+  const { isUserLogin, loginAlert } = useContext(InfoContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,10 +40,27 @@ function UserLikesPage() {
   };
 
   // useEffect
+  // 驗證登入
   useEffect(() => {
+    if (!isUserLogin) {
+      loginAlert();
+      navigate("/login");
+    }
+  }, [isUserLogin, loginAlert, navigate]);
+
+  // 取得使用者喜歡的推文
+  useEffect(() => {
+    const getUserLikedTweetsAsync = async () => {
+      try {
+        const userLikedTweetsData = await getUserLikedTweets(pageUserId);
+        setUserLikedTweets(userLikedTweetsData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     getUserLikedTweetsAsync();
-    //eslint-disable-next-line
-  }, []);
+  }, [pageUserId]);
 
   return (
     <div className="d-flex">

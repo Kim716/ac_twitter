@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { TweetContext } from "contexts/TweetContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getSingleTweet, getSingleTweetReplies } from "api/tweetAuth";
 
 // Components
@@ -12,13 +12,12 @@ import NavBar from "components/NavBar";
 import ReplyItem from "components/ReplyItem";
 import SideBar from "components/SideBar";
 import TweetCard from "components/TweetCard";
+import { InfoContext } from "contexts/InfoContext";
 
 function TweetPage() {
   const [tweet, setTweet] = useState({});
   const [isTweetLike, setIsTweetLike] = useState(0);
   const [currentLikeCount, setCurrentLikeCount] = useState(0);
-  const location = useLocation();
-  const tweetId = Number(location.pathname.split("/")[2]);
 
   const {
     isTweetModalShow,
@@ -27,8 +26,22 @@ function TweetPage() {
     tweetReplies,
     setTweetReplies,
   } = useContext(TweetContext);
+  const { isUserLogin, loginAlert } = useContext(InfoContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const tweetId = Number(location.pathname.split("/")[2]);
 
   // useEffect
+  // 驗證登入
+  useEffect(() => {
+    if (!isUserLogin) {
+      loginAlert();
+      navigate("/login");
+    }
+  }, [isUserLogin, loginAlert, navigate]);
+
+  // 取得單一推文資訊
   useEffect(() => {
     const getSingleTweetAsync = async () => {
       try {

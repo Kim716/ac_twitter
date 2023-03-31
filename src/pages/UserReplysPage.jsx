@@ -13,12 +13,14 @@ import SideBar from "components/SideBar";
 import SwitchBar from "components/SwitchBar";
 import UserInfo from "components/UserInfo";
 import { getUserReplies } from "api/userAuth";
+import { InfoContext } from "contexts/InfoContext";
 
 function UserReplysPage() {
   const [userReplies, setUserReplies] = useState([]);
   const [currentPage, setCurrentPage] = useState("replys");
 
   const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+  const { isUserLogin, loginAlert } = useContext(InfoContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,6 +39,15 @@ function UserReplysPage() {
   };
 
   // useEffect
+  // 驗證登入
+  useEffect(() => {
+    if (!isUserLogin) {
+      loginAlert();
+      navigate("/login");
+    }
+  }, [isUserLogin, loginAlert, navigate]);
+
+  // 取得當前使用者的回覆
   useEffect(() => {
     const getUserRepliesAsync = async () => {
       try {
