@@ -173,20 +173,24 @@ const StyledEditText = styled.div`
 `;
 
 function InfoModal() {
-  const { handleInfoEditClick, pageUserInfo, setPageUserInfo } =
-    useContext(InfoContext);
+  const {
+    handleInfoEditClick,
+    loginUserId,
+    pageUserInfo,
+    setPageUserInfo,
+    loginUserInfo,
+    setLoginUserInfo,
+  } = useContext(InfoContext);
 
-  const [cover, setCover] = useState(pageUserInfo.cover);
-  const [avatar, setAvatar] = useState(pageUserInfo.avatar);
-  const [name, setName] = useState(pageUserInfo.name);
+  const [cover, setCover] = useState(loginUserInfo.cover);
+  const [avatar, setAvatar] = useState(loginUserInfo.avatar);
+  const [name, setName] = useState(loginUserInfo.name);
   const [introduction, setIntroduction] = useState(
-    pageUserInfo.introduction || ""
+    loginUserInfo.introduction || ""
   );
   const [isNameEmpty, setIsNameEmpty] = useState(false);
   const [coverFile, setCoverFile] = useState("");
   const [avatarFile, setAvatarFile] = useState("");
-
-  const userId = localStorage.getItem("userId");
 
   const handleChangeImg = (event) => {
     const fileMaxSize = 1024 * 1024 * 20; // 20MB
@@ -243,7 +247,7 @@ function InfoModal() {
 
     try {
       const { status } = await putUserInfo({
-        userId,
+        loginUserId,
         name,
         introduction,
         avatar: avatarFile,
@@ -269,6 +273,14 @@ function InfoModal() {
         // 更新畫面資訊
         setPageUserInfo((preInfo) => {
           return { ...preInfo, name, introduction, avatar, cover };
+        });
+        // 更新目前登入者資訊
+        setLoginUserInfo({
+          ...loginUserInfo,
+          name,
+          introduction,
+          avatar,
+          cover,
         });
 
         return;

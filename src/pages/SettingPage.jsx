@@ -31,20 +31,24 @@ const StyledFormDiv = styled.div`
 `;
 
 function SettingPage() {
-  const [account, setAccount] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
+  const {
+    isUserLogin,
+    loginAlert,
+    loginUserId,
+    loginUserInfo,
+    setLoginUserInfo,
+  } = useContext(InfoContext);
+
+  const [account, setAccount] = useState(loginUserInfo.account);
+  const [name, setName] = useState(loginUserInfo.name);
+  const [email, setEmail] = useState(loginUserInfo.email);
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [whichError, setWhichError] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { isTweetModalShow, handleTweetClick } = useContext(TweetContext);
-  const { isUserLogin, loginAlert, loginUserInfo } = useContext(InfoContext);
-
   const navigate = useNavigate();
-
-  const userId = localStorage.getItem("userId");
 
   const handleAccountChange = (e) => {
     setAccount(e.target.value);
@@ -136,7 +140,7 @@ function SettingPage() {
         // 確認儲存就進到後端
         try {
           const { message } = await putUserSettingInfo({
-            id: userId,
+            id: loginUserId,
             account,
             name,
             email,
@@ -211,6 +215,14 @@ function SettingPage() {
           // 清空密碼欄位
           setPassword("");
           setCheckPassword("");
+
+          // 更新使用者資料
+          setLoginUserInfo({
+            ...loginUserInfo,
+            account,
+            name,
+            email,
+          });
         } catch (error) {
           console.error(error);
         }
@@ -226,13 +238,6 @@ function SettingPage() {
       navigate("/login");
     }
   }, [isUserLogin, loginAlert, navigate]);
-
-  // 打使用者個人資料
-  useEffect(() => {
-    setAccount(loginUserInfo.account);
-    setName(loginUserInfo.name);
-    setEmail(loginUserInfo.email);
-  }, [loginUserInfo.account, loginUserInfo.email, loginUserInfo.name, userId]);
 
   return (
     <div className="d-flex">

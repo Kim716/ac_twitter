@@ -74,7 +74,7 @@ export const getUserInfo = async (userId) => {
 };
 
 export const putUserInfo = async ({
-  userId,
+  loginUserId,
   name,
   introduction,
   avatar,
@@ -89,7 +89,7 @@ export const putUserInfo = async ({
 
   try {
     const res = await axiosInstance.put(
-      `${baseUrl}/${userId}`,
+      `${baseUrl}/${loginUserId}`,
       {
         name,
         introduction,
