@@ -358,6 +358,7 @@ function InfoModal() {
           maxLength="50"
           value={name}
           onChange={handleNameChange}
+          isError={isNameEmpty || name.length === 50}
         />
         <p>
           {isNameEmpty && <span>內容不可全為空白</span>}
@@ -374,6 +375,7 @@ function InfoModal() {
           value={introduction}
           onChange={handleIntroductionChange}
           isTextarea={true}
+          isError={introduction?.length === 160}
         />
         <p>
           {introduction?.length === 160 && <span>字數不可超過160字</span>}
