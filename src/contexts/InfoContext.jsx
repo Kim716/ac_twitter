@@ -100,11 +100,13 @@ export function InfoContextProvider({ children }) {
         isUserLogin,
         setIsUserLogin,
         loginAlert,
+        loginUserId,
         isInfoModalShow,
         handleInfoEditClick,
         pageUserInfo,
         setPageUserInfo,
         loginUserInfo,
+        setLoginUserInfo,
       }}
     >
       {children}
