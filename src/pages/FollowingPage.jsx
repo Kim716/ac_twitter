@@ -2,7 +2,6 @@ import { TweetContext } from "contexts/TweetContext";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { getFollowings } from "api/userAuth";
-import { deleteFollowships, postFollowships } from "api/followerAuth";
 
 // Components
 import MainContainer from "components/containers/MainContainer";
@@ -18,11 +17,17 @@ import { InfoContext } from "contexts/InfoContext";
 
 function FollowingPage() {
   const [currentPage, setCurrentPage] = useState("following");
-  const [followings, setFollowings] = useState([]);
 
   const { tweets, isTweetModalShow, handleTweetClick } =
     useContext(TweetContext);
-  const { isUserLogin, loginAlert, pageUserInfo } = useContext(InfoContext);
+  const {
+    isUserLogin,
+    loginAlert,
+    pageUserInfo,
+    followings,
+    setFollowings,
+    handleFollowClick,
+  } = useContext(InfoContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,33 +38,6 @@ function FollowingPage() {
     if (changePage !== "following") {
       setCurrentPage(changePage);
       navigate(`/user/${pageUserId}/${changePage}`);
-    }
-  };
-
-  // 點擊更改跟隨狀態
-  const handleFollowClick = async ({ id, isFollowed }) => {
-    try {
-      if (isFollowed === true) {
-        await deleteFollowships({ id });
-      } else {
-        await postFollowships({ id });
-      }
-      setFollowings((prvefollowings) => {
-        return prvefollowings.map((following) => {
-          if (following.followingId === id) {
-            return {
-              ...following,
-              Followings: {
-                ...following.Followings,
-                isFollowed: !following.Followings.isFollowed,
-              },
-            };
-          }
-          return following;
-        });
-      });
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -83,6 +61,7 @@ function FollowingPage() {
       }
     };
     getFollowingsAsync();
+    // eslint-disable-next-line
   }, [pageUserId]);
 
   return (

@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { getTopUsers } from "api/tweetAuth";
-import { deleteFollowships, postFollowships } from "api/followerAuth";
+import { useContext, useEffect } from "react";
 
 // components
 import StatusButton from "components/StatusButton";
 import { useNavigate } from "react-router-dom";
+import { InfoContext } from "contexts/InfoContext";
+import { getTopUsers } from "api/tweetAuth";
 
 const StyledDiv = styled.div`
   height: 100vh;
@@ -88,31 +88,7 @@ function PopularCard({ id, name, account, avatar, isFollowed, onFollowClick }) {
 }
 
 function SideBar() {
-  const [topUsers, setTopUsers] = useState([]);
-
-  // 點擊更改跟隨狀態
-  const handleFollowClick = async ({ id, isFollowed }) => {
-    try {
-      if (isFollowed === true) {
-        await deleteFollowships({ id });
-      } else {
-        await postFollowships({ id });
-      }
-      setTopUsers((prveTopUser) => {
-        return prveTopUser.map((topUser) => {
-          if (topUser.id === id) {
-            return {
-              ...topUser,
-              isFollowed: !topUser.isFollowed,
-            };
-          }
-          return topUser;
-        });
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { topUsers, setTopUsers, handleFollowClick } = useContext(InfoContext);
 
   // useEffect
   useEffect(() => {
@@ -125,6 +101,7 @@ function SideBar() {
       }
     };
     getTopUsersAsync();
+    // eslint-disable-next-line
   }, []);
 
   return (
