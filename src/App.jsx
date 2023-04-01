@@ -4,7 +4,7 @@ import "./styles/base.css";
 import "bootstrap/dist/css/bootstrap-grid.min.css";
 
 // Package
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // Pages
 import {
@@ -21,24 +21,13 @@ import {
   UserLikesPage,
   UserMainPage,
   UserReplysPage,
+  NoMatch,
 } from "./pages";
-import { useEffect } from "react";
 import { TweetContextProvider } from "contexts/TweetContext";
 import { InfoContextProvider } from "contexts/InfoContext";
 import { AdminContextProvider } from "contexts/AdminContext";
 
 const basename = process.env.PUBLIC_URL;
-
-const NoMatch = () => {
-  const navigate = useNavigate();
-
-  // !!! 重新導引，這部分就需要 test-token 才能判斷要回 user 首頁還是登入頁，現在只能都先回登入頁
-  useEffect(() => {
-    navigate("/login");
-  }, [navigate]);
-
-  return <p>There's nothing here: 404!</p>;
-};
 
 function App() {
   return (
