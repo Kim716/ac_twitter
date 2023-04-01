@@ -10,7 +10,6 @@ import { InfoContext } from "contexts/InfoContext";
 import ActButton from "./ActButton";
 import ModalContainer from "./containers/ModalContainer";
 import StatusButton from "./StatusButton";
-// import { FollowContext } from "contexts/FollowContext";
 
 
 const StyledDiv = styled.div`
@@ -138,8 +137,6 @@ function UserInfo({ pageUserId }) {
     handleFollowClick,
   } = useContext(InfoContext);
 
-  // const {handleFollowClick} = useContext(FollowContext)
-
   const loginUserId = Number(localStorage.getItem("userId"));
 
   const navigate = useNavigate();
@@ -165,13 +162,13 @@ function UserInfo({ pageUserId }) {
         <p>{pageUserInfo.introduction}</p>
         <div className="follow-box d-flex">
           <p>
-            <span onClick={() => navigate(`/user/${loginUserId}/following`)}>
+            <span onClick={() => navigate(`/user/${pageUserId}/following`)}>
               {pageUserInfo.followingCount} 個
             </span>
             <span className="grey">跟隨中</span>
           </p>
           <p>
-            <span onClick={() => navigate(`/user/${loginUserId}/followers`)}>
+            <span onClick={() => navigate(`/user/${pageUserId}/followers`)}>
               {pageUserInfo.followerCount} 位
             </span>
             <span className="grey">跟隨者</span>

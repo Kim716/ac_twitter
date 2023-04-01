@@ -49,18 +49,28 @@ export function InfoContextProvider({ children }) {
       } else {
         await postFollowships({ id });
       }
+
       setPageUserInfo((pageUserInfo) => {
-        if (pageUserInfo.id === id) {
+        if(pageUserInfo.id === id) {
           return {
             ...pageUserInfo,
             followerCount: isFollowed
               ? pageUserInfo.followerCount - 1
               : pageUserInfo.followerCount + 1,
             isFollowed: !pageUserInfo.isFollowed,
-          };
+          }
         }
-        return pageUserInfo;
+        if (pageUserInfo.id !== id) {
+          return {
+            ...pageUserInfo,
+            followingCount: isFollowed
+              ? pageUserInfo.followingCount - 1
+              : pageUserInfo.followingCount + 1,
+            isFollowed: !pageUserInfo.isFollowed,
+          }
+        }
       });
+
       setTopUsers((topUsers) => {
         return topUsers.map((topUser) => {
           if (topUser.id === id) {
@@ -72,9 +82,25 @@ export function InfoContextProvider({ children }) {
           return topUser;
         });
       });
+
       setFollowings((followings) => {
-        return followings.filter((following) => following.followingId !== id);
+        if (pageUserId === loginUserId) {
+          return followings.filter((following) => following.followingId !== id);
+        }
+        return followings.map((following) => {
+          if (following.followingId === id) {
+            return {
+              ...following,
+              Followings: {
+                ...following.Followings,
+                isFollowed: !following.Followings.isFollowed,
+              },
+            };
+          }
+          return following;
+        });
       })
+
       setFollowers((followers) => {
         return followers.map((follower) => {
           if (follower.followerId === id) {
