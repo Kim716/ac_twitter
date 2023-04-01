@@ -65,7 +65,7 @@ git clone https://github.com/Kim716/ac_twitter.git
 
 4️⃣ 在終端機輸入 `npm run start` 啟動本專案，如果看到 `webpack compiled successfully` 代表啟動成功。
 
-5️⃣ 啟動成功會自動跳轉到瀏覽器上，如未自動跳轉，請開啟瀏覽器，網址輸入 [`http://localhost:3000`](http://localhost:3000/) 進入本專案。
+5️⃣ 啟動成功會自動跳轉到瀏覽器上，進入本專案。
 
 6️⃣ 隨時可以在終端機輸入 `ctrl + c` 停止專案運行。
 
