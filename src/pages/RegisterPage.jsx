@@ -105,6 +105,14 @@ function RegisterPage() {
       return;
     }
 
+    // 名字超過 50 字
+    if (name.length > 50) {
+      setWhichError(["name"]);
+      setErrorMessage("名稱不能超過 50 個字");
+      return;
+    }
+
+    // 前端初步驗證 OK 才到後端
     try {
       const { message } = await register({
         account,
@@ -123,7 +131,7 @@ function RegisterPage() {
 
       // name 超過 50 字
       if (message === "名稱不能超過 50 個字") {
-        setWhichError(["account"]);
+        setWhichError(["name"]);
         setErrorMessage(message);
         return;
       }

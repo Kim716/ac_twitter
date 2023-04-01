@@ -9,12 +9,14 @@ const StyledDiv = styled.div`
   border-radius: 2px;
 
   &:hover,
-  &:has(input:focus) {
+  &:has(input:focus),
+  &:has(textarea:focus) {
     border-bottom: 2px solid var(--light-blue);
   }
 
   /* error 時要在 input 加 error 的 className*/
-  &:has(input.error) {
+  &:has(input.error),
+  &:has(textarea.error) {
     border-bottom: 2px solid var(--error);
   }
 
