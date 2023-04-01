@@ -1,7 +1,5 @@
 # AC Simple Twitter
 
-![前台首頁畫面](/src/assets/images/userHomeImage.png)
-
 ## :sparkles: 專案介紹
 
 本專案為 ALPHA Camp 學期 3 的團體專案，是一個類似於 Twitter 的社群網站，由兩位前端、兩位後端成員共同開發，現階段僅支援電腦版。
@@ -16,6 +14,15 @@
 |  :------:  | :------:  | :------:  |
 | 前台使用者  | user1     | 12345678 |
 | 後台管理者  | root      | 12345678 |
+</br>
+
+**前台登入後首頁畫面** </br>
+<img src="/src/assets/images/userHomeImage.png" width="500" alt="前台首頁畫面"/>
+
+</br>
+
+**後台登入後首頁畫面** </br>
+<img src="/src/assets/images/adminHomeImage.png" width="500" alt="後台首頁畫面"/>
 
 ## 🔍 專案功能
 
@@ -54,7 +61,7 @@
 git clone https://github.com/Kim716/ac_twitter.git
 ```
 
-3️⃣ 請打開本專案資料夾，在終端機輸入 `npm install` 安裝必要套件。
+3️⃣ 在終端機打開本專案資料夾，並輸入 `npm install` 安裝必要套件。
 
 4️⃣ 在終端機輸入 `npm run start` 啟動本專案，如果看到 `webpack compiled successfully` 代表啟動成功。
 
