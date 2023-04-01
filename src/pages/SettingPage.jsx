@@ -129,7 +129,14 @@ function SettingPage() {
       return;
     }
 
-    // 跳是否確認儲存的通知
+    // 名字超過 50 字
+    if (name.length > 50) {
+      setWhichError(["name"]);
+      setErrorMessage("名稱不能超過 50 個字");
+      return;
+    }
+
+    // 前端簡易驗證完，跳是否確認儲存的通知，確定才到後端
     Swal.fire({
       title: "確定要儲存嗎？",
       showDenyButton: true,
@@ -156,7 +163,7 @@ function SettingPage() {
           }
 
           // name 超過 50 字
-          if (message === "名稱不可超過 50 個字") {
+          if (message === "名稱不能超過 50 個字") {
             setWhichError(["account"]);
             setErrorMessage(message);
             return;
